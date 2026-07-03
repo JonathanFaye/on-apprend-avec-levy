@@ -3,40 +3,40 @@ window.LEVELS.push({
   id: "n1",
   order: 1,
   name: "Les lettres",
-  nameHe: "האותיות",
+  nameHe: "הָאוֹתִיּוֹת",
   emoji: "🔤",
   color: "#1A56A0",
   tagline: "Je découvre l'alphabet !",
-  taglineHe: "אני מגלה את האלף-בית!",
+  taglineHe: "אֲנִי מְגַלֶּה אֶת הָאָלֶף-בֵּית!",
   sublevels: [
     {
       id: "n1-s1",
       name: "Les voyelles",
-      nameHe: "התנועות",
+      nameHe: "הַתְּנוּעוֹת",
       emoji: "🌟",
       lesson: {
         cards: [
           {
-            title: "Les voyelles magiques",
-            titleHe: "התנועות הקסומות",
+            title: "Les voyelles magiques ✨",
+            titleHe: "הַתְּנוּעוֹת הַקְּסוּמוֹת",
             body: "Les voyelles sont les reines des lettres : A E I O U Y. On les entend dans presque tous les mots !",
-            bodyHe: "התנועות הן מלכות האותיות: A E I O U Y. שומעים אותן כמעט בכל מילה!",
+            bodyHe: "הַתְּנוּעוֹת הֵן מַלְכוֹת הָאוֹתִיּוֹת: A E I O U Y. שׁוֹמְעִים אוֹתָן כִּמְעַט בְּכָל מִלָּה!",
             big: "A E I O U Y",
             say: "a. euh. i. o. u. i grec."
           },
           {
-            title: "Chaque voyelle chante son nom",
-            titleHe: "כל תנועה שרה את השם שלה",
+            title: "Chaque voyelle chante son nom 🎵",
+            titleHe: "כָּל תְּנוּעָה שָׁרָה אֶת הַשֵּׁם שֶׁלָּהּ",
             body: "A dit 'a', E dit 'euh', I dit 'i', O dit 'o', U dit 'u'. Et Y a un nom rigolo : 'i grec' !",
-            bodyHe: "A אומרת 'אָה', E אומרת 'אֶה', I אומרת 'אִי', O אומרת 'אוֹ', U אומרת 'אוּ'. ול-Y יש שם מצחיק: 'אִי גְרֶק'!",
+            bodyHe: "A אוֹמֶרֶת 'אָה', E אוֹמֶרֶת 'אֶה', I אוֹמֶרֶת 'אִי', O אוֹמֶרֶת 'אוֹ', U אוֹמֶרֶת 'אוּ'. וּלְ-Y יֵשׁ שֵׁם מַצְחִיק: 'אִי גְּרֵק'!",
             big: "A E I O U Y",
             say: "a. euh. i. o. u. i grec."
           },
           {
-            title: "On lit de gauche à droite !",
-            titleHe: "קוראים משמאל לימין!",
+            title: "On lit de gauche à droite ! 👀",
+            titleHe: "קוֹרְאִים מִשְּׂמֹאל לְיָמִין!",
             body: "En hébreu, on lit de droite à gauche. En français, c'est le contraire : on lit de GAUCHE à DROITE !",
-            bodyHe: "בעברית קוראים מימין לשמאל. בצרפתית זה הפוך: קוראים משמאל לימין!",
+            bodyHe: "בְּעִבְרִית קוֹרְאִים מִיָּמִין לִשְׂמֹאל. בְּצָרְפָתִית זֶה הָפוּךְ: קוֹרְאִים מִשְּׂמֹאל לְיָמִין!",
             big: "➡️ ➡️ ➡️",
             say: "En français, on lit de gauche à droite !"
           }
@@ -46,127 +46,127 @@ window.LEVELS.push({
         {
           type: "pick",
           prompt: "Trouve la lettre A !",
-          promptHe: "מצאו את האות A!",
+          promptHe: "מִצְאוּ אֶת הָאוֹת A!",
           choices: ["A", "E", "O"],
           answer: 0,
           say: "a",
           explain: "Voici A ! C'est la première lettre de l'alphabet.",
-          explainHe: "הנה A! זו האות הראשונה באלף-בית."
+          explainHe: "הִנֵּה A! זוֹ הָאוֹת הָרִאשׁוֹנָה בָּאָלֶף-בֵּית."
         },
         {
           type: "listen",
           prompt: "Écoute et choisis la lettre que tu entends !",
-          promptHe: "הקשיבו ובחרו את האות ששמעתם!",
+          promptHe: "הַקְשִׁיבוּ וּבַחֲרוּ אֶת הָאוֹת שֶׁשְּׁמַעְתֶּם!",
           say: "i",
           choices: ["I", "E", "A"],
           answer: 0,
           explain: "C'était la lettre I ! On dit : i.",
-          explainHe: "זו הייתה האות I! אומרים: אִי."
+          explainHe: "זוֹ הָיְתָה הָאוֹת I! אוֹמְרִים: אִי."
         },
         {
           type: "pick",
           prompt: "Trouve la lettre E !",
-          promptHe: "מצאו את האות E!",
+          promptHe: "מִצְאוּ אֶת הָאוֹת E!",
           choices: ["E", "F", "B"],
           answer: 0,
           say: "euh",
           explain: "Voici E ! Son nom se dit 'euh'.",
-          explainHe: "הנה E! את השם שלה אומרים 'אֶה'."
+          explainHe: "הִנֵּה E! אֶת הַשֵּׁם שֶׁלָּהּ אוֹמְרִים 'אֶה'."
         },
         {
           type: "match",
           prompt: "Relie les lettres identiques !",
-          promptHe: "חברו את האותיות הזהות!",
+          promptHe: "חַבְּרוּ אֶת הָאוֹתִיּוֹת הַזֵּהוֹת!",
           pairs: [["A", "A"], ["E", "E"], ["I", "I"], ["O", "O"]],
           say: "a. euh. i. o.",
           explain: "Regarde bien la forme de chaque lettre !",
-          explainHe: "הסתכלו טוב על הצורה של כל אות!"
+          explainHe: "הִסְתַּכְּלוּ טוֹב עַל הַצּוּרָה שֶׁל כָּל אוֹת!"
         },
         {
           type: "listen",
           prompt: "Écoute et choisis la lettre que tu entends !",
-          promptHe: "הקשיבו ובחרו את האות ששמעתם!",
+          promptHe: "הַקְשִׁיבוּ וּבַחֲרוּ אֶת הָאוֹת שֶׁשְּׁמַעְתֶּם!",
           say: "o",
           choices: ["O", "U", "A"],
           answer: 0,
           explain: "C'était O ! La lettre O est toute ronde, comme un ballon.",
-          explainHe: "זו הייתה O! האות O עגולה לגמרי, כמו כדור."
+          explainHe: "זוֹ הָיְתָה O! הָאוֹת O עֲגֻלָּה לְגַמְרֵי, כְּמוֹ כַּדּוּר."
         },
         {
           type: "pick",
           prompt: "Trouve la lettre U !",
-          promptHe: "מצאו את האות U!",
+          promptHe: "מִצְאוּ אֶת הָאוֹת U!",
           choices: ["U", "V", "O"],
           answer: 0,
           say: "u",
           explain: "Voici U ! Attention : V est pointu en bas, U est arrondi.",
-          explainHe: "הנה U! שימו לב: V מחודדת למטה, U מעוגלת."
+          explainHe: "הִנֵּה U! שִׂימוּ לֵב: V מְחֻדֶּדֶת לְמַטָּה, U מְעֻגֶּלֶת."
         },
         {
           type: "listen",
           prompt: "Écoute et choisis la lettre que tu entends !",
-          promptHe: "הקשיבו ובחרו את האות ששמעתם!",
+          promptHe: "הַקְשִׁיבוּ וּבַחֲרוּ אֶת הָאוֹת שֶׁשְּׁמַעְתֶּם!",
           say: "i grec",
           choices: ["Y", "I", "U"],
           answer: 0,
           explain: "C'est Y ! Son nom est rigolo : 'i grec'.",
-          explainHe: "זו Y! יש לה שם מצחיק: 'אִי גְרֶק'."
+          explainHe: "זוֹ Y! יֵשׁ לָהּ שֵׁם מַצְחִיק: 'אִי גְּרֵק'."
         },
         {
           type: "pick",
           prompt: "Trouve la voyelle !",
-          promptHe: "מצאו את התנועה!",
+          promptHe: "מִצְאוּ אֶת הַתְּנוּעָה!",
           choices: ["M", "A", "T"],
           answer: 1,
           say: "a",
           explain: "A est une voyelle ! M et T sont des consonnes.",
-          explainHe: "A היא תנועה! M ו-T הם עיצורים."
+          explainHe: "A הִיא תְּנוּעָה! M וְ-T הֵם עִצּוּרִים."
         },
         {
           type: "read",
           prompt: "Lis les voyelles à voix haute !",
-          promptHe: "קראו את התנועות בקול רם!",
+          promptHe: "קִרְאוּ אֶת הַתְּנוּעוֹת בְּקוֹל רָם!",
           text: "A E I O U Y",
           say: "a. euh. i. o. u. i grec.",
           explain: "Bravo ! Tu connais les six voyelles !",
-          explainHe: "כל הכבוד! אתם מכירים את שש התנועות!"
+          explainHe: "כָּל הַכָּבוֹד! אַתֶּם מַכִּירִים אֶת שֵׁשׁ הַתְּנוּעוֹת!"
         }
       ],
       joke: {
-        q: "Pourquoi les poissons n'aiment pas jouer au tennis ?",
-        a: "Parce qu'ils ont peur du filet !",
-        qHe: "למה דגים לא אוהבים לשחק טניס?",
-        aHe: "כי הם מפחדים מהרשת!"
+        q: "Pourquoi les poissons 🐟 n'aiment pas jouer au tennis 🎾 ?",
+        a: "Parce qu'ils ont peur du filet ! 😂",
+        qHe: "לָמָּה דָּגִים 🐟 לֹא אוֹהֲבִים לְשַׂחֵק טֵנִיס? 🎾",
+        aHe: "כִּי הֵם מְפַחֲדִים מֵהָרֶשֶׁת! 😂"
       }
     },
     {
       id: "n1-s2",
       name: "Les consonnes",
-      nameHe: "העיצורים",
+      nameHe: "הָעִצּוּרִים",
       emoji: "💪",
       lesson: {
         cards: [
           {
-            title: "Les consonnes costaudes",
-            titleHe: "העיצורים החזקים",
+            title: "Les consonnes costaudes 💪",
+            titleHe: "הָעִצּוּרִים הַחֲזָקִים",
             body: "Voici des consonnes très utiles : M L S R P T V N. Avec les voyelles, elles fabriquent des mots !",
-            bodyHe: "הנה עיצורים מאוד שימושיים: M L S R P T V N. יחד עם התנועות הם בונים מילים!",
+            bodyHe: "הִנֵּה עִצּוּרִים מְאוֹד שִׁמּוּשִׁיִּים: M L S R P T V N. יַחַד עִם הַתְּנוּעוֹת הֵם בּוֹנִים מִלִּים!",
             big: "M L S R P T V N",
             say: "èm. èl. èss. èr. pé. té. vé. èn."
           },
           {
-            title: "Chaque lettre a un nom",
-            titleHe: "לכל אות יש שם",
+            title: "Chaque lettre a un nom 🏷️",
+            titleHe: "לְכָל אוֹת יֵשׁ שֵׁם",
             body: "Comme toi, chaque lettre a un nom ! M s'appelle 'èm', P s'appelle 'pé', V s'appelle 'vé'.",
-            bodyHe: "כמוכם, לכל אות יש שם! ל-M קוראים 'אֶם', ל-P קוראים 'פֶּה', ל-V קוראים 'וֶה'.",
+            bodyHe: "כְּמוֹכֶם, לְכָל אוֹת יֵשׁ שֵׁם! לְ-M קוֹרְאִים 'אֵם', לְ-P קוֹרְאִים 'פֶּה', לְ-V קוֹרְאִים 'וֶה'.",
             big: "M P V",
             say: "èm. pé. vé."
           },
           {
-            title: "Des lettres autour de toi",
-            titleHe: "אותיות סביבך",
+            title: "Des lettres autour de toi 🔎",
+            titleHe: "אוֹתִיּוֹת סְבִיבְךָ",
             body: "M comme MOTO 🏍️, P comme PIZZA 🍕, T comme TORTUE 🐢, V comme VÉLO 🚲 !",
-            bodyHe: "M כמו MOTO 🏍️, P כמו PIZZA 🍕, T כמו TORTUE 🐢, V כמו VÉLO 🚲!",
+            bodyHe: "M כְּמוֹ MOTO 🏍️, P כְּמוֹ PIZZA 🍕, T כְּמוֹ TORTUE 🐢, V כְּמוֹ VÉLO 🚲!",
             big: "M P T V",
             say: "moto. pizza. tortue. vélo."
           }
@@ -176,128 +176,128 @@ window.LEVELS.push({
         {
           type: "pick",
           prompt: "Trouve la lettre M !",
-          promptHe: "מצאו את האות M!",
+          promptHe: "מִצְאוּ אֶת הָאוֹת M!",
           choices: ["M", "N", "W"],
           answer: 0,
           say: "èm",
           explain: "Voici M ! Elle s'appelle 'èm', comme dans MAMAN.",
-          explainHe: "הנה M! קוראים לה 'אֶם', כמו במילה MAMAN."
+          explainHe: "הִנֵּה M! קוֹרְאִים לָהּ 'אֵם', כְּמוֹ בַּמִּלָּה MAMAN."
         },
         {
           type: "listen",
           prompt: "Écoute et choisis la lettre que tu entends !",
-          promptHe: "הקשיבו ובחרו את האות ששמעתם!",
+          promptHe: "הַקְשִׁיבוּ וּבַחֲרוּ אֶת הָאוֹת שֶׁשְּׁמַעְתֶּם!",
           say: "èl",
           choices: ["L", "R", "N"],
           answer: 0,
           explain: "C'était L ! Son nom est 'èl'.",
-          explainHe: "זו הייתה L! השם שלה 'אֶל'."
+          explainHe: "זוֹ הָיְתָה L! הַשֵּׁם שֶׁלָּהּ 'אֶל'."
         },
         {
           type: "pick",
           prompt: "Trouve la lettre S !",
-          promptHe: "מצאו את האות S!",
+          promptHe: "מִצְאוּ אֶת הָאוֹת S!",
           choices: ["S", "Z", "C"],
           answer: 0,
           say: "èss",
           explain: "Voici S ! La lettre S ressemble à un serpent. 🐍",
-          explainHe: "הנה S! האות S נראית כמו נחש. 🐍"
+          explainHe: "הִנֵּה S! הָאוֹת S נִרְאֵית כְּמוֹ נָחָשׁ. 🐍"
         },
         {
           type: "match",
           prompt: "Relie la lettre au dessin qui commence par elle !",
-          promptHe: "חברו כל אות לציור שמתחיל בה!",
+          promptHe: "חַבְּרוּ כָּל אוֹת לַצִּיּוּר שֶׁמַּתְחִיל בָּהּ!",
           pairs: [["M", "🏍️"], ["P", "🍕"], ["T", "🐢"], ["V", "🚲"]],
           say: "èm, moto. pé, pizza. té, tortue. vé, vélo.",
           explain: "M comme MOTO, P comme PIZZA, T comme TORTUE, V comme VÉLO !",
-          explainHe: "M כמו MOTO, P כמו PIZZA, T כמו TORTUE, V כמו VÉLO!"
+          explainHe: "M כְּמוֹ MOTO, P כְּמוֹ PIZZA, T כְּמוֹ TORTUE, V כְּמוֹ VÉLO!"
         },
         {
           type: "listen",
           prompt: "Écoute et choisis la lettre que tu entends !",
-          promptHe: "הקשיבו ובחרו את האות ששמעתם!",
+          promptHe: "הַקְשִׁיבוּ וּבַחֲרוּ אֶת הָאוֹת שֶׁשְּׁמַעְתֶּם!",
           say: "èr",
           choices: ["R", "L", "N"],
           answer: 0,
           explain: "C'était R ! Son nom est 'èr'.",
-          explainHe: "זו הייתה R! השם שלה 'אֶר'."
+          explainHe: "זוֹ הָיְתָה R! הַשֵּׁם שֶׁלָּהּ 'אֶר'."
         },
         {
           type: "pick",
           prompt: "Trouve la lettre P !",
-          promptHe: "מצאו את האות P!",
+          promptHe: "מִצְאוּ אֶת הָאוֹת P!",
           choices: ["P", "B", "R"],
           answer: 0,
           say: "pé",
           explain: "Voici P ! Elle s'appelle 'pé', comme dans PAPA.",
-          explainHe: "הנה P! קוראים לה 'פֶּה', כמו במילה PAPA."
+          explainHe: "הִנֵּה P! קוֹרְאִים לָהּ 'פֶּה', כְּמוֹ בַּמִּלָּה PAPA."
         },
         {
           type: "listen",
           prompt: "Écoute et choisis la lettre que tu entends !",
-          promptHe: "הקשיבו ובחרו את האות ששמעתם!",
+          promptHe: "הַקְשִׁיבוּ וּבַחֲרוּ אֶת הָאוֹת שֶׁשְּׁמַעְתֶּם!",
           say: "té",
           choices: ["T", "P", "V"],
           answer: 0,
           explain: "C'était T ! 'té' comme TORTUE.",
-          explainHe: "זו הייתה T! 'טֶה' כמו TORTUE."
+          explainHe: "זוֹ הָיְתָה T! 'טֶה' כְּמוֹ TORTUE."
         },
         {
           type: "pick",
           prompt: "Trouve la lettre N !",
-          promptHe: "מצאו את האות N!",
+          promptHe: "מִצְאוּ אֶת הָאוֹת N!",
           choices: ["N", "M", "H"],
           answer: 0,
           say: "èn",
           explain: "Voici N ! Elle s'appelle 'èn'. M a deux ponts, N un seul.",
-          explainHe: "הנה N! קוראים לה 'אֶן'. ל-M יש שני גשרים, ל-N רק אחד."
+          explainHe: "הִנֵּה N! קוֹרְאִים לָהּ 'אֵן'. לְ-M יֵשׁ שְׁנֵי גְּשָׁרִים, לְ-N רַק אֶחָד."
         },
         {
           type: "listen",
           prompt: "Écoute et choisis la lettre que tu entends !",
-          promptHe: "הקשיבו ובחרו את האות ששמעתם!",
+          promptHe: "הַקְשִׁיבוּ וּבַחֲרוּ אֶת הָאוֹת שֶׁשְּׁמַעְתֶּם!",
           say: "vé",
           choices: ["V", "B", "F"],
           answer: 0,
           explain: "C'était V ! 'vé' comme VÉLO.",
-          explainHe: "זו הייתה V! 'וֶה' כמו VÉLO."
+          explainHe: "זוֹ הָיְתָה V! 'וֶה' כְּמוֹ VÉLO."
         }
       ],
       joke: {
-        q: "Que fait une vache quand elle ferme les yeux ?",
-        a: "Du lait concentré !",
-        qHe: "מה עושה פרה כשהיא עוצמת עיניים?",
-        aHe: "חלב מרוכז! (כי היא מתרכזת!)"
+        q: "Que fait une vache 🐄 quand elle ferme les yeux 🙈 ?",
+        a: "Du lait concentré ! 🥛😂",
+        qHe: "מָה עוֹשָׂה פָּרָה 🐄 כְּשֶׁהִיא עוֹצֶמֶת עֵינַיִם? 🙈",
+        aHe: "חָלָב מְרֻכָּז! (כִּי הִיא מִתְרַכֶּזֶת!) 🥛😂"
       }
     },
     {
       id: "n1-s3",
       name: "Tout l'alphabet",
-      nameHe: "כל האלף-בית",
+      nameHe: "כָּל הָאָלֶף-בֵּית",
       emoji: "📖",
       lesson: {
         cards: [
           {
-            title: "L'alphabet tout entier !",
-            titleHe: "כל האלף-בית!",
+            title: "L'alphabet tout entier ! 📚",
+            titleHe: "כָּל הָאָלֶף-בֵּית!",
             body: "L'alphabet français a 26 lettres, de A à Z. Écoute leurs noms !",
-            bodyHe: "באלף-בית הצרפתי יש 26 אותיות, מ-A עד Z. הקשיבו לשמות שלהן!",
+            bodyHe: "בָּאָלֶף-בֵּית הַצָּרְפָתִי יֵשׁ 26 אוֹתִיּוֹת, מִ-A עַד Z. הַקְשִׁיבוּ לַשֵּׁמוֹת שֶׁלָּהֶן!",
             big: "A B C D E F G H I J K L M\nN O P Q R S T U V W X Y Z",
             say: "a. bé. cé. dé. euh. èf. jé. ache. i. ji. ka. èl. èm. èn. o. pé. ku. èr. èss. té. u. vé. double vé. iks. i grec. zèd."
           },
           {
-            title: "L'ordre alphabétique",
-            titleHe: "הסדר האלפביתי",
+            title: "L'ordre alphabétique 🔢",
+            titleHe: "הַסֵּדֶר הָאָלֶפְבֵּיתִי",
             body: "Les lettres ont un ordre : A, puis B, puis C... Comme une file d'attente bien rangée !",
-            bodyHe: "לאותיות יש סדר: A, אחר כך B, אחר כך C... כמו תור מסודר!",
+            bodyHe: "לָאוֹתִיּוֹת יֵשׁ סֵדֶר: A, אַחַר כָּךְ B, אַחַר כָּךְ C... כְּמוֹ תּוֹר מְסֻדָּר!",
             big: "A B C D E",
             say: "a, puis bé, puis cé, puis dé, puis euh."
           },
           {
-            title: "Rappel : on lit de gauche à droite !",
-            titleHe: "תזכורת: קוראים משמאל לימין!",
+            title: "Rappel : on lit de gauche à droite ! 💡",
+            titleHe: "תִּזְכֹּרֶת: קוֹרְאִים מִשְּׂמֹאל לְיָמִין!",
             body: "En français, tes yeux partent de la GAUCHE et vont vers la DROITE. C'est le contraire de l'hébreu !",
-            bodyHe: "בצרפתית העיניים מתחילות משמאל והולכות ימינה. זה הפוך מעברית!",
+            bodyHe: "בְּצָרְפָתִית הָעֵינַיִם מַתְחִילוֹת מִשְּׂמֹאל וְהוֹלְכוֹת יָמִינָה. זֶה הָפוּךְ מֵעִבְרִית!",
             big: "➡️ ➡️ ➡️",
             say: "On lit de gauche à droite !"
           }
@@ -307,121 +307,121 @@ window.LEVELS.push({
         {
           type: "pick",
           prompt: "Quelle lettre vient juste après A ?",
-          promptHe: "איזו אות באה מיד אחרי A?",
+          promptHe: "אֵיזוֹ אוֹת בָּאָה מִיָּד אַחֲרֵי A?",
           choices: ["B", "C", "D"],
           answer: 0,
           say: "bé",
           explain: "A, B, C... Après A vient B !",
-          explainHe: "A, B, C... אחרי A באה B!"
+          explainHe: "A, B, C... אַחֲרֵי A בָּאָה B!"
         },
         {
           type: "pick",
           prompt: "Quelle lettre vient juste après C ?",
-          promptHe: "איזו אות באה מיד אחרי C?",
+          promptHe: "אֵיזוֹ אוֹת בָּאָה מִיָּד אַחֲרֵי C?",
           choices: ["D", "B", "E"],
           answer: 0,
           say: "dé",
           explain: "A, B, C, D... Après C vient D !",
-          explainHe: "A, B, C, D... אחרי C באה D!"
+          explainHe: "A, B, C, D... אַחֲרֵי C בָּאָה D!"
         },
         {
           type: "pick",
           prompt: "Quelle lettre lis-tu en premier ?",
-          promptHe: "איזו אות קוראים ראשונה?",
+          promptHe: "אֵיזוֹ אוֹת קוֹרְאִים רִאשׁוֹנָה?",
           question: "M O T O",
           choices: ["M", "O", "T"],
           answer: 0,
           explain: "On lit de gauche à droite : on commence par M !",
-          explainHe: "קוראים משמאל לימין: מתחילים ב-M!"
+          explainHe: "קוֹרְאִים מִשְּׂמֹאל לְיָמִין: מַתְחִילִים בְּ-M!"
         },
         {
           type: "listen",
           prompt: "Écoute et choisis la lettre que tu entends !",
-          promptHe: "הקשיבו ובחרו את האות ששמעתם!",
+          promptHe: "הַקְשִׁיבוּ וּבַחֲרוּ אֶת הָאוֹת שֶׁשְּׁמַעְתֶּם!",
           say: "double vé",
           choices: ["W", "V", "M"],
           answer: 0,
           explain: "C'est W : 'double vé', comme deux V collés !",
-          explainHe: "זו W: 'דוּבְּל וֶה', כמו שתי V מחוברות!"
+          explainHe: "זוֹ W: 'דּוּבְּל וֶה', כְּמוֹ שְׁתֵּי V מְחֻבָּרוֹת!"
         },
         {
           type: "listen",
           prompt: "Écoute et choisis la lettre que tu entends !",
-          promptHe: "הקשיבו ובחרו את האות ששמעתם!",
+          promptHe: "הַקְשִׁיבוּ וּבַחֲרוּ אֶת הָאוֹת שֶׁשְּׁמַעְתֶּם!",
           say: "ache",
           choices: ["H", "A", "K"],
           answer: 0,
           explain: "C'est H ! Son nom est 'ache'.",
-          explainHe: "זו H! השם שלה 'אַש'."
+          explainHe: "זוֹ H! הַשֵּׁם שֶׁלָּהּ 'אָשׁ'."
         },
         {
           type: "match",
           prompt: "Relie la lettre au dessin qui commence par elle !",
-          promptHe: "חברו כל אות לציור שמתחיל בה!",
+          promptHe: "חַבְּרוּ כָּל אוֹת לַצִּיּוּר שֶׁמַּתְחִיל בָּהּ!",
           pairs: [["A", "✈️"], ["B", "🍌"], ["C", "🐱"], ["O", "🍊"]],
           say: "a, avion. bé, banane. cé, chat. o, orange.",
           explain: "A comme AVION, B comme BANANE, C comme CHAT, O comme ORANGE !",
-          explainHe: "A כמו AVION, B כמו BANANE, C כמו CHAT, O כמו ORANGE!"
+          explainHe: "A כְּמוֹ AVION, B כְּמוֹ BANANE, C כְּמוֹ CHAT, O כְּמוֹ ORANGE!"
         },
         {
           type: "pick",
           prompt: "Quelle lettre vient juste après L ?",
-          promptHe: "איזו אות באה מיד אחרי L?",
+          promptHe: "אֵיזוֹ אוֹת בָּאָה מִיָּד אַחֲרֵי L?",
           choices: ["M", "N", "K"],
           answer: 0,
           say: "èm",
           explain: "K, L, M... Après L vient M !",
-          explainHe: "K, L, M... אחרי L באה M!"
+          explainHe: "K, L, M... אַחֲרֵי L בָּאָה M!"
         },
         {
           type: "pick",
           prompt: "Quelle lettre lis-tu en dernier ?",
-          promptHe: "איזו אות קוראים אחרונה?",
+          promptHe: "אֵיזוֹ אוֹת קוֹרְאִים אַחֲרוֹנָה?",
           question: "P A P A",
           choices: ["A", "P"],
           answer: 0,
           explain: "On lit de gauche à droite : la dernière lettre est tout à droite. C'est A !",
-          explainHe: "קוראים משמאל לימין: האות האחרונה היא הכי ימנית. זו A!"
+          explainHe: "קוֹרְאִים מִשְּׂמֹאל לְיָמִין: הָאוֹת הָאַחֲרוֹנָה הִיא הֲכִי יְמָנִית. זוֹ A!"
         },
         {
           type: "listen",
           prompt: "Écoute et choisis la lettre que tu entends !",
-          promptHe: "הקשיבו ובחרו את האות ששמעתם!",
+          promptHe: "הַקְשִׁיבוּ וּבַחֲרוּ אֶת הָאוֹת שֶׁשְּׁמַעְתֶּם!",
           say: "zèd",
           choices: ["Z", "S", "J"],
           answer: 0,
           explain: "C'est Z, la toute dernière lettre de l'alphabet !",
-          explainHe: "זו Z, האות הכי אחרונה באלף-בית!"
+          explainHe: "זוֹ Z, הָאוֹת הֲכִי אַחֲרוֹנָה בָּאָלֶף-בֵּית!"
         },
         {
           type: "read",
           prompt: "Lis ces lettres, de gauche à droite !",
-          promptHe: "קראו את האותיות, משמאל לימין!",
+          promptHe: "קִרְאוּ אֶת הָאוֹתִיּוֹת, מִשְּׂמֹאל לְיָמִין!",
           text: "A B C D E F",
           say: "a. bé. cé. dé. euh. èf.",
           explain: "Bravo ! Tu lis de gauche à droite, comme un champion !",
-          explainHe: "כל הכבוד! אתם קוראים משמאל לימין, כמו אלופים!"
+          explainHe: "כָּל הַכָּבוֹד! אַתֶּם קוֹרְאִים מִשְּׂמֹאל לְיָמִין, כְּמוֹ אַלּוּפִים!"
         }
       ],
       joke: {
-        q: "Qu'est-ce qui fait 999 fois 'tic' et une fois 'toc' ?",
-        a: "Un mille-pattes avec une jambe de bois !",
-        qHe: "מה עושה 999 פעמים 'טיק' ופעם אחת 'טוק'?",
-        aHe: "מרבה-רגליים עם רגל עץ!"
+        q: "Qu'est-ce qui fait 999 fois 'tic' et une fois 'toc' ? 🤔",
+        a: "Un mille-pattes 🐛 avec une jambe de bois ! 🦵😂",
+        qHe: "מָה עוֹשֶׂה 999 פְּעָמִים 'טִיק' וּפַעַם אַחַת 'טוֹק'? 🤔",
+        aHe: "מַרְבֵּה-רַגְלַיִם 🐛 עִם רֶגֶל עֵץ! 🦵😂"
       }
     },
     {
       id: "n1-s4",
       name: "Le grand défi",
-      nameHe: "האתגר הגדול",
+      nameHe: "הָאֶתְגָּר הַגָּדוֹל",
       emoji: "🏆",
       lesson: {
         cards: [
           {
-            title: "Le grand défi !",
-            titleHe: "האתגר הגדול!",
+            title: "Le grand défi ! 🏆",
+            titleHe: "הָאֶתְגָּר הַגָּדוֹל!",
             body: "Bravo ! Tu connais les voyelles, les consonnes et tout l'alphabet. Levy est fier de toi. Montre tout ce que tu sais !",
-            bodyHe: "כל הכבוד! אתם מכירים את התנועות, את העיצורים ואת כל האלף-בית. Levy גאה בכם. הראו כל מה שאתם יודעים!",
+            bodyHe: "כָּל הַכָּבוֹד! אַתֶּם מַכִּירִים אֶת הַתְּנוּעוֹת, אֶת הָעִצּוּרִים וְאֶת כָּל הָאָלֶף-בֵּית. Levy גֵּאֶה בָּכֶם. הַרְאוּ כָּל מָה שֶׁאַתֶּם יוֹדְעִים!",
             big: "🏆",
             say: "C'est parti, champion !"
           }
@@ -431,125 +431,125 @@ window.LEVELS.push({
         {
           type: "pick",
           prompt: "Trouve la voyelle !",
-          promptHe: "מצאו את התנועה!",
+          promptHe: "מִצְאוּ אֶת הַתְּנוּעָה!",
           choices: ["R", "O", "T"],
           answer: 1,
           say: "o",
           explain: "O est une voyelle ! R et T sont des consonnes.",
-          explainHe: "O היא תנועה! R ו-T הם עיצורים."
+          explainHe: "O הִיא תְּנוּעָה! R וְ-T הֵם עִצּוּרִים."
         },
         {
           type: "listen",
           prompt: "Écoute et choisis la lettre que tu entends !",
-          promptHe: "הקשיבו ובחרו את האות ששמעתם!",
+          promptHe: "הַקְשִׁיבוּ וּבַחֲרוּ אֶת הָאוֹת שֶׁשְּׁמַעְתֶּם!",
           say: "u",
           choices: ["U", "O", "I"],
           answer: 0,
           explain: "C'était U ! On dit : u.",
-          explainHe: "זו הייתה U! אומרים: אוּ."
+          explainHe: "זוֹ הָיְתָה U! אוֹמְרִים: אוּ."
         },
         {
           type: "pick",
           prompt: "Quelle lettre vient juste après B ?",
-          promptHe: "איזו אות באה מיד אחרי B?",
+          promptHe: "אֵיזוֹ אוֹת בָּאָה מִיָּד אַחֲרֵי B?",
           choices: ["C", "D", "A"],
           answer: 0,
           say: "cé",
           explain: "A, B, C... Après B vient C !",
-          explainHe: "A, B, C... אחרי B באה C!"
+          explainHe: "A, B, C... אַחֲרֵי B בָּאָה C!"
         },
         {
           type: "match",
           prompt: "Relie la lettre au dessin qui commence par elle !",
-          promptHe: "חברו כל אות לציור שמתחיל בה!",
+          promptHe: "חַבְּרוּ כָּל אוֹת לַצִּיּוּר שֶׁמַּתְחִיל בָּהּ!",
           pairs: [["S", "☀️"], ["L", "🦁"], ["T", "🐢"], ["P", "🍕"]],
           say: "èss, soleil. èl, lion. té, tortue. pé, pizza.",
           explain: "S comme SOLEIL, L comme LION, T comme TORTUE, P comme PIZZA !",
-          explainHe: "S כמו SOLEIL, L כמו LION, T כמו TORTUE, P כמו PIZZA!"
+          explainHe: "S כְּמוֹ SOLEIL, L כְּמוֹ LION, T כְּמוֹ TORTUE, P כְּמוֹ PIZZA!"
         },
         {
           type: "pick",
           prompt: "Trouve la lettre R !",
-          promptHe: "מצאו את האות R!",
+          promptHe: "מִצְאוּ אֶת הָאוֹת R!",
           choices: ["R", "B", "P"],
           answer: 0,
           say: "èr",
           explain: "Voici R ! Les lettres B et P lui ressemblent, regarde bien.",
-          explainHe: "הנה R! האותיות B ו-P דומות לה, הסתכלו טוב."
+          explainHe: "הִנֵּה R! הָאוֹתִיּוֹת B וְ-P דּוֹמוֹת לָהּ, הִסְתַּכְּלוּ טוֹב."
         },
         {
           type: "listen",
           prompt: "Écoute et choisis la lettre que tu entends !",
-          promptHe: "הקשיבו ובחרו את האות ששמעתם!",
+          promptHe: "הַקְשִׁיבוּ וּבַחֲרוּ אֶת הָאוֹת שֶׁשְּׁמַעְתֶּם!",
           say: "i grec",
           choices: ["Y", "I", "J"],
           answer: 0,
           explain: "C'est Y, le fameux 'i grec' !",
-          explainHe: "זו Y, ה'אִי גְרֶק' המפורסמת!"
+          explainHe: "זוֹ Y, הָ'אִי גְּרֶק' הַמְּפֻרְסֶמֶת!"
         },
         {
           type: "pick",
           prompt: "Quelle lettre lis-tu en premier ?",
-          promptHe: "איזו אות קוראים ראשונה?",
+          promptHe: "אֵיזוֹ אוֹת קוֹרְאִים רִאשׁוֹנָה?",
           question: "L U N E",
           choices: ["L", "E", "U"],
           answer: 0,
           explain: "On lit de gauche à droite : on commence par L !",
-          explainHe: "קוראים משמאל לימין: מתחילים ב-L!"
+          explainHe: "קוֹרְאִים מִשְּׂמֹאל לְיָמִין: מַתְחִילִים בְּ-L!"
         },
         {
           type: "listen",
           prompt: "Écoute et choisis la lettre que tu entends !",
-          promptHe: "הקשיבו ובחרו את האות ששמעתם!",
+          promptHe: "הַקְשִׁיבוּ וּבַחֲרוּ אֶת הָאוֹת שֶׁשְּׁמַעְתֶּם!",
           say: "èm",
           choices: ["M", "N", "L"],
           answer: 0,
           explain: "C'était M ! 'èm' comme MAMAN.",
-          explainHe: "זו הייתה M! 'אֶם' כמו MAMAN."
+          explainHe: "זוֹ הָיְתָה M! 'אֵם' כְּמוֹ MAMAN."
         },
         {
           type: "pick",
           prompt: "Quelle lettre vient juste après O ?",
-          promptHe: "איזו אות באה מיד אחרי O?",
+          promptHe: "אֵיזוֹ אוֹת בָּאָה מִיָּד אַחֲרֵי O?",
           choices: ["P", "Q", "N"],
           answer: 0,
           say: "pé",
           explain: "N, O, P... Après O vient P !",
-          explainHe: "N, O, P... אחרי O באה P!"
+          explainHe: "N, O, P... אַחֲרֵי O בָּאָה P!"
         },
         {
           type: "match",
           prompt: "Relie les lettres identiques !",
-          promptHe: "חברו את האותיות הזהות!",
+          promptHe: "חַבְּרוּ אֶת הָאוֹתִיּוֹת הַזֵּהוֹת!",
           pairs: [["O", "O"], ["Q", "Q"], ["C", "C"], ["G", "G"]],
           explain: "Les lettres O, Q, C et G se ressemblent : regarde bien leur forme !",
-          explainHe: "האותיות O, Q, C ו-G דומות: הסתכלו טוב על הצורה שלהן!"
+          explainHe: "הָאוֹתִיּוֹת O, Q, C וְ-G דּוֹמוֹת: הִסְתַּכְּלוּ טוֹב עַל הַצּוּרָה שֶׁלָּהֶן!"
         },
         {
           type: "pick",
           prompt: "Trouve la consonne !",
-          promptHe: "מצאו את העיצור!",
+          promptHe: "מִצְאוּ אֶת הָעִצּוּר!",
           choices: ["A", "T", "E"],
           answer: 1,
           say: "té",
           explain: "T est une consonne ! A et E sont des voyelles.",
-          explainHe: "T הוא עיצור! A ו-E הן תנועות."
+          explainHe: "T הוּא עִצּוּר! A וְ-E הֵן תְּנוּעוֹת."
         },
         {
           type: "read",
           prompt: "Lis tout l'alphabet à voix haute !",
-          promptHe: "קראו את כל האלף-בית בקול רם!",
+          promptHe: "קִרְאוּ אֶת כָּל הָאָלֶף-בֵּית בְּקוֹל רָם!",
           text: "A B C D E F G H I\nJ K L M N O P Q R\nS T U V W X Y Z",
           say: "a. bé. cé. dé. euh. èf. jé. ache. i. ji. ka. èl. èm. èn. o. pé. ku. èr. èss. té. u. vé. double vé. iks. i grec. zèd.",
           explain: "Incroyable ! Tu connais les 26 lettres de l'alphabet !",
-          explainHe: "מדהים! אתם מכירים את כל 26 האותיות של האלף-בית!"
+          explainHe: "מַדְהִים! אַתֶּם מַכִּירִים אֶת כָּל 26 הָאוֹתִיּוֹת שֶׁל הָאָלֶף-בֵּית!"
         }
       ],
       joke: {
-        q: "Pourquoi les éléphants n'ont-ils pas d'ordinateur ?",
-        a: "Parce qu'ils ont peur de la souris !",
-        qHe: "למה לפילים אין מחשב?",
-        aHe: "כי הם מפחדים מהעכבר!"
+        q: "Pourquoi les éléphants 🐘 n'ont-ils pas d'ordinateur 💻 ?",
+        a: "Parce qu'ils ont peur de la souris ! 🐭😂",
+        qHe: "לָמָּה לַפִּילִים 🐘 אֵין מַחְשֵׁב? 💻",
+        aHe: "כִּי הֵם מְפַחֲדִים מֵהָעַכְבָּר! 🐭😂"
       }
     }
   ]

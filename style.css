@@ -33,8 +33,26 @@ body {
 
 .hidden { display: none !important; }
 
-/* ---------- Texte hébreu ---------- */
-.he { direction: rtl; font-family: var(--font-he); color: var(--ink-soft); font-size: 0.86em; display: block; margin-top: 3px; }
+/* ---------- Texte hébreu : toujours sur sa propre ligne, sous le français ---------- */
+.he {
+  direction: rtl; unicode-bidi: isolate; text-align: center;
+  font-family: var(--font-he); color: var(--ink-soft);
+  font-size: 0.92em; line-height: 1.7; /* le niqqud a besoin d'air */
+  display: block; margin-top: 4px;
+}
+.ex-prompt .he, .lesson-card .he, .mascot-panel .he { font-size: 0.95em; }
+.sub-card .he, .level-card .he, .profile-row .he { text-align: right; margin-top: 2px; }
+
+/* garde-fous anti-débordement */
+.ex-question, .fill-sentence, .choice, .lesson-card .big, .read-text, .joke-card .joke-q, .joke-card .joke-a {
+  overflow-wrap: anywhere;
+}
+@media (max-width: 360px) {
+  .lesson-card .big { font-size: 2rem; }
+  .ex-question { font-size: 1.9rem; }
+  .fill-sentence { font-size: 1.4rem; }
+  .choice { font-size: 1.15rem; }
+}
 
 /* ---------- Boutons génériques ---------- */
 button { font-family: inherit; border: none; cursor: pointer; color: inherit; background: none; }
@@ -257,6 +275,14 @@ button { font-family: inherit; border: none; cursor: pointer; color: inherit; ba
 @keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-8px); } }
 .mascot-wave { animation: wiggle 1.2s ease infinite; transform-origin: 50% 90%; }
 @keyframes wiggle { 0%,100% { transform: rotate(-2deg); } 50% { transform: rotate(2deg); } }
+/* danse de Levy (Mazal Tov, résultats, diplôme) */
+.mascot-dance { animation: dance 0.9s ease infinite; transform-origin: 50% 85%; }
+@keyframes dance {
+  0%, 100% { transform: rotate(-7deg) translateY(0); }
+  25% { transform: rotate(0deg) translateY(-9px) scale(1.04); }
+  50% { transform: rotate(7deg) translateY(0); }
+  75% { transform: rotate(0deg) translateY(-9px) scale(1.04); }
+}
 
 /* ---------- Résultats ---------- */
 .results { justify-content: center; text-align: center; gap: 14px; }

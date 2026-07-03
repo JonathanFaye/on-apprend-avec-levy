@@ -50,7 +50,7 @@
     return store.heOn && txt ? '<span class="he" dir="rtl">' + esc(txt) + "</span>" : "";
   }
 
-  /* ---------- Audio : voix française ---------- */
+  /* ---------- Audio : voix de Levy (mp3 pré-générés) + repli synthèse vocale ---------- */
   let frVoice = null;
   function pickVoice() {
     const vs = window.speechSynthesis ? speechSynthesis.getVoices() : [];
@@ -60,14 +60,41 @@
     pickVoice();
     speechSynthesis.onvoiceschanged = pickVoice;
   }
+  // même normalisation + hash que gen_audio.py (clé de la voix pré-générée)
+  function audioKey(t) {
+    let str = String(t);
+    try { str = str.replace(/[\p{Extended_Pictographic}\u200D\uFE0F]/gu, ""); } catch (e) {}
+    str = str.replace(/\s+/g, " ").trim().toLowerCase();
+    let h = 5381;
+    for (let i = 0; i < str.length; i++) h = ((h * 33) ^ str.charCodeAt(i)) >>> 0;
+    return h.toString(16);
+  }
+  let currentAudio = null;
   function speak(text, rate) {
-    if (!store.soundOn || !window.speechSynthesis || !text) return;
+    if (!store.soundOn || !text) return;
+    try { if (currentAudio) { currentAudio.pause(); currentAudio = null; } } catch (e) {}
+    try { if (window.speechSynthesis) speechSynthesis.cancel(); } catch (e) {}
+    const map = window.AUDIO_MAP || {};
+    const k = audioKey(text);
+    if (map[k]) {
+      try {
+        const a = new Audio("audio/" + k + ".mp3");
+        currentAudio = a;
+        a.play().catch(() => ttsFallback(text, rate));
+        return;
+      } catch (e) {}
+    }
+    ttsFallback(text, rate);
+  }
+  function ttsFallback(text, rate) {
+    if (!window.speechSynthesis) return;
     try {
-      speechSynthesis.cancel();
-      const u = new SpeechSynthesisUtterance(text);
+      const clean = String(text).replace(/[\p{Extended_Pictographic}\u200D\uFE0F]/gu, "");
+      const u = new SpeechSynthesisUtterance(clean);
       u.lang = "fr-FR";
       if (frVoice) u.voice = frVoice;
       u.rate = rate || 0.85;
+      u.pitch = 1.25; // plus proche d'une voix d'enfant
       speechSynthesis.speak(u);
     } catch (e) {}
   }
@@ -111,13 +138,13 @@
 
   /* ---------- Phrases de Levy ---------- */
   const PRAISE = [
-    ["Bravo !", "כל הכבוד!"], ["Super !", "מעולה!"], ["Mazal Tov !", "מזל טוב!"],
-    ["Génial !", "גאוני!"], ["Champion !", "אלוף!"], ["Parfait !", "מושלם!"],
-    ["Incroyable !", "מדהים!"], ["Quel talent !", "איזה כישרון!"]
+    ["Bravo !", "כָּל הַכָּבוֹד!"], ["Super !", "מְעֻלֶּה!"], ["Mazal Tov !", "מַזָּל טוֹב!"],
+    ["Génial !", "גְּאוֹנִי!"], ["Champion !", "אַלּוּף!"], ["Parfait !", "מֻשְׁלָם!"],
+    ["Incroyable !", "מַדְהִים!"], ["Quel talent !", "אֵיזֶה כִּשָּׁרוֹן!"]
   ];
   const OOPS = [
-    ["Presque !", "כמעט!"], ["Pas grave, on apprend !", "לא נורא, ככה לומדים!"],
-    ["Hop, je t'explique !", "בוא נבין יחד!"], ["Courage, tu y es presque !", "עוד קצת, אתה כמעט שם!"]
+    ["Presque !", "כִּמְעַט!"], ["Pas grave, on apprend !", "לֹא נוֹרָא, כָּכָה לוֹמְדִים!"],
+    ["Hop, je t'explique !", "בּוֹא נָבִין יַחַד!"], ["Courage, tu y es presque !", "עוֹד קְצָת, אַתָּה כִּמְעַט שָׁם!"]
   ];
   function rand(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 
@@ -144,6 +171,118 @@
   function gameFinished() {
     return LEVELS.length > 0 && LEVELS.every(levelDone);
   }
+  function isSkipped(subId) {
+    const p = profile();
+    return !!(p && p.skipped && p.skipped[subId]);
+  }
+  function skipLevelsBefore(lvlIdx, how) {
+    // marque tous les sous-niveaux des niveaux < lvlIdx comme validés (0 étoile, badge 🔓)
+    const p = profile();
+    p.done = p.done || {}; p.skipped = p.skipped || {};
+    for (let i = 0; i < lvlIdx; i++) {
+      LEVELS[i].sublevels.forEach(sub => {
+        if (typeof p.done[sub.id] !== "number") {
+          p.done[sub.id] = 0;
+          p.skipped[sub.id] = how || "adulte";
+        }
+      });
+    }
+    save();
+  }
+
+  /* ---------- Porte adulte : débloquer un niveau ---------- */
+  function adultGate(lvlIdx) {
+    const lv = LEVELS[lvlIdx];
+    const a = 12 + Math.floor(Math.random() * 77);
+    const b = 13 + Math.floor(Math.random() * 76);
+    $overlay.innerHTML =
+      '<div class="mascot-panel">' +
+      '<div class="mascot-wrap">' + mascotSVG("think") + "</div>" +
+      "<h3>Tu connais déjà tout ça ? 🤔</h3>" +
+      '<div class="explain">Demande à un adulte de confirmer que tu peux sauter directement au niveau ' + lv.order + " !" +
+      he("בַּקְּשׁוּ מִמְּבֻגָּר לְאַשֵּׁר שֶׁאַתֶּם יְכוֹלִים לִקְפֹּץ לְשָׁלָב " + lv.order + "!") + "</div>" +
+      '<div class="explain" style="margin-top:10px;font-weight:700">Question pour l\'adulte 🧑‍🦳 : combien font ' + a + " + " + b + " ?</div>" +
+      '<input class="type-input" id="gate-input" inputmode="numeric" autocomplete="off" placeholder="Réponse de l\'adulte...">' +
+      '<button class="btn btn-good" id="gate-ok">Valider ✓</button>' +
+      '<button class="btn btn-ghost" id="gate-cancel">Annuler</button>' +
+      "</div>";
+    $overlay.classList.remove("hidden");
+    document.getElementById("gate-cancel").addEventListener("click", () => $overlay.classList.add("hidden"));
+    document.getElementById("gate-ok").addEventListener("click", check);
+    document.getElementById("gate-input").addEventListener("keydown", e => { if (e.key === "Enter") check(); });
+    function check() {
+      const v = parseInt(document.getElementById("gate-input").value, 10);
+      if (v === a + b) {
+        skipLevelsBefore(lvlIdx, "adulte");
+        $overlay.classList.add("hidden");
+        confetti(60);
+        speak("Mazal Tov ! Un adulte a confirmé que tu sais déjà tout ça !");
+        toast("cheer", "Un adulte a confirmé : tu sais déjà tout ça ! 🎉", "מְבֻגָּר אִשֵּׁר: אַתֶּם כְּבָר יוֹדְעִים אֶת זֶה!");
+        setTimeout(screenMap, 1400);
+      } else {
+        const inp = document.getElementById("gate-input");
+        inp.value = ""; inp.style.borderColor = "var(--bad)";
+        inp.placeholder = "Hmm... demande à un vrai adulte 😄";
+      }
+    }
+  }
+
+  /* ---------- Test magique de placement ---------- */
+  function placementPool(lv) {
+    const pool = [];
+    lv.sublevels.forEach(sub => sub.exercises.forEach(ex => {
+      if (ex.type !== "read" && ex.type !== "riddle") pool.push(ex);
+    }));
+    return pool;
+  }
+  function screenPlacementIntro() {
+    $screen.innerHTML =
+      '<div class="screen splash" style="padding:24px 20px">' +
+      '<div class="mascot-wrap">' + mascotSVG("think") + "</div>" +
+      "<h1>Le test magique 🧙</h1>" +
+      '<div class="subtitle">On regarde ce que tu sais déjà ? Je te pose quelques questions, de plus en plus dures, et je trouve ton niveau de départ !' +
+      he("בּוֹדְקִים מָה אַתֶּם כְּבָר יוֹדְעִים? אֲנִי שׁוֹאֵל כַּמָּה שְׁאֵלוֹת וּמוֹצֵא אֶת שָׁלָב הַהַתְחָלָה שֶׁלָּכֶם!") + "</div>" +
+      '<button class="btn btn-accent" id="pl-go">🧙 C\'est parti !' + he("יַאלְלָה מַתְחִילִים!") + "</button>" +
+      '<button class="btn btn-ghost" id="pl-skip">Non, je commence au début' + he("לֹא, אֲנִי מַתְחִיל מֵהַהַתְחָלָה") + "</button>" +
+      "</div>";
+    document.getElementById("pl-go").addEventListener("click", () => placementRun(0));
+    document.getElementById("pl-skip").addEventListener("click", screenMap);
+  }
+  function placementRun(lvlIdx) {
+    if (lvlIdx >= LEVELS.length) return placementFinish(LEVELS.length);
+    const lv = LEVELS[lvlIdx];
+    const picks = shuffle(placementPool(lv)).slice(0, 3);
+    if (picks.length < 3) return placementFinish(lvlIdx);
+    const session = {
+      lvlIdx, subIdx: 0,
+      list: picks, i: 0, stars: 0, failedThis: false,
+      placement: true,
+      onDone: sess => {
+        if (sess.stars >= 2) placementRun(lvlIdx + 1);
+        else placementFinish(lvlIdx);
+      }
+    };
+    toast("teach", "Niveau " + lv.order + " : " + lv.name, lv.nameHe);
+    renderExercise(session);
+  }
+  function placementFinish(lvlIdx) {
+    const startIdx = Math.min(lvlIdx, LEVELS.length - 1);
+    skipLevelsBefore(startIdx, "test");
+    const lv = LEVELS[startIdx];
+    confetti(80);
+    $screen.innerHTML =
+      '<div class="screen results">' +
+      '<div class="mascot-wrap mascot-dance">' + mascotSVG("cheer") + "</div>" +
+      "<h2>Ton niveau de départ ! 🧙</h2>" +
+      '<div class="score-line" style="font-size:1.2rem;font-weight:700;color:' + lv.color + '">' +
+      lv.emoji + " Niveau " + lv.order + " — " + esc(lv.name) + he(lv.nameHe) + "</div>" +
+      '<div class="score-line">' + (startIdx > 0 ? "Tout ce qui est avant est déjà débloqué pour toi. Mazal Tov !" : "On commence tranquillement au début, c'est parfait comme ça !") +
+      he(startIdx > 0 ? "כָּל מָה שֶׁלִּפְנֵי כְּבָר פָּתוּחַ בִּשְׁבִילְכֶם. מַזָּל טוֹב!" : "מַתְחִילִים בְּרֹגַע מֵהַהַתְחָלָה, זֶה מֻשְׁלַם כָּךְ!") + "</div>" +
+      '<button class="btn btn-good" id="pl-done">Jouer ! 🚀</button>' +
+      "</div>";
+    speak(startIdx > 0 ? "Mazal Tov ! Tu commences au niveau " + lv.order + " !" : "On commence au début, c'est parti !");
+    document.getElementById("pl-done").addEventListener("click", screenMap);
+  }
 
   /* ============================================================
      ÉCRANS
@@ -166,14 +305,14 @@
       '<div class="screen splash" style="padding:24px 20px">' +
       '<div class="mascot-wrap">' + mascotSVG("wave") + "</div>" +
       "<h1>On apprend avec <span class=\"fr\">Levy</span> !</h1>" +
-      '<div class="subtitle">Le français, c\'est facile et rigolo 🇫🇷' + he("לומדים צרפתית עם לוי! קל וכיף") + "</div>" +
+      '<div class="subtitle">Le français, c\'est facile et rigolo 🇫🇷' + he("לוֹמְדִים צָרְפָתִית עִם לֵוִי! קַל וְכֵּיף") + "</div>" +
       '<div class="profiles-list">' + rows + "</div>" +
       '<div class="newplayer-form">' +
       '<input id="newname" maxlength="14" placeholder="Ton prénom..." autocomplete="off">' +
       '<button class="btn btn-accent" id="addplayer">Jouer !</button>' +
       "</div>" +
-      (names.length === 0 ? '<div class="subtitle" style="margin-top:6px">Écris ton prénom pour commencer' + he("כתבו את השם שלכם כדי להתחיל") + "</div>" : "") +
-      '<button class="chip" id="he-toggle" style="margin:14px auto 0;border:none;box-shadow:var(--shadow);padding:9px 16px;border-radius:14px;background:' + (store.heOn ? "var(--primary);color:#fff" : "#fff") + '">עברית ' + (store.heOn ? "✓" : "") + "</button>" +
+      (names.length === 0 ? '<div class="subtitle" style="margin-top:6px">Écris ton prénom pour commencer' + he("כִּתְבוּ אֶת הַשֵּׁם שֶׁלָּכֶם כְּדֵי לְהַתְחִיל") + "</div>" : "") +
+      '<button class="chip" id="he-toggle" style="margin:14px auto 0;border:none;box-shadow:var(--shadow);padding:9px 16px;border-radius:14px;background:' + (store.heOn ? "var(--primary);color:#fff" : "#fff") + '">עִבְרִית ' + (store.heOn ? "✓" : "") + "</button>" +
       "</div>";
 
     $screen.querySelectorAll(".profile-row").forEach(row => {
@@ -201,9 +340,10 @@
     function addPlayer() {
       const name = document.getElementById("newname").value.trim();
       if (!name) return;
-      if (!store.profiles[name]) store.profiles[name] = { done: {}, created: new Date().toISOString() };
+      const isNew = !store.profiles[name];
+      if (isNew) store.profiles[name] = { done: {}, skipped: {}, created: new Date().toISOString() };
       store.current = name; save();
-      screenMap();
+      if (isNew) screenPlacementIntro(); else screenMap();
     }
   }
 
@@ -218,12 +358,12 @@
         '<span class="lvl-emoji">' + lv.emoji + "</span>" +
         '<span class="lvl-info">' +
         '<span class="lvl-num">Niveau ' + lv.order + "</span>" +
-        '<span class="lvl-name">' + esc(lv.name) + (store.heOn ? ' <span class="he-inline" dir="rtl">' + esc(lv.nameHe || "") + "</span>" : "") + "</span>" +
+        '<span class="lvl-name">' + esc(lv.name) + he(lv.nameHe) + "</span>" +
         '<span class="lvl-tag">' + esc(lv.tagline || "") + "</span>" +
         "</span>" +
         (unlocked
           ? '<span class="lvl-progress">' + doneCount + "/4<br>⭐" + starSum + "</span>"
-          : '<span class="lvl-lock">🔒</span>') +
+          : '<span class="lvl-progress">🔒</span>') +
         "</button>";
     }).join("");
 
@@ -249,7 +389,7 @@
       c.addEventListener("click", () => {
         const i = +c.dataset.lvl;
         if (!isLevelUnlocked(i)) {
-          toast("teach", "Termine d'abord le niveau " + LEVELS[i - 1].order + " !", "קודם סיימו את שלב " + LEVELS[i - 1].order + "!");
+          adultGate(i);
           return;
         }
         screenSublevels(i);
@@ -264,11 +404,13 @@
       const unlocked = isSubUnlocked(lv, j);
       const st = subStars(sub.id);
       const total = sub.exercises.length;
+      const skipped = isSkipped(sub.id);
       return '<button class="sub-card' + (unlocked ? "" : " locked") + (st !== null ? " done" : "") + '" data-sub="' + j + '" style="--lvl:' + lv.color + '">' +
-        '<span class="sub-emoji">' + (st !== null ? "✅" : unlocked ? sub.emoji || "▶️" : "🔒") + "</span>" +
+        '<span class="sub-emoji">' + (skipped && !st ? "🔓" : st !== null ? "✅" : unlocked ? sub.emoji || "▶️" : "🔒") + "</span>" +
         '<span class="sub-info">' +
-        '<span class="sub-name">' + esc(sub.name) + (store.heOn ? ' <span class="he-inline" dir="rtl">' + esc(sub.nameHe || "") + "</span>" : "") + "</span>" +
-        (st !== null ? '<span class="sub-stars">⭐ ' + st + "/" + total + (st < total ? " — tu peux faire mieux !" : " — parfait !") + "</span>" : "") +
+        '<span class="sub-name">' + esc(sub.name) + he(sub.nameHe) + "</span>" +
+        (skipped && !st ? '<span class="sub-stars">🔓 validé — tu peux le jouer quand même !</span>'
+          : st !== null ? '<span class="sub-stars">⭐ ' + st + "/" + total + (st < total ? " — tu peux faire mieux !" : " — parfait !") + "</span>" : "") +
         "</span>" +
         "</button>";
     }).join("");
@@ -288,7 +430,7 @@
       c.addEventListener("click", () => {
         const j = +c.dataset.sub;
         if (!isSubUnlocked(lv, j)) {
-          toast("teach", "Termine d'abord l'étape d'avant !", "קודם סיימו את השלב הקודם!");
+          toast("teach", "Termine d'abord l'étape d'avant !", "קֹדֶם סִיְּמוּ אֶת הַשָּׁלָב הַקּוֹדֵם!");
           return;
         }
         startLesson(lvlIdx, j);
@@ -323,7 +465,7 @@
         "</div>" +
         '<button class="btn btn-good" id="next">' +
         (ci < cards.length - 1 ? "Suite →" : "C'est parti ! 🚀") +
-        he(ci < cards.length - 1 ? "הלאה" : "יאללה מתחילים!") +
+        he(ci < cards.length - 1 ? "הָלְאָה" : "יַאלְלָה מַתְחִילִים!") +
         "</button>" +
         "</div>";
       document.getElementById("back").addEventListener("click", () => screenSublevels(lvlIdx));
@@ -364,7 +506,10 @@
 
   function renderExercise(session) {
     const lv = LEVELS[session.lvlIdx];
-    if (session.i >= session.list.length) return screenResults(session);
+    if (session.i >= session.list.length) {
+      if (session.onDone) return session.onDone(session);
+      return screenResults(session);
+    }
     const ex = session.list[session.i];
     session.failedThis = false;
 
@@ -412,7 +557,7 @@
         body =
           '<button class="say-btn big" id="sayb">🔊 Écoute le mot</button>' +
           '<input class="type-input" id="tinput" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Écris ici...">' +
-          '<button class="btn btn-good" id="tcheck" style="margin-top:auto">Vérifier ✓' + he("לבדוק") + "</button>";
+          '<button class="btn btn-good" id="tcheck" style="margin-top:auto">Vérifier ✓' + he("לִבְדֹּק") + "</button>";
         break;
       }
       case "match": {
@@ -429,7 +574,7 @@
         body =
           '<div class="read-text">' + esc(ex.text) + "</div>" +
           (ex.say ? '<button class="say-btn" id="sayb">🔊 Écoute Levy lire</button>' : "") +
-          '<button class="btn btn-good" id="readdone" style="margin-top:auto">Je l\'ai lu ! ✅' + he("קראתי!") + "</button>";
+          '<button class="btn btn-good" id="readdone" style="margin-top:auto">Je l\'ai lu ! ✅' + he("קָרָאתִי!") + "</button>";
         break;
       }
       default:
@@ -445,7 +590,8 @@
 
     document.getElementById("ex-quit").addEventListener("click", () => {
       if (confirm("Quitter l'exercice ? La progression de cette étape sera perdue.")) {
-        screenSublevels(session.lvlIdx);
+        if (session.placement) screenMap();
+        else screenSublevels(session.lvlIdx);
       }
     });
 
@@ -491,7 +637,7 @@
       function renderTarget() {
         target.innerHTML = chosen.length
           ? chosen.map((c, i2) => '<button class="build-slot" data-i="' + i2 + '">' + esc(ex.tiles[c.k]) + "</button>").join("")
-          : '<span style="color:#B9AF9E">Touche les étiquettes !' + (store.heOn ? " · לחצו על הכרטיסיות" : "") + "</span>";
+          : '<span style="color:#B9AF9E">Touche les étiquettes !' + (store.heOn ? " · לָחֲצוּ עַל הַכַּרְטִיסִיּוֹת" : "") + "</span>";
         target.querySelectorAll(".build-slot").forEach(s => {
           s.addEventListener("click", () => {
             const rm = chosen.splice(+s.dataset.i, 1)[0];
@@ -590,6 +736,7 @@
     if (!session.failedThis) session.stars++;
     confetti(14);
     const p = rand(PRAISE);
+    speak(p[0], 1.0);
     toast(Math.random() > 0.5 ? "cheer" : "happy", p[0], p[1]);
     lockChoices();
     setTimeout(() => { session.i++; renderExercise(session); }, 1050);
@@ -607,12 +754,16 @@
     $overlay.innerHTML =
       '<div class="mascot-panel bad">' +
       '<div class="mascot-wrap">' + mascotSVG(first ? "oops" : "teach") + "</div>" +
-      "<h3>" + esc(o[0]) + (store.heOn ? ' <span dir="rtl" style="font-size:0.8em">' + esc(o[1]) + "</span>" : "") + "</h3>" +
+      "<h3>" + esc(o[0]) + he(o[1]) + "</h3>" +
       '<div class="explain">' + esc(ex.explain || "") + he(ex.explainHe) + answerLine + "</div>" +
-      '<button class="btn btn-accent" id="ok-btn">J\'ai compris !' + he("הבנתי!") + "</button>" +
+      '<button class="say-btn" id="explain-say">🔊 Écoute Levy</button>' +
+      '<button class="btn btn-accent" id="ok-btn">J\'ai compris !' + he("הֵבַנְתִּי!") + "</button>" +
       "</div>";
     $overlay.classList.remove("hidden");
-    if (ex.say) speak(ex.say);
+    // Levy lit son explication à voix haute
+    speak(ex.explain || ex.say || "");
+    var expSay = document.getElementById("explain-say");
+    if (expSay) expSay.addEventListener("click", function () { speak(ex.explain || ex.say || ""); });
     document.getElementById("ok-btn").addEventListener("click", () => {
       $overlay.classList.add("hidden");
       if (onClose && first) {
@@ -634,7 +785,7 @@
     const d = document.createElement("div");
     d.style.cssText = "position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#fff;border-radius:20px;box-shadow:0 6px 24px rgba(0,0,0,0.22);padding:10px 20px 10px 12px;display:flex;align-items:center;gap:10px;z-index:70;animation:slideUp 0.25s ease;max-width:90vw;";
     d.innerHTML =
-      '<div style="width:54px;flex-shrink:0">' + mascotSVG(expr) + "</div>" +
+      '<div style="width:54px;flex-shrink:0" class="mascot-dance">' + mascotSVG(expr) + "</div>" +
       '<div style="font-weight:700;font-size:1.1rem">' + esc(txt) +
       (store.heOn && txtHe ? '<span class="he" dir="rtl">' + esc(txtHe) + "</span>" : "") + "</div>";
     document.body.appendChild(d);
@@ -663,20 +814,20 @@
 
     $screen.innerHTML =
       '<div class="screen results" style="--lvl:' + lv.color + '">' +
-      '<div class="mascot-wrap mascot-cheer">' + mascotSVG("cheer") + "</div>" +
+      '<div class="mascot-wrap mascot-dance">' + mascotSVG("cheer") + "</div>" +
       "<h2>" + bigMsg + "</h2>" +
       '<div class="stars-big">' + "⭐".repeat(Math.max(1, stars)) + "</div>" +
-      '<div class="score-line">' + stars + " / " + total + " du premier coup" + he(stars + " מתוך " + total + " בניסיון ראשון") + "</div>" +
+      '<div class="score-line">' + stars + " / " + total + " du premier coup" + he(stars + " מִתּוֹךְ " + total + " בְּנִסָּיוֹן רִאשׁוֹן") + "</div>" +
       (isLastOfLevel ? '<div class="score-line" style="font-weight:700;color:' + lv.color + '">🏅 Niveau ' + lv.order + " terminé ! Mazal Tov !</div>" : "") +
       '<div class="joke-card">' +
       '<div class="joke-label">🎁 Ta blague récompense !</div>' +
       '<div class="joke-q">' + esc(sub.joke.q) + he(sub.joke.qHe) + "</div>" +
-      '<button class="btn btn-accent" id="joke-btn">La réponse ? 😄' + he("?התשובה") + "</button>" +
+      '<button class="btn btn-accent" id="joke-btn">La réponse ? 😄' + he("?הַתְּשׁוּבָה") + "</button>" +
       '<div class="joke-a hidden" id="joke-a">' + esc(sub.joke.a) + he(sub.joke.aHe) + "</div>" +
       "</div>" +
       (finished
         ? '<button class="btn btn-accent" id="dip-btn">🎓 Mon diplôme !</button>'
-        : '<button class="btn btn-good" id="cont-btn">Continuer →' + he("להמשיך") + "</button>") +
+        : '<button class="btn btn-good" id="cont-btn">Continuer →' + he("לְהַמְשִׁיךְ") + "</button>") +
       '<button class="btn btn-ghost" id="redo-btn">Rejouer cette étape 🔄</button>' +
       "</div>";
 
@@ -698,13 +849,13 @@
     const date = new Date().toLocaleDateString("fr-FR");
     $screen.innerHTML =
       '<div class="screen results">' +
-      '<div class="mascot-wrap mascot-cheer">' + mascotSVG("cheer") + "</div>" +
+      '<div class="mascot-wrap mascot-dance">' + mascotSVG("cheer") + "</div>" +
       '<div class="diploma">' +
       '<div class="dip-title">DIPLÔME OFFICIEL</div>' +
       "<h2>🎓 Super-champion du français !</h2>" +
       '<div class="dip-name">' + esc(store.current) + "</div>" +
       '<div class="dip-text">a terminé les 10 niveaux du jeu<br><b>On apprend avec Levy</b><br>avec ' + totalStars() + " ⭐<br><br>Mazal Tov ! 🎉<br>" + date + "</div>" +
-      he("סיים/ה את כל 10 השלבים של המשחק! מזל טוב!") +
+      he("סִיֵּם/ה אֶת כָּל 10 הַשְּׁלַבִּים שֶׁל הַמִּשְׂחָק! מַזָּל טוֹב!") +
       "</div>" +
       '<button class="btn" id="backmap">← Retour au jeu</button>' +
       "</div>";
