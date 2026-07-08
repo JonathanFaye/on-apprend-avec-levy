@@ -1300,12 +1300,44 @@
       '<circle cx="82" cy="70" r="15"/><circle cx="118" cy="70" r="15"/><line x1="97" y1="70" x2="103" y2="70"/>' +
       '<path d="M84 93 Q100 108 116 93"/></svg>';
   }
+  function colorStar() {
+    const pts = [];
+    for (let i = 0; i < 10; i++) { const a = -Math.PI / 2 + (i * Math.PI) / 5; const r = i % 2 === 0 ? 75 : 32; pts.push((100 + r * Math.cos(a)).toFixed(0) + "," + (100 + r * Math.sin(a)).toFixed(0)); }
+    return '<svg viewBox="0 0 200 200"><polygon points="' + pts.join(" ") + '"/></svg>';
+  }
+  function colorTree() {
+    return '<svg viewBox="0 0 200 200"><rect x="88" y="130" width="24" height="45"/>' +
+      '<circle cx="100" cy="80" r="42"/><circle cx="66" cy="105" r="30"/><circle cx="134" cy="105" r="30"/>' +
+      '<circle cx="90" cy="70" r="4"/><circle cx="115" cy="90" r="4"/><circle cx="80" cy="100" r="4"/></svg>';
+  }
+  function colorBalloon() {
+    return '<svg viewBox="0 0 200 200"><ellipse cx="100" cy="80" rx="46" ry="54"/>' +
+      '<path d="M94 133 L106 133 L100 145 Z"/><path d="M100 145 Q112 165 96 190"/></svg>';
+  }
+  function colorCat() {
+    return '<svg viewBox="0 0 200 200"><circle cx="100" cy="105" r="52"/>' +
+      '<path d="M62 72 L52 40 L86 62 Z"/><path d="M138 72 L148 40 L114 62 Z"/>' +
+      '<circle cx="82" cy="98" r="5"/><circle cx="118" cy="98" r="5"/>' +
+      '<path d="M96 112 L104 112 L100 118 Z"/><path d="M100 118 Q92 128 84 124"/><path d="M100 118 Q108 128 116 124"/>' +
+      '<line x1="60" y1="112" x2="30" y2="106"/><line x1="60" y1="120" x2="30" y2="122"/>' +
+      '<line x1="140" y1="112" x2="170" y2="106"/><line x1="140" y1="120" x2="170" y2="122"/></svg>';
+  }
   const RES_COLOR = [
     { t: "Levy", sub: "Colorie la mascotte !", svg: colorLevy },
     { t: "Le soleil", sub: "S comme soleil", svg: colorSun },
     { t: "La maison", sub: "M comme maison", svg: colorHouse },
     { t: "Le poisson", sub: "P comme poisson", svg: colorFish },
-    { t: "La fleur", sub: "F comme fleur", svg: colorFlower }
+    { t: "La fleur", sub: "F comme fleur", svg: colorFlower },
+    { t: "L'étoile", sub: "É comme étoile", svg: colorStar },
+    { t: "L'arbre", sub: "A comme arbre", svg: colorTree },
+    { t: "Le ballon", sub: "B comme ballon", svg: colorBalloon },
+    { t: "Le chat", sub: "C comme chat", svg: colorCat }
+  ];
+  // coloriages-jeux : on ne colorie QUE ce qui est demandé (lettres ou images)
+  const COLOR_EX = [
+    { t: "Colorie les M", instr: "Colorie seulement les lettres M.", type: "let", pool: "MPMTVMLSMPMVMTMPMNMRMFM".split("") },
+    { t: "Colorie les voyelles", instr: "Colorie les voyelles : a e i o u y.", type: "let", pool: "AEBIMOUPYELIROATUSY".split("") },
+    { t: "Le son [p]", instr: "Colorie ce qui commence par le son « p ».", type: "img", pool: ["🍕", "🐱", "🐟", "🍎", "🌙", "🎈", "🦋", "🚲"] }
   ];
 
   function resHeader(title, backFn) {
@@ -1331,42 +1363,77 @@
     document.getElementById("rc-color").addEventListener("click", screenColoring);
   }
 
+  const RES_SYLL = ["ma", "me", "mi", "mo", "mu", "la", "le", "li", "lo", "lu", "pa", "pe", "pi", "po", "pu", "ra", "re", "ri", "ro", "ru", "ta", "te", "ti", "to", "tu"];
+  const RES_COMPLETE = [["🏍️", "m_t_", "moto"], ["🐱", "ch_t", "chat"], ["🚲", "v_lo", "vélo"], ["🌸", "fl__r", "fleur"], ["🌙", "l_ne", "lune"], ["🎈", "ba__on", "ballon"], ["🍕", "p_zza", "pizza"], ["🏠", "ma_s_n", "maison"]];
+  const RES_SON = { son: "ch", mots: [["chat", 1], ["chien", 1], ["moto", 0], ["chapeau", 1], ["papa", 0], ["bouche", 1], ["vélo", 0], ["niche", 1], ["lune", 0]] };
+  const RES_ORDRE = [["Le", "chat", "dort"], ["Papa", "lit", "un", "livre"], ["La", "lune", "brille"], ["Je", "vais", "à", "l'école"]];
+  const RES_PLURIEL = [["un chat", "des chats"], ["une fleur", "des fleurs"], ["un ami", "des amis"], ["une école", "des écoles"], ["un ballon", "des ballons"]];
+  const RES_CONJUG = { verbe: "jouer", pronoms: ["je", "tu", "il / elle", "nous", "vous", "ils / elles"] };
+
   const SHEETS = [
-    { id: "trace", t: "Je trace les lettres", e: "✏️" },
-    { id: "relie", t: "Je relie la lettre à l'image", e: "🔗" },
-    { id: "copie", t: "Je recopie les mots", e: "📖" }
+    { id: "trace", t: "Je trace les lettres", e: "✏️", g: "Débuter : lettres & syllabes" },
+    { id: "relie", t: "Je relie la lettre à l'image", e: "🔗", g: "Débuter : lettres & syllabes" },
+    { id: "syll", t: "J'écris les syllabes", e: "🔡", g: "Débuter : lettres & syllabes" },
+    { id: "copie", t: "Je recopie les mots", e: "📖", g: "Lire les mots" },
+    { id: "complete", t: "Je complète le mot", e: "🧩", g: "Lire les mots" },
+    { id: "son", t: "J'entoure le bon son", e: "👂", g: "Lire les mots" },
+    { id: "ordre", t: "Je remets la phrase en ordre", e: "🔀", g: "Lire les phrases" },
+    { id: "pluriel", t: "Un ou plusieurs ? (le pluriel)", e: "➕", g: "Grammaire (CE1-CE2)" },
+    { id: "conjug", t: "Je conjugue au présent", e: "📝", g: "Grammaire (CE1-CE2)" }
   ];
   function screenSheets() {
     stopAudio();
+    const groups = [];
+    SHEETS.forEach(s => { const g = groups.find(x => x.g === s.g); if (g) g.items.push(s); else groups.push({ g: s.g, items: [s] }); });
     $screen.innerHTML =
       '<div class="screen">' + resHeader("📝 Fiches à imprimer", screenResources) +
-      '<div class="res-list">' +
-      SHEETS.map(s => '<button class="res-item" data-s="' + s.id + '"><span class="ri-emoji">' + s.e + "</span><span>" + esc(s.t) + "</span><span class=\"ri-go\">🖨️</span></button>").join("") +
-      "</div></div>";
+      '<p class="res-intro">Des fiches pour tous les niveaux, du tout début au CE2.</p>' +
+      groups.map(gr =>
+        '<div class="res-group">' + esc(gr.g) + "</div>" +
+        '<div class="res-list">' +
+        gr.items.map(s => '<button class="res-item" data-s="' + s.id + '"><span class="ri-emoji">' + s.e + "</span><span>" + esc(s.t) + "</span><span class=\"ri-go\">🖨️</span></button>").join("") +
+        "</div>"
+      ).join("") +
+      "</div>";
     document.getElementById("res-back").addEventListener("click", screenResources);
     $screen.querySelectorAll(".res-item").forEach(b => b.addEventListener("click", () => buildSheet(b.dataset.s)));
   }
 
   function buildSheet(id) {
-    let title, body;
+    let title, sub, body;
     if (id === "trace") {
-      title = "Je trace les lettres";
-      const alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
-      body = '<div class="sheet-sub">Repasse sur les lettres, puis écris-les toi-même.</div>' +
-        alpha.map(L => '<div class="trace-row"><span class="trace-big">' + L + '</span><span class="trace-line"></span></div>').join("");
+      title = "Je trace les lettres"; sub = "Repasse sur la lettre, puis écris-la toi-même.";
+      body = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").map(L => '<div class="trace-row"><span class="trace-big">' + L + '</span><span class="trace-line"></span></div>').join("");
     } else if (id === "relie") {
-      title = "Je relie la lettre à l'image";
+      title = "Je relie la lettre à l'image"; sub = "Trace un trait entre chaque lettre et l'image qui commence par cette lettre.";
       const set = shuffle(RES_WORDS).slice(0, 6);
       const left = set.map(w => '<div class="relie-cell"><span class="relie-letter">' + w[2] + '</span><span class="relie-dot"></span></div>').join("");
       const right = shuffle(set).map(w => '<div class="relie-cell"><span class="relie-dot"></span><span class="relie-img">' + w[1] + '</span></div>').join("");
-      body = '<div class="sheet-sub">Trace un trait entre chaque lettre et l\'image qui commence par cette lettre.</div>' +
-        '<div class="relie-grid"><div class="relie-col">' + left + '</div><div class="relie-col">' + right + "</div></div>";
+      body = '<div class="relie-grid"><div class="relie-col">' + left + '</div><div class="relie-col">' + right + "</div></div>";
+    } else if (id === "syll") {
+      title = "J'écris les syllabes"; sub = "Lis la syllabe à voix haute, puis recopie-la.";
+      body = '<div class="syll-grid">' + shuffle(RES_SYLL).slice(0, 16).map(s => '<div class="syll-cell"><span class="syll-w">' + s + '</span><span class="syll-line"></span></div>').join("") + "</div>";
+    } else if (id === "copie") {
+      title = "Je recopie les mots"; sub = "Lis le mot, puis recopie-le sur la ligne.";
+      body = RES_COPY.map(w => '<div class="copie-row"><span class="copie-word">' + esc(w) + '</span><span class="copie-line"></span></div>').join("");
+    } else if (id === "complete") {
+      title = "Je complète le mot"; sub = "Regarde l'image et écris les lettres qui manquent.";
+      body = RES_COMPLETE.map(w => '<div class="complete-row"><span class="complete-img">' + w[0] + '</span><span class="complete-word">' + esc(w[1]) + "</span></div>").join("");
+    } else if (id === "son") {
+      title = "J'entoure le bon son"; sub = "Entoure tous les mots où tu entends le son « " + RES_SON.son + " ».";
+      body = '<div class="son-grid">' + shuffle(RES_SON.mots).map(m => '<span class="son-word">' + esc(m[0]) + "</span>").join("") + "</div>";
+    } else if (id === "ordre") {
+      title = "Je remets la phrase en ordre"; sub = "Les mots sont mélangés. Écris la phrase dans le bon ordre sur la ligne.";
+      body = RES_ORDRE.map(ph => '<div class="ordre-block"><div class="ordre-words">' + shuffle(ph).map(w => '<span class="ordre-word">' + esc(w) + "</span>").join("") + '</div><span class="copie-line"></span></div>').join("");
+    } else if (id === "pluriel") {
+      title = "Un ou plusieurs ? (le pluriel)"; sub = "Écris le pluriel. Astuce : au pluriel, on ajoute souvent un -s.";
+      body = RES_PLURIEL.map(p => '<div class="pluriel-row"><span class="pluriel-sing">' + esc(p[0]) + '</span><span class="pluriel-arrow">→</span><span class="copie-line"></span></div>').join("");
     } else {
-      title = "Je recopie les mots";
-      body = '<div class="sheet-sub">Lis le mot, puis recopie-le sur la ligne.</div>' +
-        RES_COPY.map(w => '<div class="copie-row"><span class="copie-word">' + esc(w) + '</span><span class="copie-line"></span></div>').join("");
+      title = "Je conjugue au présent"; sub = "Conjugue le verbe « " + RES_CONJUG.verbe + " ». Écris la bonne terminaison : -e, -es, -e, -ons, -ez, -ent.";
+      body = '<div class="conjug-grid">' + RES_CONJUG.pronoms.map(p => '<div class="conjug-row"><span class="conjug-pro">' + esc(p) + '</span><span class="conjug-stem">jou</span><span class="conjug-blank"></span></div>').join("") + "</div>";
     }
-    showPrintable(title, '<div class="sheet"><h1 class="sheet-title">' + esc(title) + '</h1>' + body +
+    showPrintable(title, '<div class="sheet"><h1 class="sheet-title">' + esc(title) + '</h1>' +
+      '<div class="sheet-sub">' + esc(sub) + "</div>" + body +
       '<div class="sheet-foot">On apprend avec Levy 🇫🇷</div></div>', screenSheets);
   }
 
@@ -1389,14 +1456,29 @@
     stopAudio();
     $screen.innerHTML =
       '<div class="screen">' + resHeader("🎨 Coloriages", screenResources) +
+      '<div class="res-group">🖍️ Dessins à colorier</div>' +
       '<div class="color-grid">' +
       RES_COLOR.map((c, i) => '<button class="color-thumb" data-c="' + i + '"><div class="color-svg">' + c.svg() + "</div><span>" + esc(c.t) + "</span></button>").join("") +
+      "</div>" +
+      '<div class="res-group">🎯 Coloriages-jeux</div>' +
+      '<p class="res-intro" style="margin:0 0 10px">On ne colorie que ce qui est demandé !</p>' +
+      '<div class="res-list">' +
+      COLOR_EX.map((c, i) => '<button class="res-item" data-x="' + i + '"><span class="ri-emoji">🖍️</span><span>' + esc(c.t) + "</span><span class=\"ri-go\">🖨️</span></button>").join("") +
       "</div></div>";
     document.getElementById("res-back").addEventListener("click", screenResources);
     $screen.querySelectorAll(".color-thumb").forEach(b => b.addEventListener("click", () => {
       const c = RES_COLOR[+b.dataset.c];
       showPrintable(c.t, '<div class="sheet color-sheet"><h1 class="sheet-title">' + esc(c.t) + '</h1>' +
         '<div class="color-sub">' + esc(c.sub) + '</div><div class="color-big">' + c.svg() + "</div>" +
+        '<div class="sheet-foot">On apprend avec Levy 🇫🇷</div></div>', screenColoring);
+    }));
+    $screen.querySelectorAll(".res-item[data-x]").forEach(b => b.addEventListener("click", () => {
+      const c = COLOR_EX[+b.dataset.x];
+      const cells = shuffle(c.pool).map(v =>
+        c.type === "let" ? '<span class="cx-cell cx-let">' + esc(v) + "</span>" : '<span class="cx-cell cx-img">' + v + "</span>"
+      ).join("");
+      showPrintable(c.t, '<div class="sheet"><h1 class="sheet-title">' + esc(c.t) + '</h1>' +
+        '<div class="sheet-sub">' + esc(c.instr) + '</div><div class="cx-grid">' + cells + "</div>" +
         '<div class="sheet-foot">On apprend avec Levy 🇫🇷</div></div>', screenColoring);
     }));
   }

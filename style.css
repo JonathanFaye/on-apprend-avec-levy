@@ -548,3 +548,44 @@ button { font-family: inherit; border: none; cursor: pointer; color: inherit; ba
   background: #FFF6E3; border: 1.5px dashed var(--accent); border-radius: 14px;
   padding: 12px 14px; margin-top: 14px; font-size: .95rem; color: var(--ink); line-height: 1.5;
 }
+
+/* ---- ressources : sous-titres de groupe ---- */
+.res-group { font-weight: 700; color: var(--primary-dark); margin: 16px 2px 8px; font-size: 1.02rem; }
+.res-group:first-of-type { margin-top: 4px; }
+
+/* ---- fiche : écrire les syllabes ---- */
+.syll-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 24px; }
+.syll-cell { display: flex; align-items: baseline; gap: 10px; }
+.syll-w { font-size: 1.4rem; font-weight: 700; width: 44px; }
+.syll-line { flex: 1; border-bottom: 2px dotted #AAA; height: 22px; }
+/* ---- fiche : compléter le mot ---- */
+.complete-row { display: flex; align-items: center; gap: 16px; padding: 9px 0; border-bottom: 1px dashed #DDD; }
+.complete-img { font-size: 2.2rem; width: 50px; text-align: center; }
+.complete-word { font-size: 1.9rem; font-weight: 700; letter-spacing: 0.15em; }
+/* ---- fiche : entoure le son ---- */
+.son-grid { display: flex; flex-wrap: wrap; gap: 14px 22px; justify-content: center; margin-top: 6px; }
+.son-word { font-size: 1.5rem; font-weight: 600; padding: 6px 4px; }
+/* ---- fiche : remettre en ordre ---- */
+.ordre-block { padding: 12px 0; border-bottom: 1px dashed #DDD; }
+.ordre-words { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 10px; }
+.ordre-word { border: 2px solid #333; border-radius: 10px; padding: 6px 12px; font-size: 1.2rem; font-weight: 600; }
+/* ---- fiche : pluriel ---- */
+.pluriel-row { display: flex; align-items: center; gap: 12px; padding: 11px 0; }
+.pluriel-sing { font-size: 1.3rem; font-weight: 600; min-width: 120px; }
+.pluriel-arrow { font-size: 1.4rem; color: #888; }
+.copie-line.short { max-width: 200px; }
+/* ---- fiche : conjugaison ---- */
+.conjug-grid { display: flex; flex-direction: column; gap: 10px; }
+.conjug-row { display: flex; align-items: baseline; gap: 8px; font-size: 1.4rem; }
+.conjug-pro { min-width: 110px; font-weight: 600; }
+.conjug-stem { font-weight: 700; }
+.conjug-blank { display: inline-block; width: 90px; border-bottom: 2px dotted #999; height: 26px; }
+/* ---- coloriages-jeux : grille de cases à colorier ---- */
+.cx-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 8px; }
+.cx-cell {
+  aspect-ratio: 1; border: 2.5px solid var(--ink); border-radius: 14px;
+  display: flex; align-items: center; justify-content: center; background: #fff;
+}
+.cx-let { font-size: 2.2rem; font-weight: 700; color: var(--ink); }
+.cx-img { font-size: 2.4rem; }
+@media print { .cx-cell { border-color: #333; } }
