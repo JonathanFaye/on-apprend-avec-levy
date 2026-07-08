@@ -149,18 +149,18 @@ window.LEVELS.push({
           {
             title: "Les consonnes costaudes 💪",
             titleHe: "הָעִצּוּרִים הַחֲזָקִים",
-            body: "Voici des consonnes très utiles : M L S R P T V N. Avec les voyelles, elles fabriquent des mots !",
-            bodyHe: "הִנֵּה עִצּוּרִים מְאוֹד שִׁמּוּשִׁיִּים: M L S R P T V N. יַחַד עִם הַתְּנוּעוֹת הֵם בּוֹנִים מִלִּים!",
+            body: "Voici des consonnes très utiles : M L S R P T V N. Chacune fait un petit SON. Avec les voyelles, elles fabriquent des mots !",
+            bodyHe: "הִנֵּה עִצּוּרִים מְאוֹד שִׁמּוּשִׁיִּים: M L S R P T V N. לְכָל אֶחָד יֵשׁ צְלִיל קָטָן מִשֶּׁלּוֹ. יַחַד עִם הַתְּנוּעוֹת הֵם בּוֹנִים מִלִּים!",
             big: "M L S R P T V N",
-            say: "èm. èl. èss. èr. pé. té. vé. èn."
+            say: "mmm, comme dans maman. lll, comme dans lune. sss, comme dans serpent."
           },
           {
-            title: "Chaque lettre a un nom 🏷️",
-            titleHe: "לְכָל אוֹת יֵשׁ שֵׁם",
-            body: "Comme toi, chaque lettre a un nom ! M s'appelle 'èm', P s'appelle 'pé', V s'appelle 'vé'.",
-            bodyHe: "כְּמוֹכֶם, לְכָל אוֹת יֵשׁ שֵׁם! לְ-M קוֹרְאִים 'אֵם', לְ-P קוֹרְאִים 'פֶּה', לְ-V קוֹרְאִים 'וֶה'.",
+            title: "Chaque consonne fait un son 🔊",
+            titleHe: "לְכָל אוֹת יֵשׁ צְלִיל 🔊",
+            body: "Le plus important pour lire, c'est le SON de la lettre. M fait mmm, P fait p, V fait vvv. C'est comme ça qu'on lit les mots !",
+            bodyHe: "הַדָּבָר הֲכִי חָשׁוּב כְּדֵי לִקְרֹא הוּא הַצְּלִיל שֶׁל הָאוֹת. M עוֹשָׂה מְמְמ, P עוֹשָׂה פּ, V עוֹשָׂה וְוְו. כָּכָה קוֹרְאִים אֶת הַמִּלִּים!",
             big: "M P V",
-            say: "èm. pé. vé."
+            say: "mmm, comme dans maman. p, comme dans papa. vvv, comme dans vélo."
           },
           {
             title: "Des lettres autour de toi 🔎",
@@ -179,19 +179,19 @@ window.LEVELS.push({
           promptHe: "מִצְאוּ אֶת הָאוֹת M!",
           choices: ["M", "N", "W"],
           answer: 0,
-          say: "èm",
-          explain: "Voici M ! Elle s'appelle 'èm', comme dans MAMAN.",
-          explainHe: "הִנֵּה M! קוֹרְאִים לָהּ 'אֵם', כְּמוֹ בַּמִּלָּה MAMAN."
+          say: "mmm, comme dans maman",
+          explain: "Voici M ! Elle fait le son mmm, comme dans MAMAN.",
+          explainHe: "הִנֵּה M! הִיא עוֹשָׂה אֶת הַצְּלִיל מְמְמ, כְּמוֹ בַּמִּלָּה MAMAN."
         },
         {
           type: "listen",
           prompt: "Écoute et choisis la lettre que tu entends !",
           promptHe: "הַקְשִׁיבוּ וּבַחֲרוּ אֶת הָאוֹת שֶׁשְּׁמַעְתֶּם!",
-          say: "èl",
+          say: "lll, comme dans lune",
           choices: ["L", "R", "N"],
           answer: 0,
-          explain: "C'était L ! Son nom est 'èl'.",
-          explainHe: "זוֹ הָיְתָה L! הַשֵּׁם שֶׁלָּהּ 'אֶל'."
+          explain: "C'était L ! Elle fait le son lll, comme dans LUNE.",
+          explainHe: "זוֹ הָיְתָה L! הִיא עוֹשָׂה אֶת הַצְּלִיל לְלְל, כְּמוֹ בַּמִּלָּה LUNE."
         },
         {
           type: "pick",
@@ -199,16 +199,16 @@ window.LEVELS.push({
           promptHe: "מִצְאוּ אֶת הָאוֹת S!",
           choices: ["S", "Z", "C"],
           answer: 0,
-          say: "èss",
-          explain: "Voici S ! La lettre S ressemble à un serpent. 🐍",
-          explainHe: "הִנֵּה S! הָאוֹת S נִרְאֵית כְּמוֹ נָחָשׁ. 🐍"
+          say: "sss, comme dans serpent",
+          explain: "Voici S ! Elle fait le son sss, comme un serpent qui siffle. 🐍",
+          explainHe: "הִנֵּה S! הִיא עוֹשָׂה אֶת הַצְּלִיל סְסְס, כְּמוֹ נָחָשׁ שֶׁלּוֹחֵשׁ. 🐍"
         },
         {
           type: "match",
           prompt: "Relie la lettre au dessin qui commence par elle !",
           promptHe: "חַבְּרוּ כָּל אוֹת לַצִּיּוּר שֶׁמַּתְחִיל בָּהּ!",
           pairs: [["M", "🏍️"], ["P", "🍕"], ["T", "🐢"], ["V", "🚲"]],
-          say: "èm, moto. pé, pizza. té, tortue. vé, vélo.",
+          say: "mmm, moto. p, pizza. t, tortue. vvv, vélo.",
           explain: "M comme MOTO, P comme PIZZA, T comme TORTUE, V comme VÉLO !",
           explainHe: "M כְּמוֹ MOTO, P כְּמוֹ PIZZA, T כְּמוֹ TORTUE, V כְּמוֹ VÉLO!"
         },
@@ -216,11 +216,11 @@ window.LEVELS.push({
           type: "listen",
           prompt: "Écoute et choisis la lettre que tu entends !",
           promptHe: "הַקְשִׁיבוּ וּבַחֲרוּ אֶת הָאוֹת שֶׁשְּׁמַעְתֶּם!",
-          say: "èr",
+          say: "rrr, comme dans rat",
           choices: ["R", "L", "N"],
           answer: 0,
-          explain: "C'était R ! Son nom est 'èr'.",
-          explainHe: "זוֹ הָיְתָה R! הַשֵּׁם שֶׁלָּהּ 'אֶר'."
+          explain: "C'était R ! Elle fait le son rrr, comme dans RAT.",
+          explainHe: "זוֹ הָיְתָה R! הִיא עוֹשָׂה אֶת הַצְּלִיל רְרְר, כְּמוֹ בַּמִּלָּה RAT."
         },
         {
           type: "pick",
@@ -228,19 +228,19 @@ window.LEVELS.push({
           promptHe: "מִצְאוּ אֶת הָאוֹת P!",
           choices: ["P", "B", "R"],
           answer: 0,
-          say: "pé",
-          explain: "Voici P ! Elle s'appelle 'pé', comme dans PAPA.",
-          explainHe: "הִנֵּה P! קוֹרְאִים לָהּ 'פֶּה', כְּמוֹ בַּמִּלָּה PAPA."
+          say: "p, comme dans papa",
+          explain: "Voici P ! Elle fait le son p, comme dans PAPA.",
+          explainHe: "הִנֵּה P! הִיא עוֹשָׂה אֶת הַצְּלִיל פּ, כְּמוֹ בַּמִּלָּה PAPA."
         },
         {
           type: "listen",
           prompt: "Écoute et choisis la lettre que tu entends !",
           promptHe: "הַקְשִׁיבוּ וּבַחֲרוּ אֶת הָאוֹת שֶׁשְּׁמַעְתֶּם!",
-          say: "té",
+          say: "t, comme dans tortue",
           choices: ["T", "P", "V"],
           answer: 0,
-          explain: "C'était T ! 'té' comme TORTUE.",
-          explainHe: "זוֹ הָיְתָה T! 'טֶה' כְּמוֹ TORTUE."
+          explain: "C'était T ! Elle fait le son t, comme dans TORTUE.",
+          explainHe: "זוֹ הָיְתָה T! הִיא עוֹשָׂה אֶת הַצְּלִיל טְ, כְּמוֹ בַּמִּלָּה TORTUE."
         },
         {
           type: "pick",
@@ -248,19 +248,19 @@ window.LEVELS.push({
           promptHe: "מִצְאוּ אֶת הָאוֹת N!",
           choices: ["N", "M", "H"],
           answer: 0,
-          say: "èn",
-          explain: "Voici N ! Elle s'appelle 'èn'. M a deux ponts, N un seul.",
-          explainHe: "הִנֵּה N! קוֹרְאִים לָהּ 'אֵן'. לְ-M יֵשׁ שְׁנֵי גְּשָׁרִים, לְ-N רַק אֶחָד."
+          say: "nnn, comme dans nid",
+          explain: "Voici N ! Elle fait le son nnn, comme dans NID. M a deux ponts, N un seul.",
+          explainHe: "הִנֵּה N! הִיא עוֹשָׂה אֶת הַצְּלִיל נְנְנ, כְּמוֹ בַּמִּלָּה NID. לְ-M יֵשׁ שְׁנֵי גְּשָׁרִים, וּלְ-N רַק אֶחָד."
         },
         {
           type: "listen",
           prompt: "Écoute et choisis la lettre que tu entends !",
           promptHe: "הַקְשִׁיבוּ וּבַחֲרוּ אֶת הָאוֹת שֶׁשְּׁמַעְתֶּם!",
-          say: "vé",
+          say: "vvv, comme dans vélo",
           choices: ["V", "B", "F"],
           answer: 0,
-          explain: "C'était V ! 'vé' comme VÉLO.",
-          explainHe: "זוֹ הָיְתָה V! 'וֶה' כְּמוֹ VÉLO."
+          explain: "C'était V ! Elle fait le son vvv, comme dans VÉLO.",
+          explainHe: "זוֹ הָיְתָה V! הִיא עוֹשָׂה אֶת הַצְּלִיל וְוְו, כְּמוֹ בַּמִּלָּה VÉLO."
         }
       ],
       joke: {
@@ -358,10 +358,10 @@ window.LEVELS.push({
           type: "match",
           prompt: "Relie la lettre au dessin qui commence par elle !",
           promptHe: "חַבְּרוּ כָּל אוֹת לַצִּיּוּר שֶׁמַּתְחִיל בָּהּ!",
-          pairs: [["A", "✈️"], ["B", "🍌"], ["C", "🐱"], ["O", "🍊"]],
-          say: "a, avion. bé, banane. cé, chat. o, orange.",
-          explain: "A comme AVION, B comme BANANE, C comme CHAT, O comme ORANGE !",
-          explainHe: "A כְּמוֹ AVION, B כְּמוֹ BANANE, C כְּמוֹ CHAT, O כְּמוֹ ORANGE!"
+          pairs: [["A", "✈️"], ["B", "🍌"], ["C", "🥕"], ["O", "🍊"]],
+          say: "a, avion. b, banane. k, carotte. o, orange.",
+          explain: "A comme AVION, B comme BANANE, C comme CAROTTE, O comme ORANGE !",
+          explainHe: "A כְּמוֹ AVION, B כְּמוֹ BANANE, C כְּמוֹ CAROTTE, O כְּמוֹ ORANGE!"
         },
         {
           type: "pick",
@@ -463,7 +463,7 @@ window.LEVELS.push({
           prompt: "Relie la lettre au dessin qui commence par elle !",
           promptHe: "חַבְּרוּ כָּל אוֹת לַצִּיּוּר שֶׁמַּתְחִיל בָּהּ!",
           pairs: [["S", "☀️"], ["L", "🦁"], ["T", "🐢"], ["P", "🍕"]],
-          say: "èss, soleil. èl, lion. té, tortue. pé, pizza.",
+          say: "sss, soleil. lll, lion. t, tortue. p, pizza.",
           explain: "S comme SOLEIL, L comme LION, T comme TORTUE, P comme PIZZA !",
           explainHe: "S כְּמוֹ SOLEIL, L כְּמוֹ LION, T כְּמוֹ TORTUE, P כְּמוֹ PIZZA!"
         },
@@ -473,7 +473,7 @@ window.LEVELS.push({
           promptHe: "מִצְאוּ אֶת הָאוֹת R!",
           choices: ["R", "B", "P"],
           answer: 0,
-          say: "èr",
+          say: "rrr, comme dans rat",
           explain: "Voici R ! Les lettres B et P lui ressemblent, regarde bien.",
           explainHe: "הִנֵּה R! הָאוֹתִיּוֹת B וְ-P דּוֹמוֹת לָהּ, הִסְתַּכְּלוּ טוֹב."
         },
@@ -501,11 +501,11 @@ window.LEVELS.push({
           type: "listen",
           prompt: "Écoute et choisis la lettre que tu entends !",
           promptHe: "הַקְשִׁיבוּ וּבַחֲרוּ אֶת הָאוֹת שֶׁשְּׁמַעְתֶּם!",
-          say: "èm",
+          say: "mmm, comme dans maman",
           choices: ["M", "N", "L"],
           answer: 0,
-          explain: "C'était M ! 'èm' comme MAMAN.",
-          explainHe: "זוֹ הָיְתָה M! 'אֵם' כְּמוֹ MAMAN."
+          explain: "C'était M ! Elle fait le son mmm, comme dans MAMAN.",
+          explainHe: "זוֹ הָיְתָה M! הִיא עוֹשָׂה אֶת הַצְּלִיל מְמְמ, כְּמוֹ בַּמִּלָּה MAMAN."
         },
         {
           type: "pick",
@@ -531,7 +531,7 @@ window.LEVELS.push({
           promptHe: "מִצְאוּ אֶת הָעִצּוּר!",
           choices: ["A", "T", "E"],
           answer: 1,
-          say: "té",
+          say: "t, comme dans tortue",
           explain: "T est une consonne ! A et E sont des voyelles.",
           explainHe: "T הוּא עִצּוּר! A וְ-E הֵן תְּנוּעוֹת."
         },

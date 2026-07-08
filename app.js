@@ -708,7 +708,7 @@
         const q = ex.question
           ? '<div class="ex-question' + (String(ex.question).length > 24 || String(ex.question).indexOf("\n") >= 0 ? " small" : "") + '">' + esc(ex.question) + "</div>"
           : "";
-        const say = ex.say ? '<button class="say-btn" id="sayb">🔊 Écoute</button>' : "";
+        const say = '<button class="say-btn" id="sayb">🔊 Écoute</button>';
         body = q + say + choicesHTML(ex.choices, ex.type === "riddle");
         break;
       }
@@ -734,7 +734,7 @@
       }
       case "build": {
         body =
-          (ex.say ? '<button class="say-btn" id="sayb">🔊 Écoute</button>' : "") +
+          '<button class="say-btn" id="sayb">🔊 Écoute</button>' +
           '<div class="build-target" id="btarget"></div>' +
           '<div class="build-tiles" id="btiles">' +
           shuffle(ex.tiles.map((t, k) => ({ t, k })))
@@ -748,7 +748,7 @@
           '<div class="fill-sentence">' + esc(parts[0]) +
           '<span class="fill-blank" id="blank">&nbsp;?&nbsp;</span>' +
           esc(parts[1] || "") + "</div>" +
-          (ex.say ? '<button class="say-btn" id="sayb">🔊 Écoute</button>' : "") +
+          '<button class="say-btn" id="sayb">🔊 Écoute</button>' +
           choicesHTML(ex.choices, false);
         break;
       }
@@ -763,6 +763,7 @@
         const left = shuffle(ex.pairs.map((p, k) => ({ v: p[0], k })));
         const right = shuffle(ex.pairs.map((p, k) => ({ v: p[1], k })));
         body =
+          '<button class="say-btn" id="sayb">🔊 Écoute</button>' +
           '<div class="match-grid">' +
           '<div class="match-col">' + left.map(o => '<button class="match-item" data-side="L" data-k="' + o.k + '">' + esc(o.v) + "</button>").join("") + "</div>" +
           '<div class="match-col">' + right.map(o => '<button class="match-item" data-side="R" data-k="' + o.k + '">' + esc(o.v) + "</button>").join("") + "</div>" +
@@ -772,7 +773,7 @@
       case "read": {
         body =
           '<div class="read-text">' + esc(ex.text) + "</div>" +
-          (ex.say ? '<button class="say-btn" id="sayb">🔊 Écoute la lecture</button>' : "") +
+          '<button class="say-btn" id="sayb">🔊 Écoute la lecture</button>' +
           '<button class="btn btn-good" id="readdone" style="margin-top:auto">Je l\'ai lu ! ✅' + he("קָרָאתִי!") + "</button>";
         break;
       }
@@ -801,10 +802,12 @@
       });
     });
 
-    const sayText = ex.say || ex.syll; // blend : on lit la syllabe
+    // On dit le son/mot cible ; à défaut (match, pick sans cible) on LIT LA CONSIGNE,
+    // pour qu'aucun écran ne soit muet pour un enfant qui ne lit pas encore.
+    const sayText = ex.say || ex.syll || ex.prompt;
     const sayb = document.getElementById("sayb");
     if (sayb) sayb.addEventListener("click", () => { sayb.classList.remove("hint"); speak(sayText); });
-    // Levy dit automatiquement le son/mot cible sur TOUS les exercices (l'enfant qui
+    // Levy dit automatiquement la cible/consigne sur TOUS les exercices (l'enfant qui
     // ne lit pas encore entend le modèle sans avoir à chercher un bouton). Si le mp3
     // est bloqué (auto sur mobile), le gros bouton 🔊 le rejoue au toucher.
     if (sayText) setTimeout(() => speak(sayText), 450);

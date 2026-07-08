@@ -49,7 +49,7 @@ window.LEVELS.push({
           promptHe: "מִצְאוּ אֶת הָאוֹת V!",
           choices: ["U", "V", "N"],
           answer: 1,
-          say: "vé",
+          say: "vvv, comme dans vélo",
           explain: "V est pointue en bas. U est arrondie en bas.",
           explainHe: "V מְחֻדֶּדֶת לְמַטָּה. U מְעֻגֶּלֶת לְמַטָּה."
         },

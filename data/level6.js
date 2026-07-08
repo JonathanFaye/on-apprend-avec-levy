@@ -69,7 +69,7 @@ window.LEVELS.push({
           question: "B",
           choices: ["d", "p", "b"],
           answer: 2,
-          say: "bé",
+          say: "b, comme dans ballon",
           explain: "B devient b : un grand dos et un ventre en avant !",
           explainHe: "B הוֹפֶכֶת לְ-b: גַּב גָּבוֹהַּ וּבֶטֶן קָדִימָה!"
         },
