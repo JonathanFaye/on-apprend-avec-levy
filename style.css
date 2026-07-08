@@ -107,6 +107,18 @@ button { font-family: inherit; border: none; cursor: pointer; color: inherit; ba
   color: #C9C2D4; font-size: 1.1rem; padding: 4px 6px;
   min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center;
 }
+.new-title { font-weight: 700; color: var(--primary-dark); margin: 14px 0 4px; font-size: 1.05rem; }
+.avatar-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 4px 0 10px;
+}
+.avatar-pick {
+  aspect-ratio: 1 / 1; min-height: 64px; border: 3px solid #E9E1D2; border-radius: var(--radius);
+  background: #fff; box-shadow: var(--shadow); font-size: 2rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; transition: transform .1s, border-color .1s;
+}
+.avatar-pick:hover, .avatar-pick:focus-visible { border-color: var(--primary); transform: translateY(-2px); outline: none; }
+.avatar-pick:active { transform: scale(0.94); }
+@media (max-width: 340px) { .avatar-grid { grid-template-columns: repeat(3, 1fr); } }
 .newplayer-form { display: flex; gap: 8px; margin-top: 6px; }
 .newplayer-form input {
   flex: 1; padding: 13px 16px; border-radius: var(--radius); border: 2px solid #E5DDCF;

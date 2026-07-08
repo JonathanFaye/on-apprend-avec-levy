@@ -320,9 +320,13 @@
 
   /* ---------- Test magique de placement ---------- */
   function placementPool(lv) {
+    // On ne garde QUE des types non devinables (il faut vraiment décoder pour réussir).
+    // match / pick à emoji + read / riddle sont exclus : sinon un enfant qui ne lit pas
+    // peut réussir au hasard et être catapulté trop haut.
+    const HARD = { listen: 1, fill: 1, build: 1, type: 1, blend: 1 };
     const pool = [];
     lv.sublevels.forEach(sub => sub.exercises.forEach(ex => {
-      if (ex.type !== "read" && ex.type !== "riddle") pool.push(ex);
+      if (HARD[ex.type]) pool.push(ex);
     }));
     return pool;
   }
@@ -349,7 +353,8 @@
       list: picks, i: 0, stars: 0, failedThis: false,
       placement: true,
       onDone: sess => {
-        if (sess.stars >= 2) placementRun(lvlIdx + 1);
+        // 3/3 exigé pour valider un niveau : on ne fait jamais monter au-dessus du décodage réel.
+        if (sess.stars >= 3) placementRun(lvlIdx + 1);
         else placementFinish(lvlIdx);
       }
     };
@@ -481,7 +486,7 @@
         '<span class="lvl-tag">' + esc(lv.tagline || "") + "</span>" +
         "</span>" +
         (unlocked
-          ? '<span class="lvl-progress">' + doneCount + "/4<br>⭐" + starSum + "</span>"
+          ? '<span class="lvl-progress">' + doneCount + "/" + lv.sublevels.length + "<br>⭐" + starSum + "</span>"
           : '<span class="lvl-progress">🔒</span>') +
         "</button>";
     }).join("");
@@ -630,12 +635,25 @@
   }
 
   /* ---------- Session d'exercices ---------- */
+  // Réordonne pour éviter d'enchaîner 2 fois le même type d'exercice (casse la monotonie).
+  // Tri glouton stable : on garde l'ordre autant que possible, on décale juste pour varier.
+  function orderExercises(list) {
+    if (list.length < 3) return list.slice();
+    const rest = list.slice();
+    const out = [rest.shift()];
+    while (rest.length) {
+      let idx = rest.findIndex(e => e.type !== out[out.length - 1].type);
+      if (idx < 0) idx = 0;
+      out.push(rest.splice(idx, 1)[0]);
+    }
+    return out;
+  }
   function startExercises(lvlIdx, subIdx) {
     const lv = LEVELS[lvlIdx];
     const sub = lv.sublevels[subIdx];
     const session = {
       lvlIdx, subIdx,
-      list: sub.exercises.slice(),
+      list: orderExercises(sub.exercises),
       i: 0,
       stars: 0,          // bonnes réponses du premier coup
       failedThis: false, // erreur déjà faite sur l'exercice courant
