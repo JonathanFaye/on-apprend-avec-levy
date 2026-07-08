@@ -36,6 +36,26 @@
   function esc(s) {
     return String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   }
+  // Met en forme le corps d'une leçon pour que ce soit agréable à lire pour un enfant :
+  // chaque phrase sur sa ligne, et les listes ("M comme moto, P comme pizza..." ou
+  // "M s'appelle 'èm', P s'appelle 'pé'...") avec un item par ligne.
+  function formatBody(text) {
+    const t = String(text || "").trim();
+    if (!t) return "";
+    const sentences = t.match(/[^.!?]+[.!?]*/g) || [t];
+    const out = [];
+    sentences.forEach(raw => {
+      const s = raw.trim();
+      if (!s) return;
+      const listHits = (s.match(/ comme | s'appelle |כְּמוֹ|כמו/gi) || []).length;
+      if (listHits >= 2) {
+        s.split(/\s*,\s+/).forEach(p => out.push('<span class="body-item">' + esc(p.trim()) + "</span>"));
+      } else {
+        out.push('<span class="body-line">' + esc(s) + "</span>");
+      }
+    });
+    return out.join("");
+  }
   function shuffle(arr) {
     const a = arr.slice();
     for (let i = a.length - 1; i > 0; i--) {
@@ -95,10 +115,11 @@
   }
   // btnOverride : bouton a marquer "en chargement" pendant l'attente ; par defaut on
   // cherche le bouton #sayb de l'ecran courant (present sur la quasi-totalite des ecrans).
-  // isAuto : lecture déclenchée automatiquement (sans clic). Sur mobile la lecture
-  // auto peut être bloquée ; dans ce cas on reste SILENCIEUX plutôt que de basculer
-  // sur la voix du navigateur (différente de Denise) — l'enfant a le bouton 🔊.
-  function speak(text, rate, btnOverride, isAuto) {
+  // Voix : tout le contenu est pré-généré (Denise pour l'apprentissage, voix d'homme
+  // pour les phrases de Levy). Si un mp3 ne peut pas jouer (lecture auto bloquée sur
+  // mobile, erreur réseau), on reste SILENCIEUX — JAMAIS la voix du navigateur, qui
+  // est différente et casse la cohérence. L'enfant a toujours le bouton 🔊.
+  function speak(text, rate, btnOverride) {
     const btn = btnOverride || document.getElementById("sayb");
     if (!store.soundOn || !text) { if (btn) btn.classList.remove("loading"); return; }
     stopAudio();
@@ -111,12 +132,13 @@
         const a = new Audio("audio/" + k + ".mp3");
         currentAudio = a;
         a.addEventListener("playing", clear, { once: true });
-        a.addEventListener("error", () => { clear(); if (!isAuto) ttsFallback(text, rate, btn); });
-        a.play().catch(() => { clear(); if (!isAuto) ttsFallback(text, rate, btn); });
+        a.addEventListener("error", clear);
+        a.play().catch(clear);
         return;
       } catch (e) {}
     }
-    if (!isAuto) ttsFallback(text, rate, btn);
+    // repli synthèse navigateur UNIQUEMENT si un texte n'a pas d'audio pré-généré (rarissime)
+    ttsFallback(text, rate, btn);
   }
   function ttsFallback(text, rate, btn) {
     const clear = () => { if (btn) btn.classList.remove("loading"); };
@@ -551,7 +573,8 @@
         '<div class="lesson-card">' +
         "<h2>" + esc(c.title) + he(c.titleHe) + "</h2>" +
         (c.big ? '<div class="big">' + esc(c.big) + "</div>" : "") +
-        '<div class="body">' + esc(c.body) + he(c.bodyHe) + "</div>" +
+        '<div class="body">' + formatBody(c.body) +
+        (store.heOn && c.bodyHe ? '<span class="he" dir="rtl">' + formatBody(c.bodyHe) + "</span>" : "") + "</div>" +
         (c.say ? '<button class="say-btn" id="sayb">🔊 Écoute !</button>' : "") +
         "</div>" +
         '<button class="btn btn-good" id="next">' +
