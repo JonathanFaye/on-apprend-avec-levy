@@ -10,6 +10,251 @@ window.LEVELS.push({
   taglineHe: "אֲנִי מְחַבֵּר אוֹתִיּוֹת לַהֲבָרוֹת!",
   sublevels: [
     {
+      "id": "n2-s0-fusion",
+      "name": "Je colle les sons",
+      "nameHe": "מַדְבִּיקִים אֶת הַצְּלִילִים",
+      "emoji": "🔗",
+      "lesson": {
+        "cards": [
+          {
+            "title": "Une lettre, un SON (pas un nom) !",
+            "titleHe": "אוֹת אַחַת, צְלִיל אֶחָד (לֹא שֵׁם)",
+            "big": "A → aaa",
+            "body": "Connaitre le nom des lettres ne suffit pas pour lire. Ce qui compte, c'est le SON. La lettre A chante son son : aaa. Ouvre grand la bouche et dis : aaa !",
+            "bodyHe": "לָדַעַת אֶת שֵׁם הָאוֹתִיּוֹת זֶה לֹא מַסְפִּיק כְּדֵי לִקְרֹא. מָה שֶׁחָשׁוּב זֶה הַצְּלִיל. הָאוֹת A שָׁרָה אֶת הַצְּלִיל שֶׁלָּהּ: אָה. פָּתְחוּ אֶת הַפֶּה וְאָמְרוּ: אָה",
+            "say": "a"
+          },
+          {
+            "title": "Les voyelles chantent toutes seules 🎵",
+            "titleHe": "הַתְּנוּעוֹת שָׁרוֹת לְבַד",
+            "big": "A I O U",
+            "body": "Les voyelles sont faciles : on les entend telles quelles. A dit aaa, I dit iii, O dit ooo, U dit uuu. Ecoute et repete apres Levy.",
+            "bodyHe": "הַתְּנוּעוֹת קַלּוֹת: שׁוֹמְעִים אוֹתָן כְּמוֹ שֶׁהֵן. A אוֹמֶרֶת אָה, I אוֹמֶרֶת אִי, O אוֹמֶרֶת אוֹ, U אוֹמֶרֶת אוֹ. הַקְשִׁיבוּ וְחָזְרוּ אַחֲרֵי לֵוִי",
+            "say": "o"
+          },
+          {
+            "title": "Le grand secret : coller deux sons 🔗",
+            "titleHe": "הַסּוֹד הַגָּדוֹל לְהַדְבִּיק שְׁנֵי צְלִילִים",
+            "big": "M + A → MA",
+            "body": "Voici le secret de la lecture : on COLLE la consonne a la voyelle. On ne dit pas em-a, on glisse tout de suite : mmma... MA ! Ecoute !",
+            "bodyHe": "זֶה הַסּוֹד שֶׁל הַקְּרִיאָה: מַדְבִּיקִים אֶת הָעִצּוּר לַתְּנוּעָה. לֹא אוֹמְרִים אִם-אָה, מַחְלִיקִים מִיָּד: מִמָּמָה... MA. תַּקְשִׁיבוּ",
+            "say": "ma"
+          },
+          {
+            "title": "La meme consonne, d'autres voyelles",
+            "titleHe": "אוֹתוֹ עִצּוּר תְּנוּעוֹת אֲחֵרוֹת",
+            "big": "MA MO MU",
+            "body": "Le M ne change pas, mais la voyelle change le son : M+A fait MA, M+O fait MO, M+U fait MU. La voyelle commande ! Ecoute bien la fin.",
+            "bodyHe": "ה M לֹא מִשְׁתַּנֶּה אֲבָל הַתְּנוּעָה מְשַׁנָּה אֶת הַצְּלִיל: M וְעוֹד A זֶה MA, M וְעוֹד O זֶה MO, M וְעוֹד U זֶה MU. הַתְּנוּעָה מַחְלִיטָה. הַקְשִׁיבוּ לַסּוֹף",
+            "say": "mu"
+          },
+          {
+            "title": "Deux syllabes → un mot : MAMAN 💛",
+            "titleHe": "שְׁתֵּי הֲבָרוֹת מִלָּה אַחַת",
+            "big": "MA·MAN",
+            "body": "Quand on colle deux syllabes, on obtient un mot. MA et MAN font MAMAN. Tu viens de LIRE ton premier mot, tu n'as pas devine !",
+            "bodyHe": "כְּשֶׁמַּדְבִּיקִים שְׁתֵּי הֲבָרוֹת מְקַבְּלִים מִלָּה. MA ו MAN אוֹמְרִים MAMAN. הָרֶגַע קְרָאתֶם אֶת הַמִּלָּה הָרִאשׁוֹנָה שֶׁלָּכֶם, לֹא נִחַשְׁתֶּם",
+            "say": "maman"
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "type": "blend",
+          "prompt": "Regarde M et A se coller. Quelle syllabe entends-tu ?",
+          "promptHe": "תִּרְאוּ אֶת M ו A נִדְבָּקִים. אֵיזוֹ הֲבָרָה שְׁמַעְתֶּם",
+          "c": "m",
+          "v": "a",
+          "syll": "ma",
+          "say": "ma",
+          "choices": [
+            "ma",
+            "mo",
+            "mu"
+          ],
+          "answer": 0,
+          "explain": "M glisse vers A : mmma... MA, comme le debut de MAMAN.",
+          "explainHe": "M מַחְלִיק אֶל A: מִמָּמָה... MA כְּמוֹ הַהַתְחָלָה שֶׁל MAMAN"
+        },
+        {
+          "type": "blend",
+          "prompt": "M se colle a O. Quelle syllabe entends-tu ?",
+          "promptHe": "M נִדְבַּק ל O. אֵיזוֹ הֲבָרָה שְׁמַעְתֶּם",
+          "c": "m",
+          "v": "o",
+          "syll": "mo",
+          "say": "mo",
+          "choices": [
+            "ma",
+            "mo",
+            "mu"
+          ],
+          "answer": 1,
+          "explain": "La bouche s'arrondit pour le O : MO, comme le debut de MOTO.",
+          "explainHe": "הַפֶּה מִתְעַגֵּל בִּשְׁבִיל O: MO כְּמוֹ הַהַתְחָלָה שֶׁל MOTO"
+        },
+        {
+          "type": "blend",
+          "prompt": "M se colle a U. Ecoute bien la fin.",
+          "promptHe": "M נִדְבַּק ל U. הַקְשִׁיבוּ לַסּוֹף",
+          "c": "m",
+          "v": "u",
+          "syll": "mu",
+          "say": "mu",
+          "choices": [
+            "mu",
+            "mo",
+            "ma"
+          ],
+          "answer": 0,
+          "explain": "On pousse les levres pour U : MU. Ecoute la difference avec MO et MA.",
+          "explainHe": "מוֹצִיאִים אֶת הַשְּׂפָתַיִם בִּשְׁבִיל U: MU. תַּקְשִׁיבוּ לַהֶבְדֵּל מ MO וּמִ MA"
+        },
+        {
+          "type": "blend",
+          "prompt": "L se colle a A. Quelle syllabe entends-tu ?",
+          "promptHe": "L נִדְבַּק ל A. אֵיזוֹ הֲבָרָה שְׁמַעְתֶּם",
+          "c": "l",
+          "v": "a",
+          "syll": "la",
+          "say": "la",
+          "choices": [
+            "la",
+            "li",
+            "lu"
+          ],
+          "answer": 0,
+          "explain": "La langue touche en haut puis glisse : LA.",
+          "explainHe": "הַלָּשׁוֹן נוֹגַעַת לְמַעְלָה וְאָז מַחְלִיקָה: LA"
+        },
+        {
+          "type": "blend",
+          "prompt": "L se colle a I. Ecoute le son fin.",
+          "promptHe": "L נִדְבַּק ל I. הַקְשִׁיבוּ לַצְּלִיל הַדַּק",
+          "c": "l",
+          "v": "i",
+          "syll": "li",
+          "say": "li",
+          "choices": [
+            "la",
+            "li",
+            "lu"
+          ],
+          "answer": 1,
+          "explain": "Le I fait un son fin et clair : LI, comme dans LIT.",
+          "explainHe": "ה I עוֹשֶׂה צְלִיל דַּק וּבָרוּר: LI כְּמוֹ בַּמִּטָּה"
+        },
+        {
+          "type": "blend",
+          "prompt": "S et A se rejoignent. Qu'entends-tu ?",
+          "promptHe": "S ו A נִפְגָּשִׁים. מָה שְׁמַעְתֶּם",
+          "c": "s",
+          "v": "a",
+          "syll": "sa",
+          "say": "sa",
+          "choices": [
+            "sa",
+            "so",
+            "su"
+          ],
+          "answer": 0,
+          "explain": "S siffle comme un serpent, puis A : SA, comme le debut de SALADE.",
+          "explainHe": "S שׁוֹרֵק כְּמוֹ נָחָשׁ וְאָז A: SA כְּמוֹ הַהַתְחָלָה שֶׁל SALADE"
+        },
+        {
+          "type": "blend",
+          "prompt": "S se colle a O. Quelle syllabe ?",
+          "promptHe": "S נִדְבַּק ל O. אֵיזוֹ הֲבָרָה",
+          "c": "s",
+          "v": "o",
+          "syll": "so",
+          "say": "so",
+          "choices": [
+            "sa",
+            "so",
+            "su"
+          ],
+          "answer": 1,
+          "explain": "Le serpent, puis la bouche ronde : SO.",
+          "explainHe": "הַנָּחָשׁ, וְאָז הַפֶּה הֶעָגֹל: SO"
+        },
+        {
+          "type": "blend",
+          "prompt": "S se colle a U. Ecoute la difference avec SO.",
+          "promptHe": "S נִדְבַּק ל U. הַקְשִׁיבוּ לַהֶבְדֵּל מ SO",
+          "c": "s",
+          "v": "u",
+          "syll": "su",
+          "say": "su",
+          "choices": [
+            "so",
+            "su",
+            "sa"
+          ],
+          "answer": 1,
+          "explain": "Levres en avant pour U : SU.",
+          "explainHe": "שְׂפָתַיִם קָדִימָה בִּשְׁבִיל U: SU"
+        },
+        {
+          "type": "blend",
+          "prompt": "R et A roulent ensemble. Qu'entends-tu ?",
+          "promptHe": "R ו A מִתְגַּלְגְּלִים יַחַד. מָה שְׁמַעְתֶּם",
+          "c": "r",
+          "v": "a",
+          "syll": "ra",
+          "say": "ra",
+          "choices": [
+            "ra",
+            "ro",
+            "ru"
+          ],
+          "answer": 0,
+          "explain": "R gratte au fond, puis A : RA. On glisse sans s'arreter.",
+          "explainHe": "R מְגָרֵד מֵאָחוֹר וְאָז A: RA. מַחְלִיקִים בְּלִי לַעֲצֹר"
+        },
+        {
+          "type": "blend",
+          "prompt": "R se colle a O. Attention a la fin !",
+          "promptHe": "R נִדְבַּק ל O. שִׂימוּ לֵב לַסּוֹף",
+          "c": "r",
+          "v": "o",
+          "syll": "ro",
+          "say": "ro",
+          "choices": [
+            "ra",
+            "ro",
+            "ru"
+          ],
+          "answer": 1,
+          "explain": "La bouche s'arrondit : RO.",
+          "explainHe": "הַפֶּה מִתְעַגֵּל: RO"
+        },
+        {
+          "type": "blend",
+          "prompt": "R se colle a U. Ecoute bien les levres.",
+          "promptHe": "R נִדְבַּק ל U. הַקְשִׁיבוּ לַשְּׂפָתַיִם",
+          "c": "r",
+          "v": "u",
+          "syll": "ru",
+          "say": "ru",
+          "choices": [
+            "ru",
+            "ro",
+            "ra"
+          ],
+          "answer": 0,
+          "explain": "Levres en avant pour U : RU. Ne confonds pas avec RO.",
+          "explainHe": "שְׂפָתַיִם קָדִימָה בִּשְׁבִיל U: RU. אַל תִּתְבַּלְבְּלוּ עִם RO"
+        }
+      ],
+      "joke": {
+        "q": "Quelle est la lettre la plus fraîche de l'alphabet ?",
+        "qHe": "מָה הָאוֹת הֲכִי קְרִירָה בָּאָלֶף־בֵּית?",
+        "a": "Le F, parce qu'il fait « frais » ! 😄",
+        "aHe": "הָאוֹת F, כִּי הִיא עוֹשָׂה «פְרֶה» (קָרִיר)! 😄"
+      }
+    },
+    {
       id: "n2-s1",
       name: "M et L",
       nameHe: "M וְ-L",

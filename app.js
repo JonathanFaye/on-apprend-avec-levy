@@ -380,6 +380,18 @@
      ============================================================ */
 
   /* ---------- Écran profils ---------- */
+  // personnages : un enfant qui ne lit pas encore choisit son animal (pas besoin d'écrire)
+  const AVATARS = [
+    ["🦁", "Lion"], ["🦊", "Renard"], ["🐼", "Panda"], ["🐢", "Tortue"],
+    ["🐰", "Lapin"], ["🐧", "Pingouin"], ["🐱", "Chat"], ["🦄", "Licorne"]
+  ];
+  function createProfile(name, avatar) {
+    let key = name, i = 2;
+    while (store.profiles[key]) { key = name + " " + i; i++; }
+    store.profiles[key] = { done: {}, skipped: {}, created: new Date().toISOString(), avatar: avatar || "🧒" };
+    store.current = key; save();
+    screenPlacementIntro();
+  }
   function screenSplash() {
     stopAudio();
     const names = Object.keys(store.profiles);
@@ -387,7 +399,7 @@
       const p = store.profiles[n];
       const st = Object.values(p.done || {}).reduce((s, v) => s + (v || 0), 0);
       return '<div class="profile-row" data-name="' + esc(n) + '">' +
-        '<span class="avatar">🧒</span><span class="pname">' + esc(n) + "</span>" +
+        '<span class="avatar">' + (p.avatar || "🧒") + '</span><span class="pname">' + esc(n) + "</span>" +
         '<span class="stars">⭐ ' + st + "</span>" +
         '<button class="del" data-del="' + esc(n) + '" aria-label="supprimer">✕</button>' +
         "</div>";
@@ -399,11 +411,14 @@
       "<h1>On apprend avec <span class=\"fr\">Levy</span> !</h1>" +
       '<div class="subtitle">Le français, c\'est facile et rigolo 🇫🇷' + he("לוֹמְדִים צָרְפָתִית עִם לֵוִי! קַל וְכֵיף") + "</div>" +
       '<div class="profiles-list">' + rows + "</div>" +
-      '<div class="newplayer-form">' +
-      '<input id="newname" maxlength="14" placeholder="Ton prénom..." autocomplete="off">' +
-      '<button class="btn btn-accent" id="addplayer">Jouer !</button>' +
+      '<div class="new-title">Choisis ton personnage' + he("בַּחֲרוּ דְּמוּת") + "</div>" +
+      '<div class="avatar-grid">' +
+      AVATARS.map(a => '<button class="avatar-pick" data-av="' + a[0] + '" data-nm="' + a[1] + '" aria-label="' + a[1] + '">' + a[0] + "</button>").join("") +
       "</div>" +
-      (names.length === 0 ? '<div class="subtitle" style="margin-top:6px">Écris ton prénom pour commencer' + he("כִּתְבוּ אֶת הַשֵּׁם שֶׁלָּכֶם כְּדֵי לְהַתְחִיל") + "</div>" : "") +
+      '<div class="newplayer-form">' +
+      '<input id="newname" maxlength="14" placeholder="ou écris ton prénom..." autocomplete="off">' +
+      '<button class="btn btn-accent" id="addplayer">OK</button>' +
+      "</div>" +
       '<div class="splash-tools">' +
       '<button class="chip" id="he-toggle" style="border:none;box-shadow:var(--shadow);padding:9px 16px;border-radius:14px;background:' + (store.heOn ? "var(--primary);color:#fff" : "#fff") + '">עִבְרִית ' + (store.heOn ? "✓" : "") + "</button>" +
       '<button class="chip" id="backup-btn" style="border:none;box-shadow:var(--shadow);padding:9px 16px;border-radius:14px;background:#fff">💾 Sauvegarde</button>' +
@@ -433,6 +448,7 @@
         });
       });
     });
+    $screen.querySelectorAll(".avatar-pick").forEach(b => b.addEventListener("click", () => createProfile(b.dataset.nm, b.dataset.av)));
     document.getElementById("addplayer").addEventListener("click", addPlayer);
     document.getElementById("newname").addEventListener("keydown", e => { if (e.key === "Enter") addPlayer(); });
     document.getElementById("he-toggle").addEventListener("click", () => {
@@ -443,10 +459,8 @@
     function addPlayer() {
       const name = document.getElementById("newname").value.trim();
       if (!name) return;
-      const isNew = !store.profiles[name];
-      if (isNew) store.profiles[name] = { done: {}, skipped: {}, created: new Date().toISOString() };
-      store.current = name; save();
-      if (isNew) screenPlacementIntro(); else screenMap();
+      if (store.profiles[name]) { store.current = name; save(); screenMap(); }
+      else createProfile(name, "🧒");
     }
   }
 
@@ -491,6 +505,7 @@
       '<span class="chip">⭐ ' + totalStars() + "</span>" +
       (streak > 0 ? '<span class="chip streak-chip">🔥 ' + streak + "</span>" : "") +
       '<span style="flex:1"></span>' +
+      '<button class="chip" id="album" aria-label="Mon album">🗂️</button>' +
       '<button class="chip" id="badges" aria-label="Mes badges">🏆</button>' +
       '<button class="chip' + (store.soundOn ? " active" : "") + '" id="snd" aria-label="' + (store.soundOn ? "Couper le son" : "Activer le son") + '">' + (store.soundOn ? "🔊" : "🔇") + "</button>" +
       '<button class="chip' + (store.heOn ? " active" : "") + '" id="hebtn" aria-label="Afficher/masquer l\'hébreu">ע</button>' +
@@ -505,6 +520,7 @@
     document.getElementById("snd").addEventListener("click", () => { store.soundOn = !store.soundOn; save(); screenMap(); });
     document.getElementById("hebtn").addEventListener("click", () => { store.heOn = !store.heOn; save(); screenMap(); });
     document.getElementById("badges").addEventListener("click", screenBadges);
+    document.getElementById("album").addEventListener("click", screenStickers);
     document.getElementById("parents").addEventListener("click", screenResources);
     const rb = document.getElementById("resume");
     if (rb) rb.addEventListener("click", () => {
@@ -683,6 +699,20 @@
           choicesHTML(ex.choices, false);
         break;
       }
+      case "blend": {
+        // fusion : la consonne et la voyelle se rapprochent et forment la syllabe (méthode syllabique)
+        body =
+          '<div class="blend-visual">' +
+          '<span class="blend-c">' + esc((ex.c || "").toUpperCase()) + "</span>" +
+          '<span class="blend-op">+</span>' +
+          '<span class="blend-v">' + esc((ex.v || "").toUpperCase()) + "</span>" +
+          '<span class="blend-eq">=</span>' +
+          '<span class="blend-syll">' + esc((ex.syll || "").toUpperCase()) + "</span>" +
+          "</div>" +
+          '<button class="say-btn big" id="sayb">🔊 Écoute la syllabe</button>' +
+          choicesHTML(ex.choices, false);
+        break;
+      }
       case "build": {
         body =
           (ex.say ? '<button class="say-btn" id="sayb">🔊 Écoute</button>' : "") +
@@ -752,16 +782,17 @@
       });
     });
 
+    const sayText = ex.say || ex.syll; // blend : on lit la syllabe
     const sayb = document.getElementById("sayb");
-    if (sayb) sayb.addEventListener("click", () => { sayb.classList.remove("hint"); speak(ex.say); });
+    if (sayb) sayb.addEventListener("click", () => { sayb.classList.remove("hint"); speak(sayText); });
     // Levy dit automatiquement le son/mot cible sur TOUS les exercices (l'enfant qui
     // ne lit pas encore entend le modèle sans avoir à chercher un bouton). Si le mp3
     // est bloqué (auto sur mobile), le gros bouton 🔊 le rejoue au toucher.
-    if (ex.say) setTimeout(() => speak(ex.say), 450);
-    if (sayb && ex.say) sayb.classList.add("hint");
+    if (sayText) setTimeout(() => speak(sayText), 450);
+    if (sayb && sayText) sayb.classList.add("hint");
 
     /* ----- branchements par type ----- */
-    if (["pick", "riddle", "listen", "fill"].includes(ex.type)) {
+    if (["pick", "riddle", "listen", "fill", "blend"].includes(ex.type)) {
       let wrongs = 0;
       const fillBlank = () => {
         if (ex.type === "fill") {
@@ -1024,6 +1055,11 @@
     save();
     touchStreak();
     checkNewBadges();
+    // 1re fois qu'on termine cette étape : on gagne un autocollant pour l'album
+    if (prev === null) {
+      const st = STICKERS[stickersUnlocked() - 1];
+      if (st) setTimeout(() => { confetti(30); toast("clap", "Nouvel autocollant ! " + st, "מַדְבֵּקָה חֲדָשָׁה!"); }, 500);
+    }
 
     const rating = starRating(stars, sub.exercises.length);
     confetti(rating === 3 ? 110 : 55);
@@ -1176,6 +1212,36 @@
       '<div class="subtitle" style="margin:2px 0 10px">' + got + " / " + defs.length + " badges gagnés" +
       he(got + " מִתּוֹךְ " + defs.length + " תָּגִים") + "</div>" +
       '<div class="badges-grid">' + grid + "</div>" +
+      "</div>";
+    document.getElementById("back").addEventListener("click", screenMap);
+  }
+
+  /* ============================================================
+     Album d'autocollants : chaque étape terminée en débloque un (collection)
+     ============================================================ */
+  const STICKERS = ("🌟 🐱 🐶 🐟 🐢 🐰 🦊 🐼 🦁 🐸 🦋 🐝 🐬 🦉 🌸 🌻 🌈 🌳 ☀️ 🌙 🎈 🎨 🚀 🚗 🚲 🏰 🍎 🍕 🍦 🎁 🏆 👑 🎂 🪁 ⚽ 🎪 🐧 🦄 🌍 ⭐").split(" ");
+  function stickersUnlocked() {
+    const p = profile();
+    const n = p && p.done ? Object.keys(p.done).length : 0;
+    return Math.min(STICKERS.length, n);
+  }
+  function screenStickers() {
+    stopAudio();
+    const n = stickersUnlocked();
+    const grid = STICKERS.map((s, i) =>
+      '<div class="sticker' + (i < n ? " got" : "") + '">' + (i < n ? s : "❔") + "</div>"
+    ).join("");
+    $screen.innerHTML =
+      '<div class="screen">' +
+      '<div class="topbar">' +
+      '<button class="back" id="back" aria-label="Retour">←</button>' +
+      '<span class="title">🗂️ Mon album' + he("הָאַלְבּוֹם שֶׁלִּי") + "</span>" +
+      "</div>" +
+      '<div class="streak-banner">' + n + " / " + STICKERS.length + " autocollants" +
+      he("מַדְבֵּקוֹת") + "</div>" +
+      '<p class="subtitle" style="margin:2px 0 10px">Finis une étape pour gagner un autocollant !' +
+      he("סַיְּמוּ שָׁלָב כְּדֵי לְקַבֵּל מַדְבֵּקָה!") + "</p>" +
+      '<div class="stickers-grid">' + grid + "</div>" +
       "</div>";
     document.getElementById("back").addEventListener("click", screenMap);
   }
