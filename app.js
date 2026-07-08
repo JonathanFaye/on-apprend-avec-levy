@@ -230,6 +230,22 @@
   }
   function isSubDone(subId) { return subStars(subId) !== null; }
   function levelDone(level) { return isSubDone(level.sublevels[level.sublevels.length - 1].id); }
+  // note de maîtrise sur 3 étoiles (objectif clair pour un enfant) à partir du % de
+  // bonnes réponses du premier coup : <60% = 1, 60-99% = 2, 100% = 3
+  function starRating(correct, total) {
+    if (!total) return 1;
+    const pct = Math.min(1, (correct || 0) / total);
+    return pct >= 1 ? 3 : pct >= 0.6 ? 2 : 1;
+  }
+  function subRating(sub) {
+    const c = subStars(sub.id);
+    return c === null ? null : starRating(c, sub.exercises.length);
+  }
+  function stars3HTML(rating) {
+    return '<span class="stars3">' + [1, 2, 3].map(i =>
+      '<span class="star3' + (i <= rating ? " on" : "") + '" style="animation-delay:' + (0.15 + i * 0.28) + 's">★</span>'
+    ).join("") + "</span>";
+  }
   function isLevelUnlocked(idx) {
     if (idx === 0) return true;
     return levelDone(LEVELS[idx - 1]);
@@ -523,7 +539,7 @@
         '<span class="sub-info">' +
         '<span class="sub-name">' + esc(sub.name) + he(sub.nameHe) + "</span>" +
         (skipped && !st ? '<span class="sub-stars">🔓 validé — tu peux le jouer quand même !</span>'
-          : st !== null ? '<span class="sub-stars">⭐ ' + st + "/" + total + (st < total ? " — tu peux faire mieux !" : " — parfait !") + "</span>" : "") +
+          : st !== null ? '<span class="sub-stars">' + stars3HTML(starRating(st, total)) + (starRating(st, total) < 3 ? ' <span class="sub-hint">rejoue pour 3 ⭐</span>' : "") + "</span>" : "") +
         "</span>" +
         "</button>";
     }).join("");
@@ -737,25 +753,49 @@
     });
 
     const sayb = document.getElementById("sayb");
-    if (sayb) sayb.addEventListener("click", () => speak(ex.say));
-    if (ex.type === "listen" || ex.type === "type") setTimeout(() => speak(ex.say, null, null, true), 450);
+    if (sayb) sayb.addEventListener("click", () => { sayb.classList.remove("hint"); speak(ex.say); });
+    // Levy dit automatiquement le son/mot cible sur TOUS les exercices (l'enfant qui
+    // ne lit pas encore entend le modèle sans avoir à chercher un bouton). Si le mp3
+    // est bloqué (auto sur mobile), le gros bouton 🔊 le rejoue au toucher.
+    if (ex.say) setTimeout(() => speak(ex.say), 450);
+    if (sayb && ex.say) sayb.classList.add("hint");
 
     /* ----- branchements par type ----- */
     if (["pick", "riddle", "listen", "fill"].includes(ex.type)) {
+      let wrongs = 0;
+      const fillBlank = () => {
+        if (ex.type === "fill") {
+          const blank = document.getElementById("blank");
+          if (blank) { blank.textContent = ex.choices[ex.answer]; blank.style.color = "var(--good)"; }
+        }
+      };
+      // après 2 essais ratés : on guide vers la bonne réponse (elle s'illumine, l'enfant
+      // la touche) pour toujours finir sur une réussite plutôt que sur une énième erreur
+      const guideToAnswer = () => {
+        $screen.querySelectorAll(".choice").forEach(b => {
+          if (+b.dataset.idx === ex.answer) { b.disabled = false; b.classList.add("correct", "reveal"); }
+          else b.disabled = true;
+        });
+      };
       $screen.querySelectorAll(".choice").forEach(btn => {
         btn.addEventListener("click", () => {
           const idx = +btn.dataset.idx;
           if (idx === ex.answer) {
             btn.classList.add("correct");
-            if (ex.type === "fill") {
-              const blank = document.getElementById("blank");
-              if (blank) { blank.textContent = ex.choices[idx]; blank.style.color = "var(--good)"; }
+            fillBlank();
+            if (btn.classList.contains("reveal")) {
+              // réussite guidée : on félicite doucement et on avance (l'étoile est déjà perdue)
+              dingGood(); toast("happy", "Voilà, c'est celle-là ! 👏", "הִנֵּה, זֶה זֶה!");
+              lockChoices();
+              setTimeout(() => { session.i++; renderExercise(session); }, 900);
+            } else {
+              onCorrect(session, ex);
             }
-            onCorrect(session, ex);
           } else {
             btn.classList.add("wrong");
             btn.disabled = true;
-            onWrong(session, ex, ex.choices[ex.answer]);
+            wrongs++;
+            onWrong(session, ex, ex.choices[ex.answer], null, wrongs >= 2 ? guideToAnswer : null);
           }
         });
       });
@@ -904,9 +944,11 @@
     document.getElementById("next-ex").addEventListener("click", go);
   }
 
-  function onWrong(session, ex, correctAnswer, onClose) {
+  function onWrong(session, ex, correctAnswer, onClose, onGuide) {
     const first = !session.failedThis;
-    if (!session.placement) dingBad(); // pas de buzzer pendant le test de placement : premiere impression plus douce
+    // pas de buzzer pendant le placement, NI quand on va guider vers la réponse (2e échec) :
+    // on ne veut pas empiler les sons négatifs, l'enfant va finir sur une réussite
+    if (!session.placement && !onGuide) dingBad();
     session.failedThis = true;
     if (first && !session.placement) {
       session.missedQueue = session.missedQueue || [];
@@ -932,7 +974,9 @@
     if (expSay) expSay.addEventListener("click", function () { speak(ex.explain || ex.say || "", null, expSay); });
     document.getElementById("ok-btn").addEventListener("click", () => {
       $overlay.classList.add("hidden");
-      if (onClose && first) {
+      if (onGuide) {
+        onGuide(); // choix, 2e échec : on illumine la bonne réponse, l'enfant la touche
+      } else if (onClose && first) {
         onClose(); // dictée : nouvel essai
       } else if (onClose && !first) {
         session.i++; renderExercise(session);
@@ -981,19 +1025,21 @@
     touchStreak();
     checkNewBadges();
 
-    confetti(60);
-    dingGood();
-    const pct = stars / total;
-    const bigMsg = pct === 1 ? "PARFAIT !" : pct >= 0.7 ? "Bravo !" : "C'est fait !";
+    const rating = starRating(stars, sub.exercises.length);
+    confetti(rating === 3 ? 110 : 55);
     const isLastOfLevel = session.subIdx === lv.sublevels.length - 1;
     const finished = gameFinished();
+    const bigMsg = rating === 3 ? "PARFAIT !" : rating === 2 ? "Bravo !" : "C'est fait !";
+    // son ascendant : une note par étoile gagnée (do-mi-sol)
+    [523, 659, 784].slice(0, rating).forEach((f, i) => setTimeout(() => beep([f], 0.18), 300 + i * 300));
 
     $screen.innerHTML =
       '<div class="screen results" style="--lvl:' + lv.color + '">' +
-      '<div class="mascot-wrap mascot-dance">' + mascotSVG("cheer") + "</div>" +
+      '<div class="mascot-wrap mascot-dance">' + mascotSVG(rating === 3 ? "clap" : "cheer") + "</div>" +
       "<h2>" + bigMsg + "</h2>" +
-      '<div class="stars-big">' + "⭐".repeat(Math.max(1, stars)) + "</div>" +
-      '<div class="score-line">' + stars + " / " + total + " du premier coup" + he(stars + " מִתּוֹךְ " + total + " בְּנִסָּיוֹן רִאשׁוֹן") + "</div>" +
+      stars3HTML(rating) +
+      '<div class="score-line">' + (rating < 3 ? "Rejoue cette étape pour gagner les 3 étoiles ⭐" : "Trois étoiles, incroyable ! 🌟") +
+      he(rating < 3 ? "שַׂחֲקוּ שׁוּב כְּדֵי לְקַבֵּל 3 כּוֹכָבִים" : "שְׁלוֹשָׁה כּוֹכָבִים, מַדְהִים!") + "</div>" +
       (isLastOfLevel ? '<div class="score-line" style="font-weight:700;color:' + lv.color + '">🏅 Niveau ' + lv.order + " terminé ! Mazal Tov !</div>" : "") +
       '<div class="joke-card">' +
       '<div class="joke-label">🎁 Ta blague récompense !</div>' +

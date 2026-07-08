@@ -589,3 +589,26 @@ button { font-family: inherit; border: none; cursor: pointer; color: inherit; ba
 .cx-let { font-size: 2.2rem; font-weight: 700; color: var(--ink); }
 .cx-img { font-size: 2.4rem; }
 @media print { .cx-cell { border-color: #333; } }
+
+/* ---- note de maîtrise sur 3 étoiles ---- */
+.stars3 { display: inline-flex; gap: 6px; align-items: center; }
+.star3 { color: #DDD5C6; line-height: 1; font-size: 1.5rem; }
+.star3.on { color: var(--accent); animation: starPop 0.45s cubic-bezier(.2,.8,.3,1.7) backwards; }
+.results .stars3 { justify-content: center; margin: 6px 0 4px; }
+.results .star3 { font-size: 3.1rem; }
+@keyframes starPop { 0% { transform: scale(0) rotate(-45deg); opacity: 0; } 60% { transform: scale(1.35) rotate(10deg); } 100% { transform: scale(1) rotate(0); opacity: 1; } }
+.sub-stars { display: flex; align-items: center; gap: 8px; }
+.sub-hint { font-size: .78rem; color: var(--ink-soft); font-weight: 500; }
+
+/* ---- accessibilité : bouton Écoute qui invite au toucher ---- */
+.say-btn.hint { animation: sayHint 1.3s ease-in-out infinite; }
+@keyframes sayHint {
+  0%,100% { transform: scale(1); box-shadow: 0 3px 0 rgba(74,144,217,.25); }
+  50% { transform: scale(1.05); box-shadow: 0 3px 0 rgba(74,144,217,.25), 0 0 0 7px rgba(74,144,217,.14); }
+}
+/* ---- réponse révélée après 2 essais : elle appelle le doigt ---- */
+.choice.reveal { animation: revealPulse 0.9s ease-in-out infinite; position: relative; }
+@keyframes revealPulse {
+  0%,100% { box-shadow: 0 0 0 0 rgba(52,168,83,.55); }
+  50% { box-shadow: 0 0 0 9px rgba(52,168,83,0); }
+}
