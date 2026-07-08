@@ -482,12 +482,14 @@
       resumeHTML +
       (gameFinished() ? '<button class="btn btn-accent" id="dipbtn" style="margin-bottom:12px">🎓 Mon diplôme !</button>' : "") +
       (LEVELS.length === 0 ? '<p style="text-align:center;margin-top:40px">Contenu en cours de chargement...</p>' : cards) +
+      '<button class="parents-btn" id="parents">👨‍👩‍👧 Coin des parents' + he("פִּנַּת הַהוֹרִים") + "</button>" +
       "</div>";
 
     document.getElementById("switch").addEventListener("click", () => { screenSplash(); });
     document.getElementById("snd").addEventListener("click", () => { store.soundOn = !store.soundOn; save(); screenMap(); });
     document.getElementById("hebtn").addEventListener("click", () => { store.heOn = !store.heOn; save(); screenMap(); });
     document.getElementById("badges").addEventListener("click", screenBadges);
+    document.getElementById("parents").addEventListener("click", screenResources);
     const rb = document.getElementById("resume");
     if (rb) rb.addEventListener("click", () => {
       const lp = profile().lastPos;
@@ -1223,6 +1225,209 @@
       });
       r.readAsText(f);
     });
+  }
+
+  /* ============================================================
+     Coin des parents : fiches à imprimer, règles & astuces, coloriages
+     ============================================================ */
+  const RES_WORDS = [
+    ["moto", "🏍️", "M"], ["pizza", "🍕", "P"], ["tortue", "🐢", "T"], ["vélo", "🚲", "V"],
+    ["chat", "🐱", "C"], ["soleil", "☀️", "S"], ["lune", "🌙", "L"], ["banane", "🍌", "B"],
+    ["fleur", "🌸", "F"], ["poisson", "🐟", "P"], ["maison", "🏠", "M"], ["ballon", "🎈", "B"]
+  ];
+  const RES_COPY = ["papa", "maman", "moto", "chat", "vélo", "lune", "école", "ami", "bravo", "merci"];
+
+  const RES_RULES = [
+    {
+      t: "Les voyelles et les consonnes", e: "🔤",
+      html:
+        "<p>En français, il y a <b>6 voyelles</b> : <b>a, e, i, o, u, y</b>. Toutes les autres lettres sont des <b>consonnes</b>.</p>" +
+        "<p><b>L'astuce :</b> une syllabe a presque toujours une voyelle. Pour lire, on accroche une consonne à une voyelle : <b>m + a = ma</b>, <b>p + i = pi</b>.</p>" +
+        "<p>Entraînez votre enfant à « chanter » la syllabe : <i>mmmm-a &#8594; ma</i>.</p>"
+    },
+    {
+      t: "Les sons à deux lettres", e: "✨",
+      html:
+        "<p>Certaines lettres se mettent ensemble pour faire <b>un seul son</b> :</p>" +
+        "<ul><li><b>ch</b> comme dans <i>chat</i></li><li><b>ou</b> comme dans <i>poule</i></li>" +
+        "<li><b>on</b> comme dans <i>bonbon</i></li><li><b>an</b> comme dans <i>grand</i></li>" +
+        "<li><b>au / eau</b> comme dans <i>bateau</i></li><li><b>oi</b> comme dans <i>roi</i></li></ul>" +
+        "<p><b>L'astuce :</b> quand on voit deux lettres qui font un son, on ne les lit pas séparément. On montre le groupe avec le doigt et on dit le son en entier.</p>"
+    },
+    {
+      t: "Aider mon enfant à lire à la maison", e: "🏠",
+      html:
+        "<p>Quelques idées simples, 10 minutes par jour suffisent :</p>" +
+        "<ul><li>Lire à voix haute <b>avec</b> lui, en suivant les mots du doigt.</li>" +
+        "<li>Chercher des lettres ou des sons <b>autour de vous</b> (panneaux, boîtes, livres).</li>" +
+        "<li>Féliciter chaque effort, même petit. On apprend mieux en confiance.</li>" +
+        "<li>Faire de courtes séances régulières plutôt qu'une longue.</li>" +
+        "<li>Relire plusieurs fois le même mot : la répétition, c'est la clé.</li></ul>"
+    },
+    {
+      t: "Le présent des verbes (CE1)", e: "📝",
+      html:
+        "<p>Au <b>présent</b>, on parle de <b>maintenant</b>. Exemple avec <b>jouer</b> :</p>" +
+        "<ul><li>je jou<b>e</b></li><li>tu jou<b>es</b></li><li>il/elle jou<b>e</b></li>" +
+        "<li>nous jou<b>ons</b></li><li>vous jou<b>ez</b></li><li>ils/elles jou<b>ent</b></li></ul>" +
+        "<p><b>L'astuce :</b> pour les verbes en -er, les terminaisons sont presque toujours <b>-e, -es, -e, -ons, -ez, -ent</b>.</p>"
+    }
+  ];
+
+  // coloriages : dessins au trait (contour noir, à remplir), libres de droit (créés ici)
+  function colorSun() {
+    let rays = "";
+    for (let i = 0; i < 12; i++) {
+      const a = (i * Math.PI) / 6;
+      const x1 = 100 + 55 * Math.cos(a), y1 = 100 + 55 * Math.sin(a);
+      const x2 = 100 + 80 * Math.cos(a), y2 = 100 + 80 * Math.sin(a);
+      rays += '<line x1="' + x1.toFixed(0) + '" y1="' + y1.toFixed(0) + '" x2="' + x2.toFixed(0) + '" y2="' + y2.toFixed(0) + '"/>';
+    }
+    return '<svg viewBox="0 0 200 200">' + rays +
+      '<circle cx="100" cy="100" r="45"/>' +
+      '<circle cx="85" cy="92" r="4"/><circle cx="115" cy="92" r="4"/>' +
+      '<path d="M82 112 Q100 128 118 112"/></svg>';
+  }
+  function colorHouse() {
+    return '<svg viewBox="0 0 200 200">' +
+      '<rect x="55" y="95" width="90" height="80"/>' +
+      '<path d="M45 95 L100 45 L155 95 Z"/>' +
+      '<rect x="88" y="130" width="24" height="45"/>' +
+      '<rect x="66" y="110" width="22" height="22"/><rect x="112" y="110" width="22" height="22"/>' +
+      '<line x1="77" y1="110" x2="77" y2="132"/><line x1="66" y1="121" x2="88" y2="121"/></svg>';
+  }
+  function colorFish() {
+    return '<svg viewBox="0 0 200 200">' +
+      '<path d="M40 100 Q90 55 140 100 Q90 145 40 100 Z"/>' +
+      '<path d="M140 100 L175 75 L175 125 Z"/>' +
+      '<circle cx="70" cy="92" r="5"/>' +
+      '<path d="M95 80 Q105 100 95 120"/><path d="M112 82 Q122 100 112 118"/></svg>';
+  }
+  function colorFlower() {
+    let pet = "";
+    for (let i = 0; i < 6; i++) {
+      const a = (i * Math.PI) / 3;
+      const cx = 100 + 34 * Math.cos(a), cy = 80 + 34 * Math.sin(a);
+      pet += '<ellipse cx="' + cx.toFixed(0) + '" cy="' + cy.toFixed(0) + '" rx="16" ry="24" transform="rotate(' + ((i * 60)) + ' ' + cx.toFixed(0) + ' ' + cy.toFixed(0) + ')"/>';
+    }
+    return '<svg viewBox="0 0 200 200">' + pet +
+      '<circle cx="100" cy="80" r="18"/>' +
+      '<path d="M100 98 L100 175"/><path d="M100 140 Q75 125 70 150"/><path d="M100 155 Q128 140 132 165"/></svg>';
+  }
+  const RES_COLOR = [
+    { t: "Le soleil", sub: "S comme soleil", svg: colorSun },
+    { t: "La maison", sub: "M comme maison", svg: colorHouse },
+    { t: "Le poisson", sub: "P comme poisson", svg: colorFish },
+    { t: "La fleur", sub: "F comme fleur", svg: colorFlower }
+  ];
+
+  function resHeader(title, backFn) {
+    return '<div class="topbar noprint">' +
+      '<button class="back" id="res-back" aria-label="Retour">←</button>' +
+      '<span class="title">' + esc(title) + "</span></div>";
+  }
+
+  function screenResources() {
+    stopAudio();
+    $screen.innerHTML =
+      '<div class="screen">' +
+      resHeader("👨‍👩‍👧 Coin des parents", screenMap) +
+      '<p class="res-intro">Des ressources pour accompagner votre enfant à la maison.</p>' +
+      '<div class="res-cards">' +
+      '<button class="res-card" id="rc-sheets"><span class="rc-emoji">📝</span><span class="rc-t">Fiches à imprimer</span><span class="rc-d">Tracer, relier, recopier</span></button>' +
+      '<button class="res-card" id="rc-rules"><span class="rc-emoji">📖</span><span class="rc-t">Règles &amp; astuces</span><span class="rc-d">Pour aider à apprendre</span></button>' +
+      '<button class="res-card" id="rc-color"><span class="rc-emoji">🎨</span><span class="rc-t">Coloriages</span><span class="rc-d">À imprimer et colorier</span></button>' +
+      "</div></div>";
+    document.getElementById("res-back").addEventListener("click", screenMap);
+    document.getElementById("rc-sheets").addEventListener("click", screenSheets);
+    document.getElementById("rc-rules").addEventListener("click", screenRules);
+    document.getElementById("rc-color").addEventListener("click", screenColoring);
+  }
+
+  const SHEETS = [
+    { id: "trace", t: "Je trace les lettres", e: "✏️" },
+    { id: "relie", t: "Je relie la lettre à l'image", e: "🔗" },
+    { id: "copie", t: "Je recopie les mots", e: "📖" }
+  ];
+  function screenSheets() {
+    stopAudio();
+    $screen.innerHTML =
+      '<div class="screen">' + resHeader("📝 Fiches à imprimer", screenResources) +
+      '<div class="res-list">' +
+      SHEETS.map(s => '<button class="res-item" data-s="' + s.id + '"><span class="ri-emoji">' + s.e + "</span><span>" + esc(s.t) + "</span><span class=\"ri-go\">🖨️</span></button>").join("") +
+      "</div></div>";
+    document.getElementById("res-back").addEventListener("click", screenResources);
+    $screen.querySelectorAll(".res-item").forEach(b => b.addEventListener("click", () => buildSheet(b.dataset.s)));
+  }
+
+  function buildSheet(id) {
+    let title, body;
+    if (id === "trace") {
+      title = "Je trace les lettres";
+      const alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+      body = '<div class="sheet-sub">Repasse sur les lettres, puis écris-les toi-même.</div>' +
+        alpha.map(L => '<div class="trace-row"><span class="trace-big">' + L + '</span><span class="trace-line"></span></div>').join("");
+    } else if (id === "relie") {
+      title = "Je relie la lettre à l'image";
+      const set = shuffle(RES_WORDS).slice(0, 6);
+      const left = set.map(w => '<div class="relie-cell"><span class="relie-letter">' + w[2] + '</span><span class="relie-dot"></span></div>').join("");
+      const right = shuffle(set).map(w => '<div class="relie-cell"><span class="relie-dot"></span><span class="relie-img">' + w[1] + '</span></div>').join("");
+      body = '<div class="sheet-sub">Trace un trait entre chaque lettre et l\'image qui commence par cette lettre.</div>' +
+        '<div class="relie-grid"><div class="relie-col">' + left + '</div><div class="relie-col">' + right + "</div></div>";
+    } else {
+      title = "Je recopie les mots";
+      body = '<div class="sheet-sub">Lis le mot, puis recopie-le sur la ligne.</div>' +
+        RES_COPY.map(w => '<div class="copie-row"><span class="copie-word">' + esc(w) + '</span><span class="copie-line"></span></div>').join("");
+    }
+    showPrintable(title, '<div class="sheet"><h1 class="sheet-title">' + esc(title) + '</h1>' + body +
+      '<div class="sheet-foot">On apprend avec Levy 🇫🇷</div></div>', screenSheets);
+  }
+
+  function screenRules() {
+    stopAudio();
+    $screen.innerHTML =
+      '<div class="screen">' + resHeader("📖 Règles & astuces", screenResources) +
+      '<div class="res-list">' +
+      RES_RULES.map((r, i) => '<button class="res-item" data-r="' + i + '"><span class="ri-emoji">' + r.e + "</span><span>" + esc(r.t) + "</span><span class=\"ri-go\">›</span></button>").join("") +
+      "</div></div>";
+    document.getElementById("res-back").addEventListener("click", screenResources);
+    $screen.querySelectorAll(".res-item").forEach(b => b.addEventListener("click", () => {
+      const r = RES_RULES[+b.dataset.r];
+      showPrintable(r.t, '<div class="sheet rule-sheet"><h1 class="sheet-title">' + r.e + " " + esc(r.t) + "</h1>" + r.html +
+        '<div class="sheet-foot">On apprend avec Levy 🇫🇷</div></div>', screenRules);
+    }));
+  }
+
+  function screenColoring() {
+    stopAudio();
+    $screen.innerHTML =
+      '<div class="screen">' + resHeader("🎨 Coloriages", screenResources) +
+      '<div class="color-grid">' +
+      RES_COLOR.map((c, i) => '<button class="color-thumb" data-c="' + i + '"><div class="color-svg">' + c.svg() + "</div><span>" + esc(c.t) + "</span></button>").join("") +
+      "</div></div>";
+    document.getElementById("res-back").addEventListener("click", screenResources);
+    $screen.querySelectorAll(".color-thumb").forEach(b => b.addEventListener("click", () => {
+      const c = RES_COLOR[+b.dataset.c];
+      showPrintable(c.t, '<div class="sheet color-sheet"><h1 class="sheet-title">' + esc(c.t) + '</h1>' +
+        '<div class="color-sub">' + esc(c.sub) + '</div><div class="color-big">' + c.svg() + "</div>" +
+        '<div class="sheet-foot">On apprend avec Levy 🇫🇷</div></div>', screenColoring);
+    }));
+  }
+
+  // vue imprimable : bouton Imprimer + zone .print-area (seule visible à l'impression)
+  function showPrintable(title, bodyHTML, backFn) {
+    stopAudio();
+    $screen.innerHTML =
+      '<div class="screen print-screen">' +
+      '<div class="topbar noprint">' +
+      '<button class="back" id="p-back" aria-label="Retour">←</button>' +
+      '<span class="title">' + esc(title) + "</span>" +
+      '<button class="chip print-chip" id="p-print">🖨️ Imprimer</button>' +
+      "</div>" +
+      '<div class="print-hint noprint">Touche 🖨️ Imprimer (ou enregistre en PDF) pour l\'avoir sur papier.</div>' +
+      '<div class="print-area">' + bodyHTML + "</div></div>";
+    document.getElementById("p-back").addEventListener("click", backFn);
+    document.getElementById("p-print").addEventListener("click", () => { try { window.print(); } catch (e) {} });
   }
 
   /* ---------- Démarrage ---------- */

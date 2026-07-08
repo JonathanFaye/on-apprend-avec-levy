@@ -457,3 +457,88 @@ button { font-family: inherit; border: none; cursor: pointer; color: inherit; ba
 .correct-levy .comic-bubble .comic-txt { font-size: 1.15rem; white-space: normal; }
 .correct-bar .next-btn { flex: 0 0 auto; width: auto; margin: 0; padding: 13px 24px; font-size: 1.1rem; }
 #app { padding-bottom: 0; }
+
+/* ========== Coin des parents : ressources, fiches, coloriages ========== */
+.parents-btn {
+  display: block; width: 100%; margin: 6px 0 4px; padding: 13px;
+  background: #FFF; color: var(--primary-dark); border: 2px dashed var(--primary);
+  border-radius: 16px; font-weight: 700; font-size: 1rem; cursor: pointer; font-family: var(--font);
+}
+.res-intro { text-align: center; color: var(--ink-soft); margin: 4px 0 14px; }
+.res-cards { display: flex; flex-direction: column; gap: 12px; }
+.res-card {
+  display: flex; flex-direction: column; align-items: center; gap: 3px; text-align: center;
+  background: var(--card); border: none; border-radius: var(--radius); box-shadow: var(--shadow);
+  padding: 18px 14px; cursor: pointer; font-family: var(--font); border-top: 6px solid var(--accent);
+}
+.res-card .rc-emoji { font-size: 2.4rem; }
+.res-card .rc-t { font-weight: 700; font-size: 1.15rem; color: var(--ink); }
+.res-card .rc-d { font-size: .9rem; color: var(--ink-soft); }
+.res-list { display: flex; flex-direction: column; gap: 10px; }
+.res-item {
+  display: flex; align-items: center; gap: 12px; text-align: left;
+  background: var(--card); border: none; border-radius: 16px; box-shadow: var(--shadow);
+  padding: 14px 16px; cursor: pointer; font-family: var(--font); font-weight: 600; font-size: 1.05rem; color: var(--ink);
+}
+.res-item .ri-emoji { font-size: 1.6rem; }
+.res-item span:nth-child(2) { flex: 1; }
+.res-item .ri-go { color: var(--accent-text); font-size: 1.2rem; }
+
+/* grille coloriages */
+.color-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.color-thumb {
+  background: var(--card); border: none; border-radius: 16px; box-shadow: var(--shadow);
+  padding: 12px; cursor: pointer; font-family: var(--font); font-weight: 700; color: var(--ink);
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+}
+.color-thumb .color-svg svg { width: 90px; height: 90px; }
+.color-svg svg, .color-big svg { stroke: var(--ink); fill: none; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+
+/* vue imprimable */
+.print-hint { text-align: center; color: var(--ink-soft); font-size: .9rem; margin: 6px 0 10px; }
+.print-chip { background: var(--good); color: #fff; }
+.print-area { flex: 1; }
+.sheet {
+  background: #fff; color: #111; border-radius: 12px; padding: 18px 20px 26px;
+  box-shadow: var(--shadow); max-width: 720px; margin: 0 auto;
+}
+.sheet-title { text-align: center; font-size: 1.5rem; color: var(--primary-dark); margin-bottom: 6px; }
+.sheet-sub { text-align: center; color: #555; margin-bottom: 16px; font-size: .98rem; }
+.sheet-foot { text-align: center; color: #999; font-size: .8rem; margin-top: 22px; }
+/* tracer */
+.trace-row { display: flex; align-items: center; gap: 14px; padding: 8px 0; border-bottom: 1px dashed #DDD; }
+.trace-big { font-size: 2.4rem; font-weight: 700; color: #CFC7B6; width: 48px; text-align: center; }
+.trace-line { flex: 1; border-bottom: 2px dotted #BBB; height: 30px; }
+/* relier */
+.relie-grid { display: flex; justify-content: space-between; gap: 30px; }
+.relie-col { flex: 1; display: flex; flex-direction: column; gap: 20px; }
+.relie-cell { display: flex; align-items: center; gap: 8px; }
+.relie-col:first-child .relie-cell { justify-content: flex-start; }
+.relie-col:last-child .relie-cell { justify-content: flex-end; }
+.relie-letter { font-size: 1.8rem; font-weight: 700; }
+.relie-img { font-size: 2rem; }
+.relie-dot { width: 12px; height: 12px; border: 2px solid #333; border-radius: 50%; flex-shrink: 0; }
+/* recopier */
+.copie-row { display: flex; align-items: baseline; gap: 12px; padding: 10px 0; }
+.copie-word { font-size: 1.3rem; font-weight: 700; width: 110px; }
+.copie-line { flex: 1; border-bottom: 2px dotted #AAA; height: 24px; }
+/* règles */
+.rule-sheet { text-align: left; }
+.rule-sheet p { margin: 10px 0; line-height: 1.6; }
+.rule-sheet ul { margin: 8px 0 8px 20px; line-height: 1.8; }
+.rule-sheet li { margin: 2px 0; }
+/* coloriage grand */
+.color-sub { text-align: center; color: #555; font-weight: 600; margin-bottom: 10px; }
+.color-big { text-align: center; }
+.color-big svg { width: 100%; max-width: 420px; height: auto; stroke-width: 3.2; }
+
+@media print {
+  body { background: #fff !important; }
+  .noprint, .topbar, .print-hint { display: none !important; }
+  #app { max-width: none; }
+  body * { visibility: hidden; }
+  .print-area, .print-area * { visibility: visible; }
+  .print-area { position: absolute; left: 0; top: 0; width: 100%; }
+  .sheet { box-shadow: none; max-width: none; }
+  .color-big svg { max-width: 60%; }
+}
