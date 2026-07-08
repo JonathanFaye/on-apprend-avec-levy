@@ -318,6 +318,30 @@
     }
   }
 
+  // Coin des parents : petite porte adulte (le contenu est un mur de texte pour adultes,
+  // on évite qu'un enfant l'ouvre par mégarde en tapotant).
+  function parentsGate() {
+    const a = 11 + Math.floor(Math.random() * 78), b = 12 + Math.floor(Math.random() * 77);
+    $overlay.innerHTML =
+      '<div class="mascot-panel">' +
+      '<div class="mascot-wrap">' + mascotSVG("think") + "</div>" +
+      "<h3>Espace parents 👨‍👩‍👧</h3>" +
+      '<div class="explain" style="font-weight:700">Question pour l\'adulte 🧑‍🦳 : combien font ' + a + " + " + b + " ?</div>" +
+      '<input class="type-input" id="pgate-input" inputmode="numeric" autocomplete="off" placeholder="Réponse de l\'adulte...">' +
+      '<button class="btn btn-good" id="pgate-ok">Entrer ✓</button>' +
+      '<button class="btn btn-ghost" id="pgate-cancel">Retour</button>' +
+      "</div>";
+    $overlay.classList.remove("hidden");
+    document.getElementById("pgate-cancel").addEventListener("click", () => $overlay.classList.add("hidden"));
+    document.getElementById("pgate-ok").addEventListener("click", check);
+    document.getElementById("pgate-input").addEventListener("keydown", e => { if (e.key === "Enter") check(); });
+    function check() {
+      const inp = document.getElementById("pgate-input");
+      if (parseInt(inp.value, 10) === a + b) { $overlay.classList.add("hidden"); screenResources(); }
+      else { inp.value = ""; inp.style.borderColor = "var(--bad)"; inp.placeholder = "Hmm... demande à un adulte 😄"; }
+    }
+  }
+
   /* ---------- Test magique de placement ---------- */
   function placementPool(lv) {
     // On ne garde QUE des types non devinables (il faut vraiment décoder pour réussir).
@@ -539,7 +563,7 @@
     document.getElementById("hebtn").addEventListener("click", () => { store.heOn = !store.heOn; save(); screenMap(); });
     document.getElementById("badges").addEventListener("click", screenBadges);
     document.getElementById("album").addEventListener("click", screenStickers);
-    document.getElementById("parents").addEventListener("click", screenResources);
+    document.getElementById("parents").addEventListener("click", parentsGate);
     const chBtn = document.getElementById("challenge");
     if (chBtn) chBtn.addEventListener("click", startChallenge);
     const rb = document.getElementById("resume");
@@ -667,6 +691,14 @@
   function hasAudio(t) { return !!(window.AUDIO_MAP && window.AUDIO_MAP[audioKey(t)]); }
   function dayStrPlus(days) { const d = new Date(); d.setDate(d.getDate() + days); return dayStr(d); }
   function normWord(w) { return String(w).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z]/g, ""); }
+  // tuiles-lettres pour la dictée accessible : les lettres du mot (accents retirés pour
+  // l'affichage tuile) + 1 intrus plausible, mélangées.
+  function makeLetterTiles(word) {
+    const letters = word.normalize("NFD").replace(/[̀-ͯ]/g, "").toUpperCase().replace(/[^A-Z]/g, "").split("");
+    const pool = "BCDFLMNPRSTVOAIU".split("").filter(c => letters.indexOf(c) < 0);
+    const intruder = pool[Math.floor(Math.random() * pool.length)];
+    return shuffle(intruder ? letters.concat([intruder]) : letters);
+  }
 
   // POINT 1 : reposer un item raté sous une AUTRE forme (l'enfant RE-LIT au lieu de
   // retrouver le bon bouton). On bascule pick<->listen : mêmes choix/réponse/son.
@@ -824,7 +856,17 @@
         return screenResults(session);
       }
     }
-    const ex = session.list[session.i];
+    let ex = session.list[session.i];
+    // DICTÉE ACCESSIBLE (niveaux 1-4) : la saisie clavier est trop dure pour un 5-7 ans.
+    // On transforme un 'type' court en assemblage de TUILES-LETTRES (mêmes son/réponse) :
+    // il écoute le mot puis le construit avec des lettres à toucher + 1 intrus.
+    if (ex.type === "type" && !ex.strict) {
+      const ans = String(ex.answer || "");
+      const origLvl = ex._review ? +ex._review.key.split(".")[0] : session.lvlIdx;
+      if (origLvl <= 3 && /^[a-zA-Z]{2,5}$/.test(ans)) {
+        ex = Object.assign({}, ex, { type: "build", tiles: makeLetterTiles(ans), answer: ans.toUpperCase().split(""), _fromType: true });
+      }
+    }
     session.failedThis = false;
 
     // petit encouragement a mi-parcours sur les sessions longues (ex. le grand defi, 12 exercices)
