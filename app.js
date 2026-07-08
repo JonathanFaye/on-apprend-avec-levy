@@ -503,6 +503,16 @@
       }
     }
     const streak = currentStreak();
+    // POINT 3 : le grand défi (révision espacée) apparaît dès 2 étapes finies, avec le
+    // nombre de choses à réviser aujourd'hui. POINT 4 : la série est incarnée par Levy.
+    const doneN = Object.keys((profile().done) || {}).length;
+    const dueN = dueReviewKeys().length;
+    const challengeHTML = doneN >= 2
+      ? '<button class="btn btn-accent challenge-btn" id="challenge">🎯 Le grand défi de Levy' + (dueN ? ' <span class="due-badge">' + dueN + "</span>" : "") + he("הָאֶתְגָּר הַגָּדוֹל") + "</button>"
+      : "";
+    const streakHTML = streak > 0
+      ? '<div class="streak-levy"><span class="streak-fire">' + "🔥".repeat(Math.min(3, Math.ceil(streak / 3))) + "</span><span>Levy est fier : " + streak + " jour" + (streak > 1 ? "s" : "") + " de suite ! Reviens demain 😊" + he("לֵוִי גֵּאֶה: " + streak + " יָמִים בָּרֶצֶף!") + "</span></div>"
+      : "";
 
     $screen.innerHTML =
       '<div class="screen">' +
@@ -516,7 +526,9 @@
       '<button class="chip' + (store.soundOn ? " active" : "") + '" id="snd" aria-label="' + (store.soundOn ? "Couper le son" : "Activer le son") + '">' + (store.soundOn ? "🔊" : "🔇") + "</button>" +
       '<button class="chip' + (store.heOn ? " active" : "") + '" id="hebtn" aria-label="Afficher/masquer l\'hébreu">ע</button>' +
       "</div>" +
+      streakHTML +
       resumeHTML +
+      challengeHTML +
       (gameFinished() ? '<button class="btn btn-accent" id="dipbtn" style="margin-bottom:12px">🎓 Mon diplôme !</button>' : "") +
       (LEVELS.length === 0 ? '<p style="text-align:center;margin-top:40px">Contenu en cours de chargement...</p>' : cards) +
       '<button class="parents-btn" id="parents">👨‍👩‍👧 Coin des parents' + he("פִּנַּת הַהוֹרִים") + "</button>" +
@@ -528,6 +540,8 @@
     document.getElementById("badges").addEventListener("click", screenBadges);
     document.getElementById("album").addEventListener("click", screenStickers);
     document.getElementById("parents").addEventListener("click", screenResources);
+    const chBtn = document.getElementById("challenge");
+    if (chBtn) chBtn.addEventListener("click", startChallenge);
     const rb = document.getElementById("resume");
     if (rb) rb.addEventListener("click", () => {
       const lp = profile().lastPos;
@@ -648,6 +662,129 @@
     }
     return out;
   }
+
+  /* ================= Vers la lecture "parfaite" : variantes d'erreur, sens, révision espacée ================= */
+  function hasAudio(t) { return !!(window.AUDIO_MAP && window.AUDIO_MAP[audioKey(t)]); }
+  function dayStrPlus(days) { const d = new Date(); d.setDate(d.getDate() + days); return dayStr(d); }
+  function normWord(w) { return String(w).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z]/g, ""); }
+
+  // POINT 1 : reposer un item raté sous une AUTRE forme (l'enfant RE-LIT au lieu de
+  // retrouver le bon bouton). On bascule pick<->listen : mêmes choix/réponse/son.
+  function variantOf(ex) {
+    if (ex.type === "pick" && ex.choices && typeof ex.answer === "number" && ex.say) {
+      return Object.assign({}, ex, { type: "listen", _variant: true,
+        prompt: "Écoute bien et retrouve la bonne réponse !",
+        promptHe: "הַקְשִׁיבוּ טוֹב וּמִצְאוּ אֶת הַתְּשׁוּבָה!" });
+    }
+    if (ex.type === "listen" && ex.choices && typeof ex.answer === "number") {
+      return Object.assign({}, ex, { type: "pick", _variant: true,
+        prompt: "Retrouve la bonne réponse !",
+        promptHe: "מִצְאוּ אֶת הַתְּשׁוּבָה הַנְּכוֹנָה!" });
+    }
+    return ex; // build/type/match/blend/fill : la lecture est déjà nécessaire
+  }
+
+  // POINT 2 : dictionnaire mot -> emoji récolté depuis les paires "relie le mot à l'image"
+  let _wordEmoji = null;
+  function wordEmoji() {
+    if (_wordEmoji) return _wordEmoji;
+    const d = {};
+    LEVELS.forEach(lv => lv.sublevels.forEach(sub => (sub.exercises || []).forEach(ex => {
+      if (ex.type === "match" && Array.isArray(ex.pairs)) ex.pairs.forEach(pr => {
+        let word = null, emo = null;
+        if (isEmoji(pr[1]) && !isEmoji(pr[0])) { word = pr[0]; emo = pr[1]; }
+        else if (isEmoji(pr[0]) && !isEmoji(pr[1])) { word = pr[1]; emo = pr[0]; }
+        if (word && emo && normWord(word).length >= 2) d[normWord(word)] = emo;
+      });
+    })));
+    _wordEmoji = d;
+    return d;
+  }
+  // après un mot ASSEMBLÉ (build), Levy demande "et ça, c'est quoi ?" -> on ferme la
+  // boucle graphie->son->SENS (crucial pour un hébréophone). Seulement le vocabulaire
+  // imageable ET dont le mot se dit (audio garanti).
+  function makeSenseExercise(ex) {
+    if (ex.type !== "build" || !Array.isArray(ex.answer)) return null;
+    const word = ex.answer.join("");
+    if (!hasAudio(word)) return null;
+    const emo = wordEmoji()[normWord(word)];
+    if (!emo) return null;
+    const others = Object.values(wordEmoji()).filter(e => e !== emo);
+    if (!others.length) return null;
+    const distract = others[Math.floor(Math.random() * others.length)];
+    return {
+      type: "pick", _sense: true, question: word,
+      prompt: "Bravo ! Et ça, c'est quoi ?", promptHe: "יֹפִי! וְזֶה, מָה זֶה?",
+      choices: [emo, distract], answer: 0, say: word,
+      explain: "Oui ! On lit " + word + ".", explainHe: "כֵּן! קוֹרְאִים " + word + "."
+    };
+  }
+
+  // POINT 3 : révision espacée -- p.reviewPool[key] = { due:"YYYY-MM-DD", streak }
+  const REVIEW_INT = [1, 2, 4, 7, 14, 30];
+  function enrollReview(lvlIdx, subIdx) {
+    const p = profile(); if (!p) return;
+    p.reviewPool = p.reviewPool || {};
+    const sub = LEVELS[lvlIdx] && LEVELS[lvlIdx].sublevels[subIdx];
+    if (!sub) return;
+    (sub.exercises || []).forEach((ex, e) => {
+      if (ex.type === "read" || ex.type === "riddle") return;
+      const key = lvlIdx + "." + subIdx + "." + e;
+      if (!p.reviewPool[key]) p.reviewPool[key] = { due: dayStrPlus(2), streak: 0 };
+    });
+    save();
+  }
+  function scheduleReview(key, success) {
+    const p = profile(); if (!p || !p.reviewPool || !p.reviewPool[key]) return;
+    const it = p.reviewPool[key];
+    it.streak = success ? (it.streak || 0) + 1 : 0;
+    it.due = dayStrPlus(REVIEW_INT[Math.min(it.streak, REVIEW_INT.length - 1)]);
+    save();
+  }
+  function reviewKeys() { const p = profile(); return (p && p.reviewPool) ? Object.keys(p.reviewPool) : []; }
+  function dueReviewKeys() {
+    const p = profile(); if (!p || !p.reviewPool) return [];
+    const today = dayStr(new Date());
+    return Object.keys(p.reviewPool).filter(k => p.reviewPool[k].due <= today);
+  }
+  function reviewExFromKey(k) {
+    const a = k.split("."), lv = LEVELS[+a[0]];
+    if (!lv || !lv.sublevels[+a[1]]) return null;
+    const ex = lv.sublevels[+a[1]].exercises[+a[2]];
+    return ex ? Object.assign({}, ex, { _review: { key: k } }) : null;
+  }
+  function startChallenge() {
+    stopAudio();
+    const p = profile(); if (!p) return;
+    const today = dayStr(new Date());
+    const all = reviewKeys();
+    const due = all.filter(k => p.reviewPool[k].due <= today).sort((a, b) => p.reviewPool[a].due < p.reviewPool[b].due ? -1 : 1);
+    let chosen = due.slice(0, 10);
+    if (chosen.length < 6) chosen = chosen.concat(shuffle(all.filter(k => chosen.indexOf(k) < 0)).slice(0, 10 - chosen.length));
+    const list = chosen.map(reviewExFromKey).filter(Boolean);
+    if (!list.length) { toast("teach", "Rien à réviser pour l'instant, reviens bientôt !", "אֵין מָה לַחֲזֹר כָּרֶגַע, בּוֹאוּ שׁוּב!"); return; }
+    toast("teach", "Le grand défi de Levy ! 🎯", "הָאֶתְגָּר הַגָּדוֹל שֶׁל לֵוִי!");
+    renderExercise({ lvlIdx: 0, subIdx: 0, list: orderExercises(list), i: 0, stars: 0, failedThis: false, missedQueue: [], challenge: true,
+      onDone: sess => screenChallengeDone(sess) });
+  }
+  function screenChallengeDone(session) {
+    stopAudio();
+    const total = session.list.length, stars = session.stars, rating = starRating(stars, total);
+    confetti(rating === 3 ? 110 : 60);
+    [523, 659, 784].slice(0, rating).forEach((f, i) => setTimeout(() => beep([f], 0.18), 300 + i * 300));
+    $screen.innerHTML =
+      '<div class="screen results">' +
+      '<div class="mascot-wrap mascot-dance">' + mascotSVG(rating === 3 ? "clap" : "cheer") + "</div>" +
+      "<h2>Grand défi terminé ! 🎯</h2>" +
+      stars3HTML(rating) +
+      '<div class="score-line">Tu as révisé ' + total + " choses. " + (rating === 3 ? "Sans faute, bravo !" : "Continue, tu progresses !") +
+      he("חֲזַרְתֶּם עַל " + total + " דְּבָרִים!") + "</div>" +
+      '<button class="btn btn-good" id="backmap">Retour au jeu →' + he("חֲזָרָה") + "</button>" +
+      "</div>";
+    speak(rating === 3 ? "Grand défi réussi sans faute ! Bravo !" : "Bien joué, tu as révisé plein de choses !", 1.0);
+    document.getElementById("backmap").addEventListener("click", screenMap);
+  }
+
   function startExercises(lvlIdx, subIdx) {
     const lv = LEVELS[lvlIdx];
     const sub = lv.sublevels[subIdx];
@@ -677,8 +814,10 @@
     if (session.i >= session.list.length) {
       // renforcement differe : on repose 1 a 3 questions ratees avant de cloturer la session
       if (!session.placement && session.missedQueue && session.missedQueue.length && !session.reviewDone) {
-        session.list = session.list.concat(session.missedQueue.splice(0, 3));
+        // on repose les items ratés sous une AUTRE forme : re-lire, pas retrouver le bouton
+        session.list = session.list.concat(session.missedQueue.splice(0, 3).map(variantOf));
         session.reviewDone = true;
+        toast("teach", "On révise ce qui était dur ! 💪", "חוֹזְרִים עַל מָה שֶׁהָיָה קָשֶׁה!");
       } else if (session.onDone) {
         return session.onDone(session);
       } else {
@@ -773,8 +912,9 @@
       case "read": {
         body =
           '<div class="read-text">' + esc(ex.text) + "</div>" +
+          '<div class="read-timer"><div class="read-timer-fill" id="rfill"></div></div>' +
           '<button class="say-btn" id="sayb">🔊 Écoute la lecture</button>' +
-          '<button class="btn btn-good" id="readdone" style="margin-top:auto">Je l\'ai lu ! ✅' + he("קָרָאתִי!") + "</button>";
+          '<button class="btn btn-good" id="readdone" style="margin-top:auto">J\'ai fini de lire ! ✅' + he("סִיַּמְתִּי!") + "</button>";
         break;
       }
       default:
@@ -810,7 +950,8 @@
     // Levy dit automatiquement la cible/consigne sur TOUS les exercices (l'enfant qui
     // ne lit pas encore entend le modèle sans avoir à chercher un bouton). Si le mp3
     // est bloqué (auto sur mobile), le gros bouton 🔊 le rejoue au toucher.
-    if (sayText) setTimeout(() => speak(sayText), 450);
+    if (session._sayTimer) clearTimeout(session._sayTimer);
+    if (sayText) session._sayTimer = setTimeout(() => speak(sayText), 450);
     if (sayb && sayText) sayb.classList.add("hint");
 
     /* ----- branchements par type ----- */
@@ -838,6 +979,8 @@
             fillBlank();
             if (btn.classList.contains("reveal")) {
               // réussite guidée : on félicite doucement et on avance (l'étoile est déjà perdue)
+              if (session._sayTimer) { clearTimeout(session._sayTimer); session._sayTimer = null; }
+              if (ex._review) scheduleReview(ex._review.key, false);
               dingGood(); toast("happy", "Voilà, c'est celle-là ! 👏", "הִנֵּה, זֶה זֶה!");
               lockChoices();
               setTimeout(() => { session.i++; renderExercise(session); }, 900);
@@ -949,7 +1092,31 @@
     }
 
     if (ex.type === "read") {
-      document.getElementById("readdone").addEventListener("click", () => onCorrect(session, ex));
+      // POINT 4 : fluence chronométrée -- une barre se remplit ; l'enfant tape "fini",
+      // on lui donne une médaille selon sa vitesse (sans jamais le sanctionner) et on
+      // garde son meilleur temps par texte (ressenti de progrès "je lis plus vite").
+      const words = String(ex.text || "").trim().split(/\s+/).filter(Boolean).length || 1;
+      const start = Date.now();
+      const fill = document.getElementById("rfill");
+      const target = Math.max(2000, words * 800);
+      if (fill) { fill.style.transition = "width " + target + "ms linear"; requestAnimationFrame(() => { fill.style.width = "100%"; }); }
+      let done = false;
+      document.getElementById("readdone").addEventListener("click", () => {
+        if (done) return; done = true;
+        const ms = Date.now() - start, perWord = ms / words;
+        const medal = perWord < 900 ? { e: "🥇", t: "Médaille d'or, tu lis super vite !" }
+          : perWord < 1700 ? { e: "🥈", t: "Médaille d'argent, de plus en plus vite !" }
+          : { e: "🥉", t: "Médaille de bronze, bravo, tu as lu !" };
+        const p = profile();
+        if (p && !session.placement && !session.challenge) {
+          p.bestReadMs = p.bestReadMs || {};
+          const kk = audioKey(ex.text);
+          if (!p.bestReadMs[kk] || ms < p.bestReadMs[kk]) p.bestReadMs[kk] = ms;
+          save();
+        }
+        toast("clap", medal.e + " " + medal.t, "");
+        setTimeout(() => onCorrect(session, ex), 750);
+      });
     }
     const skipBtn = document.getElementById("skipex");
     if (skipBtn) skipBtn.addEventListener("click", () => { session.i++; renderExercise(session); });
@@ -970,8 +1137,18 @@
 
   /* ---------- Réactions ---------- */
   function onCorrect(session, ex) {
+    // annule la voix auto en attente : sinon, si l'enfant répond vite (<450ms), elle se
+    // déclenche APRÈS et appelle stopAudio() qui effacerait la barre "Suivant" (écran gelé)
+    if (session._sayTimer) { clearTimeout(session._sayTimer); session._sayTimer = null; }
     dingGood();
     if (!session.failedThis) session.stars++;
+    // POINT 3 : révision espacée -- on reprogramme l'item selon sa réussite
+    if (ex._review) scheduleReview(ex._review.key, !session.failedThis);
+    // POINT 2 : après un mot assemblé, on ancre le SENS ("et ça, c'est quoi ?")
+    if (!session.placement && !session.challenge && !ex._sense && !ex._variant) {
+      const se = makeSenseExercise(ex);
+      if (se) session.list.splice(session.i + 1, 0, se);
+    }
     confetti(14);
     const p = rand(PRAISE);
     // animation adaptée à la phrase : Levy applaudit sur les félicitations (Mazal Tov,
@@ -998,6 +1175,7 @@
   }
 
   function onWrong(session, ex, correctAnswer, onClose, onGuide) {
+    if (session._sayTimer) { clearTimeout(session._sayTimer); session._sayTimer = null; }
     const first = !session.failedThis;
     // pas de buzzer pendant le placement, NI quand on va guider vers la réponse (2e échec) :
     // on ne veut pas empiler les sons négatifs, l'enfant va finir sur une réussite
@@ -1075,6 +1253,7 @@
     // étape terminée : on quitte la position de reprise, on met à jour la série et les badges
     if (p.lastPos && p.lastPos.lvlIdx === session.lvlIdx && p.lastPos.subIdx === session.subIdx) p.lastPos = null;
     save();
+    enrollReview(session.lvlIdx, session.subIdx); // POINT 3 : ces items reviendront en révision espacée
     touchStreak();
     checkNewBadges();
     // 1re fois qu'on termine cette étape : on gagne un autocollant pour l'album
@@ -1099,11 +1278,9 @@
       '<div class="score-line">' + (rating < 3 ? "Rejoue cette étape pour gagner les 3 étoiles ⭐" : "Trois étoiles, incroyable ! 🌟") +
       he(rating < 3 ? "שַׂחֲקוּ שׁוּב כְּדֵי לְקַבֵּל 3 כּוֹכָבִים" : "שְׁלוֹשָׁה כּוֹכָבִים, מַדְהִים!") + "</div>" +
       (isLastOfLevel ? '<div class="score-line" style="font-weight:700;color:' + lv.color + '">🏅 Niveau ' + lv.order + " terminé ! Mazal Tov !</div>" : "") +
-      '<div class="joke-card">' +
-      '<div class="joke-label">🎁 Ta blague récompense !</div>' +
-      '<div class="joke-q">' + esc(sub.joke.q) + he(sub.joke.qHe) + "</div>" +
-      '<button class="btn btn-accent" id="joke-btn">La réponse ? 😄' + he("?הַתְּשׁוּבָה") + "</button>" +
-      '<div class="joke-a hidden" id="joke-a">' + esc(sub.joke.a) + he(sub.joke.aHe) + "</div>" +
+      '<div class="chest-zone">' +
+      '<button class="chest-btn" id="chest">🎁<span class="chest-cap">Ouvre ta surprise !' + he("פִּתְחוּ אֶת הַהַפְתָּעָה!") + "</span></button>" +
+      '<div class="chest-open hidden" id="chest-open"></div>' +
       "</div>" +
       (finished
         ? '<button class="btn btn-accent" id="dip-btn">🎓 Mon diplôme !</button>'
@@ -1111,10 +1288,35 @@
       '<button class="btn btn-ghost" id="redo-btn">Rejouer cette étape 🔄</button>' +
       "</div>";
 
-    document.getElementById("joke-btn").addEventListener("click", function () {
-      document.getElementById("joke-a").classList.remove("hidden");
-      this.classList.add("hidden");
-      speak(sub.joke.q + " ... " + sub.joke.a, 0.95);
+    // POINT 4 : coffre surprise -- récompense VARIABLE (la blague, + parfois une carte
+    // rigolote de Levy). L'imprévu accroche bien plus qu'une récompense toujours identique.
+    const chest = document.getElementById("chest");
+    if (chest) chest.addEventListener("click", function () {
+      confetti(40);
+      [523, 659, 784, 1046].forEach((f, i) => setTimeout(() => beep([f], 0.14), i * 110));
+      chest.classList.add("hidden");
+      const LEVY_CARDS = [
+        ["cheer", "Carte rigolote : Levy fait la roue ! 🤸", "קְלַף מַצְחִיק: לֵוִי עוֹשֶׂה גַּלְגַּל!"],
+        ["clap", "Carte rare : Levy super-héros ! 🦸", "קְלַף נָדִיר: לֵוִי גִּבּוֹר-עַל!"],
+        ["fun", "Levy te fait un clin d'œil 😉", "לֵוִי קוֹרֵץ לָכֶם!"],
+        ["happy", "Levy danse la samba pour toi ! 💃", "לֵוִי רוֹקֵד סַמְבָּה בִּשְׁבִילְכֶם!"]
+      ];
+      const bonus = Math.random() < 0.4 ? rand(LEVY_CARDS) : null;
+      const open = document.getElementById("chest-open");
+      open.innerHTML =
+        (bonus ? '<div class="levy-card">' + comicBubbleHTML(bonus[0], bonus[1], bonus[2]) + "</div>" : "") +
+        '<div class="joke-card">' +
+        '<div class="joke-label">😄 Ta blague !</div>' +
+        '<div class="joke-q">' + esc(sub.joke.q) + he(sub.joke.qHe) + "</div>" +
+        '<button class="btn btn-accent" id="joke-btn">La réponse ? 😄' + he("?הַתְּשׁוּבָה") + "</button>" +
+        '<div class="joke-a hidden" id="joke-a">' + esc(sub.joke.a) + he(sub.joke.aHe) + "</div>" +
+        "</div>";
+      open.classList.remove("hidden");
+      document.getElementById("joke-btn").addEventListener("click", function () {
+        document.getElementById("joke-a").classList.remove("hidden");
+        this.classList.add("hidden");
+        speak(sub.joke.q + " ... " + sub.joke.a, 0.95);
+      });
     });
     const cont = document.getElementById("cont-btn");
     if (cont) cont.addEventListener("click", () => screenSublevels(session.lvlIdx));
