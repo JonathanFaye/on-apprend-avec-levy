@@ -674,7 +674,7 @@
     if (ex.type === "pick" && ex.choices && typeof ex.answer === "number" && ex.say) {
       return Object.assign({}, ex, { type: "listen", _variant: true,
         prompt: "Écoute bien et retrouve la bonne réponse !",
-        promptHe: "הַקְשִׁיבוּ טוֹב וּמִצְאוּ אֶת הַתְּשׁוּבָה!" });
+        promptHe: "הַקְשִׁיבוּ טוֹב וּמִצְאוּ אֶת הַתְּשׁוּבָה הַנְּכוֹנָה!" });
     }
     if (ex.type === "listen" && ex.choices && typeof ex.answer === "number") {
       return Object.assign({}, ex, { type: "pick", _variant: true,
@@ -762,7 +762,7 @@
     let chosen = due.slice(0, 10);
     if (chosen.length < 6) chosen = chosen.concat(shuffle(all.filter(k => chosen.indexOf(k) < 0)).slice(0, 10 - chosen.length));
     const list = chosen.map(reviewExFromKey).filter(Boolean);
-    if (!list.length) { toast("teach", "Rien à réviser pour l'instant, reviens bientôt !", "אֵין מָה לַחֲזֹר כָּרֶגַע, בּוֹאוּ שׁוּב!"); return; }
+    if (!list.length) { toast("teach", "Rien à réviser pour l'instant, reviens bientôt !", "אֵין עַל מָה לַחֲזֹר כָּרֶגַע, בּוֹאוּ שׁוּב!"); return; }
     toast("teach", "Le grand défi de Levy ! 🎯", "הָאֶתְגָּר הַגָּדוֹל שֶׁל לֵוִי!");
     renderExercise({ lvlIdx: 0, subIdx: 0, list: orderExercises(list), i: 0, stars: 0, failedThis: false, missedQueue: [], challenge: true,
       onDone: sess => screenChallengeDone(sess) });
