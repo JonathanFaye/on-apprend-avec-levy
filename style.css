@@ -424,12 +424,12 @@ button { font-family: inherit; border: none; cursor: pointer; color: inherit; ba
 }
 
 /* --- applaudissements : les mains se rapprochent, le corps rebondit --- */
-.mascot-clap { animation: clapBob 0.34s ease-in-out infinite; transform-origin: 50% 90%; }
-@keyframes clapBob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
-.mascot-clap .lv-hand-l { animation: clapL 0.34s ease-in-out infinite; }
-.mascot-clap .lv-hand-r { animation: clapR 0.34s ease-in-out infinite; }
-@keyframes clapL { 0%,100% { transform: translateX(-4px); } 50% { transform: translateX(1px); } }
-@keyframes clapR { 0%,100% { transform: translateX(4px); } 50% { transform: translateX(-1px); } }
+.mascot-clap { animation: clapBob 0.3s ease-in-out infinite; transform-origin: 50% 90%; }
+@keyframes clapBob { 0%,100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-4px) scale(1.03); } }
+.mascot-clap .lv-hand-l { animation: clapL 0.3s ease-in-out infinite; }
+.mascot-clap .lv-hand-r { animation: clapR 0.3s ease-in-out infinite; }
+@keyframes clapL { 0%,100% { transform: translateX(-6px) rotate(-4deg); } 50% { transform: translateX(2px); } }
+@keyframes clapR { 0%,100% { transform: translateX(6px) rotate(4deg); } 50% { transform: translateX(-2px); } }
 
 /* --- dandinement rigolo (surprises) --- */
 .mascot-fun { animation: funWiggle 0.7s ease-in-out infinite; transform-origin: 50% 92%; }
@@ -541,4 +541,10 @@ button { font-family: inherit; border: none; cursor: pointer; color: inherit; ba
   .print-area { position: absolute; left: 0; top: 0; width: 100%; }
   .sheet { box-shadow: none; max-width: none; }
   .color-big svg { max-width: 60%; }
+}
+
+/* astuce sauvegarde */
+.backup-tip {
+  background: #FFF6E3; border: 1.5px dashed var(--accent); border-radius: 14px;
+  padding: 12px 14px; margin-top: 14px; font-size: .95rem; color: var(--ink); line-height: 1.5;
 }

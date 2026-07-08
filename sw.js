@@ -2,7 +2,7 @@
    Rend le jeu jouable hors-ligne : le "coeur" (page, code, données) est mis en
    cache à l'installation ; l'audio est mis en cache au fur et à mesure qu'il est
    joué (runtime cache). Deuxième visite quasi instantanée. */
-const VERSION = "levy-v9";
+const VERSION = "levy-v10";
 const CORE = VERSION + "-core";
 const AUDIO = VERSION + "-audio";
 
@@ -12,6 +12,7 @@ const CORE_ASSETS = [
   "./app.js",
   "./mascot.js",
   "./style.css",
+  "./manifest.json",
   "./data/audio-map.js",
   "./data/level1.js", "./data/level2.js", "./data/level3.js", "./data/level4.js",
   "./data/level5.js", "./data/level6.js", "./data/level7.js", "./data/level8.js",

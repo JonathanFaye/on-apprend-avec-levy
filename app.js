@@ -881,7 +881,9 @@
     if (!session.failedThis) session.stars++;
     confetti(14);
     const p = rand(PRAISE);
-    const expr = rand(["cheer", "clap", "happy"]);
+    // animation adaptée à la phrase : Levy applaudit sur les félicitations (Mazal Tov,
+    // Félicitations, champion, bravo...), et saute de joie sur les autres
+    const expr = /mazal|félicit|champion|bravo|pro|talent/i.test(p[0]) ? "clap" : rand(["cheer", "happy"]);
     speak(p[0], 1.0);
     lockChoices();
     if (session.placement) {
@@ -1154,7 +1156,6 @@
   }
   function screenBackup() {
     stopAudio();
-    const code = encodeBackup();
     const nProfiles = Object.keys(store.profiles).length;
     $screen.innerHTML =
       '<div class="screen">' +
@@ -1162,65 +1163,38 @@
       '<button class="back" id="back" aria-label="Retour">←</button>' +
       '<span class="title">💾 Sauvegarde' + he("גִּבּוּי") + "</span>" +
       "</div>" +
-      '<div class="backup-box">' +
-      '<div class="backup-h">Garder la progression en lieu sûr' + he("לִשְׁמֹר אֶת הַהִתְקַדְּמוּת") + "</div>" +
-      '<p class="backup-p">Le jeu garde la progression sur ce téléphone, mais elle peut s\'effacer après une longue pause. Sauvegarde-la pour ne rien perdre.' +
-      he("הַמִּשְׂחָק שׁוֹמֵר עַל הַטֵּלֵפוֹן, אֲבָל זֶה עָלוּל לְהִמָּחֵק אַחֲרֵי הַפְסָקָה אֲרֻכָּה. שִׁמְרוּ כְּדֵי לֹא לְאַבֵּד.") + "</p>" +
-      '<button class="btn btn-good" id="bk-download" ' + (nProfiles ? "" : "disabled") + '>📥 Télécharger le fichier' + he("לְהוֹרִיד קֹבֶץ") + "</button>" +
-      '<button class="btn btn-ghost" id="bk-copy" ' + (nProfiles ? "" : "disabled") + '>📋 Copier le code' + he("לְהַעְתִּיק קוֹד") + "</button>" +
-      '<textarea class="backup-code" id="bk-code" readonly>' + esc(code) + "</textarea>" +
-      "</div>" +
-      '<div class="backup-box">' +
-      '<div class="backup-h">Restaurer une sauvegarde' + he("לְשַׁחְזֵר גִּבּוּי") + "</div>" +
-      '<p class="backup-p">Colle ton code ci-dessous, ou choisis ton fichier de sauvegarde.' +
-      he("הַדְבִּיקוּ אֶת הַקּוֹד, אוֹ בַּחֲרוּ קֹבֶץ.") + "</p>" +
-      '<textarea class="backup-code" id="bk-in" placeholder="Colle ton code ici..."></textarea>' +
-      '<button class="btn btn-good" id="bk-restore">♻️ Restaurer le code' + he("לְשַׁחְזֵר") + "</button>" +
-      '<label class="btn btn-ghost" for="bk-file" style="display:block">📂 Choisir un fichier' + he("לִבְחֹר קֹבֶץ") + "</label>" +
+      '<div class="backup-box" style="text-align:center">' +
+      '<div class="mascot-wrap" style="width:96px;margin:0 auto 8px">' + mascotSVG("teach") + "</div>" +
+      '<p class="backup-p">Enregistre la progression dans un petit fichier. Si le téléphone efface les données, tu la retrouves en un clic.' +
+      he("שְׁמֹר אֶת הַהִתְקַדְּמוּת בְּקֹבֶץ קָטָן. אִם הַטֵּלֵפוֹן מוֹחֵק, מְשַׁחְזְרִים בִּלְחִיצָה אַחַת.") + "</p>" +
+      '<button class="btn btn-good" id="bk-download" ' + (nProfiles ? "" : "disabled") + '>📥 Enregistrer ma progression' + he("לִשְׁמֹר") + "</button>" +
+      '<label class="btn btn-ghost" for="bk-file" style="display:block;margin-top:10px">📂 Restaurer une sauvegarde' + he("לְשַׁחְזֵר") + "</label>" +
       '<input type="file" id="bk-file" accept=".json,application/json" style="display:none">' +
       "</div>" +
+      '<div class="backup-tip">💡 Astuce : ajoute le jeu à ton écran d\'accueil (menu Partager du téléphone). Comme ça la progression ne s\'efface jamais toute seule !' +
+      he("טִיפּ: הוֹסֵף אֶת הַמִּשְׂחָק לְמָסַךְ הַבַּיִת — כָּךְ הַהִתְקַדְּמוּת לֹא נִמְחֶקֶת לְבַד.") + "</div>" +
       "</div>";
     document.getElementById("back").addEventListener("click", screenSplash);
 
     const dl = document.getElementById("bk-download");
     if (dl) dl.addEventListener("click", () => {
       try {
+        const name = (store.current || "levy").replace(/[^a-z0-9]/gi, "-");
         const blob = new Blob([JSON.stringify({ v: 1, profiles: store.profiles })], { type: "application/json" });
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
-        a.href = url; a.download = "levy-progression.json";
+        a.href = url; a.download = "sauvegarde-levy-" + name + ".json";
         document.body.appendChild(a); a.click(); a.remove();
         setTimeout(() => URL.revokeObjectURL(url), 2000);
-        toast("happy", "Fichier téléchargé ! 💾", "הַקֹּבֶץ יָרַד!");
-      } catch (e) { toast("oops", "Impossible de télécharger ici", "לֹא הִצְלַחְנוּ"); }
-    });
-    const cp = document.getElementById("bk-copy");
-    if (cp) cp.addEventListener("click", () => {
-      const ta = document.getElementById("bk-code");
-      ta.select();
-      const ok = (() => { try { return navigator.clipboard ? (navigator.clipboard.writeText(code), true) : document.execCommand("copy"); } catch (e) { try { return document.execCommand("copy"); } catch (e2) { return false; } } })();
-      toast(ok ? "happy" : "oops", ok ? "Code copié ! 📋" : "Sélectionne et copie le code", ok ? "הַקּוֹד הֹעְתַּק!" : "בַּחֲרוּ וְהַעְתִּיקוּ");
-    });
-    document.getElementById("bk-restore").addEventListener("click", () => {
-      const val = document.getElementById("bk-in").value;
-      if (!val.trim()) { toast("think", "Colle d'abord ton code", "הַדְבִּיקוּ קוֹד קֹדֶם"); return; }
-      confirmDialog({
-        expr: "think", title: "Restaurer cette sauvegarde ?",
-        titleHe: "לְשַׁחְזֵר אֶת הַגִּבּוּי?",
-        body: "Les profils sauvegardés seront ajoutés sur ce téléphone.",
-        bodyHe: "הַפְּרוֹפִילִים יִתּוֹסְפוּ לַטֵּלֵפוֹן הַזֶּה.",
-        yes: "Oui, restaurer", yesHe: "כֵּן, לְשַׁחְזֵר"
-      }, () => applyBackup(val, (ok, msg) => {
-        toast(ok ? "cheer" : "oops", msg, "");
-        if (ok) { confetti(40); setTimeout(screenSplash, 900); }
-      }));
+        toast("happy", "C'est enregistré ! 💾", "נִשְׁמַר!");
+      } catch (e) { toast("oops", "Impossible d'enregistrer ici", "לֹא הִצְלַחְנוּ"); }
     });
     document.getElementById("bk-file").addEventListener("change", e => {
       const f = e.target.files && e.target.files[0];
       if (!f) return;
       const r = new FileReader();
       r.onload = () => applyBackup(r.result, (ok, msg) => {
-        toast(ok ? "cheer" : "oops", msg, "");
+        toast(ok ? "cheer" : "oops", ok ? "Progression restaurée ! 🎉" : msg, "");
         if (ok) { confetti(40); setTimeout(screenSplash, 900); }
       });
       r.readAsText(f);
@@ -1314,7 +1288,20 @@
       '<circle cx="100" cy="80" r="18"/>' +
       '<path d="M100 98 L100 175"/><path d="M100 140 Q75 125 70 150"/><path d="M100 155 Q128 140 132 165"/></svg>';
   }
+  function colorLevy() {
+    return '<svg viewBox="0 0 200 245">' +
+      '<path d="M60 240 L60 150 Q60 120 100 120 Q140 120 140 150 L140 240"/>' +
+      '<path d="M62 155 Q38 166 30 192"/><path d="M138 155 Q162 166 170 192"/>' +
+      '<rect x="88" y="107" width="24" height="20" rx="9"/>' +
+      '<circle cx="100" cy="72" r="46"/>' +
+      '<circle cx="52" cy="72" r="7"/><circle cx="148" cy="72" r="7"/>' +
+      '<path d="M56 66 Q58 38 100 36 Q142 38 144 66"/>' +
+      '<path d="M74 40 Q100 25 126 40"/>' +
+      '<circle cx="82" cy="70" r="15"/><circle cx="118" cy="70" r="15"/><line x1="97" y1="70" x2="103" y2="70"/>' +
+      '<path d="M84 93 Q100 108 116 93"/></svg>';
+  }
   const RES_COLOR = [
+    { t: "Levy", sub: "Colorie la mascotte !", svg: colorLevy },
     { t: "Le soleil", sub: "S comme soleil", svg: colorSun },
     { t: "La maison", sub: "M comme maison", svg: colorHouse },
     { t: "Le poisson", sub: "P comme poisson", svg: colorFish },

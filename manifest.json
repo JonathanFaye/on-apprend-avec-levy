@@ -1,0 +1,12 @@
+{
+  "name": "On apprend avec Levy",
+  "short_name": "Levy",
+  "description": "Apprendre à lire le français, de l'alphabet au CE2.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FDF6EC",
+  "theme_color": "#4A90D9",
+  "lang": "fr"
+}
