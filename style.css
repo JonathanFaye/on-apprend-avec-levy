@@ -430,3 +430,21 @@ button { font-family: inherit; border: none; cursor: pointer; color: inherit; ba
   50% { transform: rotate(-4deg) translateY(0); }
   75% { transform: rotate(6deg) translateY(-2px); }
 }
+
+/* --- barre de félicitation avec bouton "Suivant" cliqué par l'enfant --- */
+.correct-bar {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 76;
+  background: linear-gradient(180deg, #FFFFFF, #EAF7EE);
+  border-top: 3px solid var(--good);
+  box-shadow: 0 -6px 20px rgba(43,37,64,.16);
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 16px calc(14px + env(safe-area-inset-bottom, 0px));
+  animation: barUp .28s ease;
+}
+@keyframes barUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+.correct-levy { flex: 1 1 auto; display: flex; align-items: flex-end; gap: 4px; min-width: 0; }
+.correct-levy .comic-mascot { width: 52px; }
+.correct-levy .comic-bubble { padding: 8px 14px; }
+.correct-levy .comic-bubble .comic-txt { font-size: 1.15rem; white-space: normal; }
+.correct-bar .next-btn { flex: 0 0 auto; width: auto; margin: 0; padding: 13px 24px; font-size: 1.1rem; }
+#app { padding-bottom: 0; }

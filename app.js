@@ -84,6 +84,8 @@
     try { if (currentAudio) { currentAudio.pause(); currentAudio.src = ""; currentAudio = null; } } catch (e) {}
     try { if (window.speechSynthesis) speechSynthesis.cancel(); } catch (e) {}
     try { document.querySelectorAll(".say-btn.loading").forEach(b => b.classList.remove("loading")); } catch (e) {}
+    // nettoie une éventuelle barre "Suivant" restée à l'écran si on quitte l'exercice
+    try { document.querySelectorAll(".correct-bar").forEach(b => b.remove()); } catch (e) {}
   }
   let audioErrorShown = false;
   function audioErrorToast() {
@@ -93,7 +95,10 @@
   }
   // btnOverride : bouton a marquer "en chargement" pendant l'attente ; par defaut on
   // cherche le bouton #sayb de l'ecran courant (present sur la quasi-totalite des ecrans).
-  function speak(text, rate, btnOverride) {
+  // isAuto : lecture déclenchée automatiquement (sans clic). Sur mobile la lecture
+  // auto peut être bloquée ; dans ce cas on reste SILENCIEUX plutôt que de basculer
+  // sur la voix du navigateur (différente de Denise) — l'enfant a le bouton 🔊.
+  function speak(text, rate, btnOverride, isAuto) {
     const btn = btnOverride || document.getElementById("sayb");
     if (!store.soundOn || !text) { if (btn) btn.classList.remove("loading"); return; }
     stopAudio();
@@ -106,12 +111,12 @@
         const a = new Audio("audio/" + k + ".mp3");
         currentAudio = a;
         a.addEventListener("playing", clear, { once: true });
-        a.addEventListener("error", () => { clear(); ttsFallback(text, rate, btn); });
-        a.play().catch(() => { clear(); ttsFallback(text, rate, btn); });
+        a.addEventListener("error", () => { clear(); if (!isAuto) ttsFallback(text, rate, btn); });
+        a.play().catch(() => { clear(); if (!isAuto) ttsFallback(text, rate, btn); });
         return;
       } catch (e) {}
     }
-    ttsFallback(text, rate, btn);
+    if (!isAuto) ttsFallback(text, rate, btn);
   }
   function ttsFallback(text, rate, btn) {
     const clear = () => { if (btn) btn.classList.remove("loading"); };
@@ -562,7 +567,7 @@
         if (ci < cards.length) renderCard();
         else startExercises(lvlIdx, subIdx);
       });
-      if (c.say) setTimeout(() => speak(c.say), 500);
+      if (c.say) setTimeout(() => speak(c.say, null, null, true), 500);
     }
   }
 
@@ -677,7 +682,7 @@
       case "read": {
         body =
           '<div class="read-text">' + esc(ex.text) + "</div>" +
-          (ex.say ? '<button class="say-btn" id="sayb">🔊 Écoute Levy lire</button>' : "") +
+          (ex.say ? '<button class="say-btn" id="sayb">🔊 Écoute la lecture</button>' : "") +
           '<button class="btn btn-good" id="readdone" style="margin-top:auto">Je l\'ai lu ! ✅' + he("קָרָאתִי!") + "</button>";
         break;
       }
@@ -708,7 +713,7 @@
 
     const sayb = document.getElementById("sayb");
     if (sayb) sayb.addEventListener("click", () => speak(ex.say));
-    if (ex.type === "listen" || ex.type === "type") setTimeout(() => speak(ex.say), 450);
+    if (ex.type === "listen" || ex.type === "type") setTimeout(() => speak(ex.say, null, null, true), 450);
 
     /* ----- branchements par type ----- */
     if (["pick", "riddle", "listen", "fill"].includes(ex.type)) {
@@ -851,11 +856,25 @@
     if (!session.failedThis) session.stars++;
     confetti(14);
     const p = rand(PRAISE);
+    const expr = rand(["cheer", "clap", "happy"]);
     speak(p[0], 1.0);
-    // Levy fête à sa façon : saute de joie, applaudit, ou tout content
-    toast(rand(["cheer", "clap", "happy"]), p[0], p[1]);
     lockChoices();
-    setTimeout(() => { session.i++; renderExercise(session); }, 1050);
+    if (session.placement) {
+      // test de placement : enchaînement rapide (pas de bouton)
+      toast(expr, p[0], p[1]);
+      setTimeout(() => { session.i++; renderExercise(session); }, 1050);
+      return;
+    }
+    // barre de félicitation : Levy reste affiché, l'enfant clique "Suivant" quand il
+    // veut (le temps de relire l'exercice et de profiter du petit moment avec Levy)
+    const bar = document.createElement("div");
+    bar.className = "correct-bar";
+    bar.innerHTML =
+      '<div class="correct-levy">' + comicBubbleHTML(expr, p[0], p[1]) + "</div>" +
+      '<button class="btn btn-good next-btn" id="next-ex">Suivant →' + he("הַבָּא") + "</button>";
+    document.body.appendChild(bar);
+    const go = () => { bar.remove(); session.i++; renderExercise(session); };
+    document.getElementById("next-ex").addEventListener("click", go);
   }
 
   function onWrong(session, ex, correctAnswer, onClose) {
@@ -876,7 +895,7 @@
       '<div class="mascot-wrap">' + mascotSVG(session.placement ? "think" : (first ? "oops" : "teach")) + "</div>" +
       "<h3>" + esc(o[0]) + he(o[1]) + "</h3>" +
       '<div class="explain">' + esc(ex.explain || "") + he(ex.explainHe) + answerLine + "</div>" +
-      '<button class="say-btn" id="explain-say">🔊 Écoute Levy</button>' +
+      '<button class="say-btn" id="explain-say">🔊 Réécouter</button>' +
       '<button class="btn btn-accent" id="ok-btn">J\'ai compris !' + he("הֵבַנְתִּי!") + "</button>" +
       "</div>";
     $overlay.classList.remove("hidden");
@@ -903,15 +922,17 @@
   /* ---------- Bulle de BD mascotte (non bloquant) ---------- */
   // Levy réagit en bulle de bande dessinée + animation selon l'humeur.
   // clap = applaudissements (mains animées via la classe mascot-clap du SVG lui-même).
-  function toast(expr, txt, txtHe) {
+  function comicBubbleHTML(expr, txt, txtHe) {
     const anim = { cheer: "mascot-jump", happy: "mascot-jump", wave: "mascot-fun",
                    think: "", teach: "mascot-dance", clap: "", oops: "" }[expr] || "mascot-jump";
-    const d = document.createElement("div");
-    d.className = "comic-toast";
-    d.innerHTML =
-      '<div class="comic-mascot ' + anim + '">' + mascotSVG(expr) + "</div>" +
+    return '<div class="comic-mascot ' + anim + '">' + mascotSVG(expr) + "</div>" +
       '<div class="comic-bubble"><span class="comic-txt">' + esc(txt) + "</span>" +
       (store.heOn && txtHe ? '<span class="he" dir="rtl">' + esc(txtHe) + "</span>" : "") + "</div>";
+  }
+  function toast(expr, txt, txtHe) {
+    const d = document.createElement("div");
+    d.className = "comic-toast";
+    d.innerHTML = comicBubbleHTML(expr, txt, txtHe);
     document.body.appendChild(d);
     setTimeout(() => d.classList.add("out"), 1150);
     setTimeout(() => d.remove(), 1500);
