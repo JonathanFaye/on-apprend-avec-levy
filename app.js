@@ -849,7 +849,8 @@
     confetti(14);
     const p = rand(PRAISE);
     speak(p[0], 1.0);
-    toast(Math.random() > 0.5 ? "cheer" : "happy", p[0], p[1]);
+    // Levy fête à sa façon : saute de joie, applaudit, ou tout content
+    toast(rand(["cheer", "clap", "happy"]), p[0], p[1]);
     lockChoices();
     setTimeout(() => { session.i++; renderExercise(session); }, 1050);
   }
@@ -896,17 +897,21 @@
     $screen.querySelectorAll(".choice,.tile,.match-item").forEach(b => (b.disabled = true));
   }
 
-  /* ---------- Toast mascotte (non bloquant) ---------- */
+  /* ---------- Bulle de BD mascotte (non bloquant) ---------- */
+  // Levy réagit en bulle de bande dessinée + animation selon l'humeur.
+  // clap = applaudissements (mains animées via la classe mascot-clap du SVG lui-même).
   function toast(expr, txt, txtHe) {
+    const anim = { cheer: "mascot-jump", happy: "mascot-jump", wave: "mascot-fun",
+                   think: "", teach: "mascot-dance", clap: "", oops: "" }[expr] || "mascot-jump";
     const d = document.createElement("div");
-    d.style.cssText = "position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#fff;border-radius:20px;box-shadow:0 6px 24px rgba(0,0,0,0.22);padding:10px 20px 10px 12px;display:flex;align-items:center;gap:10px;z-index:70;animation:slideUp 0.25s ease;max-width:90vw;";
+    d.className = "comic-toast";
     d.innerHTML =
-      '<div style="width:54px;flex-shrink:0" class="mascot-dance">' + mascotSVG(expr) + "</div>" +
-      '<div style="font-weight:700;font-size:1.1rem">' + esc(txt) +
+      '<div class="comic-mascot ' + anim + '">' + mascotSVG(expr) + "</div>" +
+      '<div class="comic-bubble"><span class="comic-txt">' + esc(txt) + "</span>" +
       (store.heOn && txtHe ? '<span class="he" dir="rtl">' + esc(txtHe) + "</span>" : "") + "</div>";
     document.body.appendChild(d);
-    setTimeout(() => { d.style.opacity = "0"; d.style.transition = "opacity 0.3s"; }, 950);
-    setTimeout(() => d.remove(), 1300);
+    setTimeout(() => d.classList.add("out"), 1150);
+    setTimeout(() => d.remove(), 1500);
   }
 
   /* ---------- Résultats ---------- */
@@ -1048,7 +1053,7 @@
     fresh.forEach(b => {
       setTimeout(() => {
         confetti(50);
-        toast("cheer", "Nouveau badge ! " + b.emoji + " " + b.name, "תַּג חָדָשׁ! " + b.name);
+        toast("clap", "Nouveau badge ! " + b.emoji + " " + b.name, "תַּג חָדָשׁ! " + b.name);
         speak("Bravo ! Tu as gagné un nouveau badge !", 1.0);
       }, d);
       d += 1700;

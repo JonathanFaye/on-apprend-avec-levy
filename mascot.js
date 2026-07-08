@@ -32,7 +32,7 @@ window.mascotSVG = function (expr) {
 
   // --- bouche ---
   let mouth = "";
-  if (expr === "cheer" || expr === "wave") {
+  if (expr === "cheer" || expr === "wave" || expr === "clap") {
     mouth = '<path d="M40 60 Q50 72 60 60 Z" fill="#8C3B2E"/><path d="M43 62 Q50 68 57 62 Z" fill="#E8837A"/>';
   } else if (expr === "oops") {
     mouth = '<ellipse cx="50" cy="63" rx="5" ry="6" fill="#8C3B2E"/>';
@@ -58,6 +58,15 @@ window.mascotSVG = function (expr) {
       '<circle cx="11" cy="114" r="6.5" fill="#F2C49B"/>' +
       '<path d="M72 96 Q85 86 87 72" stroke="#4A90D9" stroke-width="11" fill="none" stroke-linecap="round"/>' +
       '<circle cx="87" cy="70" r="6.5" fill="#F2C49B"/>';
+  } else if (expr === "clap") {
+    // mains ramenees devant, l'une contre l'autre : applaudissements (animees en CSS)
+    arms =
+      '<g class="lv-hand lv-hand-l">' +
+      '<path d="M28 96 Q34 90 45 92" stroke="#4A90D9" stroke-width="11" fill="none" stroke-linecap="round"/>' +
+      '<circle cx="46" cy="92" r="6.5" fill="#F2C49B"/></g>' +
+      '<g class="lv-hand lv-hand-r">' +
+      '<path d="M72 96 Q66 90 55 92" stroke="#4A90D9" stroke-width="11" fill="none" stroke-linecap="round"/>' +
+      '<circle cx="54" cy="92" r="6.5" fill="#F2C49B"/></g>';
   } else if (expr === "teach") {
     arms =
       '<path d="M28 98 Q18 104 12 112" stroke="#4A90D9" stroke-width="11" fill="none" stroke-linecap="round"/>' +
