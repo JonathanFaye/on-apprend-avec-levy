@@ -351,7 +351,10 @@
       '<button class="btn btn-accent" id="addplayer">Jouer !</button>' +
       "</div>" +
       (names.length === 0 ? '<div class="subtitle" style="margin-top:6px">Écris ton prénom pour commencer' + he("כִּתְבוּ אֶת הַשֵּׁם שֶׁלָּכֶם כְּדֵי לְהַתְחִיל") + "</div>" : "") +
-      '<button class="chip" id="he-toggle" style="margin:14px auto 0;border:none;box-shadow:var(--shadow);padding:9px 16px;border-radius:14px;background:' + (store.heOn ? "var(--primary);color:#fff" : "#fff") + '">עִבְרִית ' + (store.heOn ? "✓" : "") + "</button>" +
+      '<div class="splash-tools">' +
+      '<button class="chip" id="he-toggle" style="border:none;box-shadow:var(--shadow);padding:9px 16px;border-radius:14px;background:' + (store.heOn ? "var(--primary);color:#fff" : "#fff") + '">עִבְרִית ' + (store.heOn ? "✓" : "") + "</button>" +
+      '<button class="chip" id="backup-btn" style="border:none;box-shadow:var(--shadow);padding:9px 16px;border-radius:14px;background:#fff">💾 Sauvegarde</button>' +
+      "</div>" +
       "</div>";
 
     $screen.querySelectorAll(".profile-row").forEach(row => {
@@ -363,11 +366,18 @@
     });
     $screen.querySelectorAll(".del").forEach(b => {
       b.addEventListener("click", () => {
-        if (confirm("Supprimer le joueur " + b.dataset.del + " et toute sa progression ?")) {
+        confirmDialog({
+          expr: "oops",
+          title: "Supprimer " + b.dataset.del + " ?",
+          titleHe: "לִמְחֹק אֶת " + b.dataset.del + "?",
+          body: "Toute la progression de ce joueur sera perdue.",
+          bodyHe: "כָּל הַהִתְקַדְּמוּת שֶׁל הַשַּׂחְקָן תֹּאבַד.",
+          yes: "Supprimer", yesHe: "לִמְחֹק", no: "Garder", noHe: "לְהַשְׁאִיר"
+        }, () => {
           delete store.profiles[b.dataset.del];
           if (store.current === b.dataset.del) store.current = null;
           save(); screenSplash();
-        }
+        });
       });
     });
     document.getElementById("addplayer").addEventListener("click", addPlayer);
@@ -375,6 +385,7 @@
     document.getElementById("he-toggle").addEventListener("click", () => {
       store.heOn = !store.heOn; save(); screenSplash();
     });
+    document.getElementById("backup-btn").addEventListener("click", screenBackup);
 
     function addPlayer() {
       const name = document.getElementById("newname").value.trim();
@@ -406,15 +417,31 @@
         "</button>";
     }).join("");
 
+    // bouton "reprendre" : dernière étape non terminée où l'enfant s'était arrêté
+    const p = profile();
+    let resumeHTML = "";
+    if (p && p.lastPos && LEVELS[p.lastPos.lvlIdx]) {
+      const rlv = LEVELS[p.lastPos.lvlIdx];
+      const rsub = rlv.sublevels[p.lastPos.subIdx];
+      if (rsub && isLevelUnlocked(p.lastPos.lvlIdx) && !isSubDone(rsub.id)) {
+        resumeHTML = '<button class="btn btn-accent resume-btn" id="resume">▶️ Reprendre : ' +
+          esc(rlv.name) + " · " + esc(rsub.name) + he("לְהַמְשִׁיךְ") + "</button>";
+      }
+    }
+    const streak = currentStreak();
+
     $screen.innerHTML =
       '<div class="screen">' +
       '<div class="topbar">' +
       '<button class="chip" id="switch">🧒 ' + esc(store.current) + "</button>" +
       '<span class="chip">⭐ ' + totalStars() + "</span>" +
+      (streak > 0 ? '<span class="chip streak-chip">🔥 ' + streak + "</span>" : "") +
       '<span style="flex:1"></span>' +
+      '<button class="chip" id="badges" aria-label="Mes badges">🏆</button>' +
       '<button class="chip' + (store.soundOn ? " active" : "") + '" id="snd" aria-label="' + (store.soundOn ? "Couper le son" : "Activer le son") + '">' + (store.soundOn ? "🔊" : "🔇") + "</button>" +
       '<button class="chip' + (store.heOn ? " active" : "") + '" id="hebtn" aria-label="Afficher/masquer l\'hébreu">ע</button>' +
       "</div>" +
+      resumeHTML +
       (gameFinished() ? '<button class="btn btn-accent" id="dipbtn" style="margin-bottom:12px">🎓 Mon diplôme !</button>' : "") +
       (LEVELS.length === 0 ? '<p style="text-align:center;margin-top:40px">Contenu en cours de chargement...</p>' : cards) +
       "</div>";
@@ -422,6 +449,12 @@
     document.getElementById("switch").addEventListener("click", () => { screenSplash(); });
     document.getElementById("snd").addEventListener("click", () => { store.soundOn = !store.soundOn; save(); screenMap(); });
     document.getElementById("hebtn").addEventListener("click", () => { store.heOn = !store.heOn; save(); screenMap(); });
+    document.getElementById("badges").addEventListener("click", screenBadges);
+    const rb = document.getElementById("resume");
+    if (rb) rb.addEventListener("click", () => {
+      const lp = profile().lastPos;
+      startLesson(lp.lvlIdx, lp.subIdx);
+    });
     const dip = document.getElementById("dipbtn");
     if (dip) dip.addEventListener("click", screenDiploma);
     $screen.querySelectorAll(".level-card").forEach(c => {
@@ -479,6 +512,8 @@
 
   /* ---------- Leçon ---------- */
   function startLesson(lvlIdx, subIdx) {
+    const pp = profile();
+    if (pp) { pp.lastPos = { lvlIdx, subIdx }; save(); }
     const lv = LEVELS[lvlIdx];
     const sub = lv.sublevels[subIdx];
     const cards = (sub.lesson && sub.lesson.cards) || [];
@@ -646,10 +681,17 @@
       "</div>";
 
     document.getElementById("ex-quit").addEventListener("click", () => {
-      if (confirm("Quitter l'exercice ? La progression de cette étape sera perdue.")) {
+      confirmDialog({
+        expr: "think",
+        title: "Quitter l'exercice ?",
+        titleHe: "לָצֵאת מֵהַתַּרְגִּיל?",
+        body: "La progression de cette étape sera perdue.",
+        bodyHe: "הַהִתְקַדְּמוּת בַּשָּׁלָב הַזֶּה תֹּאבַד.",
+        yes: "Quitter", yesHe: "לָצֵאת", no: "Continuer", noHe: "לְהַמְשִׁיךְ"
+      }, () => {
         if (session.placement) screenMap();
         else screenSublevels(session.lvlIdx);
-      }
+      });
     });
 
     const sayb = document.getElementById("sayb");
@@ -868,7 +910,11 @@
     const p = profile();
     p.done = p.done || {};
     if (prev === null || stars > prev) p.done[sub.id] = stars;
+    // étape terminée : on quitte la position de reprise, on met à jour la série et les badges
+    if (p.lastPos && p.lastPos.lvlIdx === session.lvlIdx && p.lastPos.subIdx === session.subIdx) p.lastPos = null;
     save();
+    touchStreak();
+    checkNewBadges();
 
     confetti(60);
     dingGood();
@@ -928,7 +974,200 @@
     speak("Mazal Tov " + store.current + " ! Tu es un super champion du français !");
   }
 
+  /* ============================================================
+     Boîte de dialogue mascotte (remplace les confirm() du navigateur)
+     ============================================================ */
+  function confirmDialog(opts, onYes) {
+    $overlay.innerHTML =
+      '<div class="mascot-panel">' +
+      '<div class="mascot-wrap">' + mascotSVG(opts.expr || "think") + "</div>" +
+      "<h3>" + esc(opts.title) + he(opts.titleHe) + "</h3>" +
+      (opts.body ? '<div class="explain">' + esc(opts.body) + he(opts.bodyHe) + "</div>" : "") +
+      '<button class="btn btn-good" id="cd-yes">' + esc(opts.yes || "Oui") + he(opts.yesHe) + "</button>" +
+      '<button class="btn btn-ghost" id="cd-no">' + esc(opts.no || "Annuler") + he(opts.noHe) + "</button>" +
+      "</div>";
+    $overlay.classList.remove("hidden");
+    document.getElementById("cd-yes").addEventListener("click", () => { $overlay.classList.add("hidden"); onYes(); });
+    document.getElementById("cd-no").addEventListener("click", () => $overlay.classList.add("hidden"));
+  }
+
+  /* ============================================================
+     Séries (jours consécutifs) + badges
+     ============================================================ */
+  function dayStr(d) { return d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate(); }
+  function touchStreak() {
+    const p = profile(); if (!p) return;
+    const today = dayStr(new Date());
+    if (p.lastPlayed === today) return;
+    const y = new Date(); y.setDate(y.getDate() - 1);
+    p.streak = (p.lastPlayed === dayStr(y)) ? (p.streak || 0) + 1 : 1;
+    p.lastPlayed = today;
+    save();
+  }
+  function currentStreak() {
+    const p = profile(); if (!p || !p.lastPlayed) return 0;
+    const today = dayStr(new Date());
+    const y = new Date(); y.setDate(y.getDate() - 1);
+    // la série n'est "vivante" que si le dernier jeu date d'aujourd'hui ou d'hier
+    return (p.lastPlayed === today || p.lastPlayed === dayStr(y)) ? (p.streak || 0) : 0;
+  }
+  function badgeDefs() {
+    const stars = totalStars();
+    const lvls = LEVELS.filter(levelDone).length;
+    const streak = currentStreak();
+    return [
+      { id: "first", emoji: "🌱", name: "Premier pas", nameHe: "צַעַד רִאשׁוֹן", got: stars >= 1 },
+      { id: "l3", emoji: "🚀", name: "3 niveaux finis", nameHe: "3 שְׁלַבִּים", got: lvls >= 3 },
+      { id: "stars25", emoji: "✨", name: "25 étoiles", nameHe: "25 כּוֹכָבִים", got: stars >= 25 },
+      { id: "l5", emoji: "🏅", name: "La moitié du jeu", nameHe: "חֲצִי מֵהַמִּשְׂחָק", got: lvls >= 5 },
+      { id: "streak3", emoji: "🔥", name: "3 jours de suite", nameHe: "3 יָמִים בָּרֶצֶף", got: streak >= 3 },
+      { id: "stars50", emoji: "💎", name: "50 étoiles", nameHe: "50 כּוֹכָבִים", got: stars >= 50 },
+      { id: "streak7", emoji: "🌟", name: "7 jours de suite", nameHe: "7 יָמִים בָּרֶצֶף", got: streak >= 7 },
+      { id: "l10", emoji: "👑", name: "Tout le jeu !", nameHe: "כָּל הַמִּשְׂחָק!", got: lvls >= 10 }
+    ];
+  }
+  // détecte les badges nouvellement gagnés, les fête et les mémorise
+  function checkNewBadges() {
+    const p = profile(); if (!p) return;
+    p.badgesSeen = p.badgesSeen || [];
+    const fresh = badgeDefs().filter(b => b.got && p.badgesSeen.indexOf(b.id) < 0);
+    if (!fresh.length) return;
+    fresh.forEach(b => p.badgesSeen.push(b.id));
+    save();
+    let d = 600;
+    fresh.forEach(b => {
+      setTimeout(() => {
+        confetti(50);
+        toast("cheer", "Nouveau badge ! " + b.emoji + " " + b.name, "תַּג חָדָשׁ! " + b.name);
+        speak("Bravo ! Tu as gagné un nouveau badge !", 1.0);
+      }, d);
+      d += 1700;
+    });
+  }
+  function screenBadges() {
+    const defs = badgeDefs();
+    const got = defs.filter(b => b.got).length;
+    const grid = defs.map(b =>
+      '<div class="badge-item' + (b.got ? " got" : "") + '">' +
+      '<span class="badge-emoji">' + (b.got ? b.emoji : "🔒") + "</span>" +
+      '<span class="badge-name">' + esc(b.name) + he(b.nameHe) + "</span>" +
+      "</div>").join("");
+    $screen.innerHTML =
+      '<div class="screen">' +
+      '<div class="topbar">' +
+      '<button class="back" id="back" aria-label="Retour">←</button>' +
+      '<span class="title">🏆 Mes badges' + he("הַתָּגִים שֶׁלִּי") + "</span>" +
+      "</div>" +
+      '<div class="streak-banner">🔥 ' + currentStreak() + ' jour(s) de suite&nbsp;·&nbsp;⭐ ' + totalStars() +
+      he("יָמִים בָּרֶצֶף") + "</div>" +
+      '<div class="subtitle" style="margin:2px 0 10px">' + got + " / " + defs.length + " badges gagnés" +
+      he(got + " מִתּוֹךְ " + defs.length + " תָּגִים") + "</div>" +
+      '<div class="badges-grid">' + grid + "</div>" +
+      "</div>";
+    document.getElementById("back").addEventListener("click", screenMap);
+  }
+
+  /* ============================================================
+     Sauvegarde / restauration de la progression (anti-perte localStorage)
+     ============================================================ */
+  function encodeBackup() {
+    const data = JSON.stringify({ v: 1, profiles: store.profiles });
+    try { return btoa(unescape(encodeURIComponent(data))); } catch (e) { return ""; }
+  }
+  function applyBackup(text, done) {
+    let obj = null;
+    text = String(text || "").trim();
+    try {
+      // accepte soit le code (base64), soit le JSON brut d'un fichier
+      obj = JSON.parse(text[0] === "{" ? text : decodeURIComponent(escape(atob(text))));
+    } catch (e) { done(false, "Code illisible"); return; }
+    if (!obj || typeof obj.profiles !== "object") { done(false, "Sauvegarde invalide"); return; }
+    let n = 0;
+    Object.keys(obj.profiles).forEach(name => { store.profiles[name] = obj.profiles[name]; n++; });
+    save();
+    done(true, n + " profil(s) restauré(s)");
+  }
+  function screenBackup() {
+    const code = encodeBackup();
+    const nProfiles = Object.keys(store.profiles).length;
+    $screen.innerHTML =
+      '<div class="screen">' +
+      '<div class="topbar">' +
+      '<button class="back" id="back" aria-label="Retour">←</button>' +
+      '<span class="title">💾 Sauvegarde' + he("גִּבּוּי") + "</span>" +
+      "</div>" +
+      '<div class="backup-box">' +
+      '<div class="backup-h">Garder la progression en lieu sûr' + he("לִשְׁמֹר אֶת הַהִתְקַדְּמוּת") + "</div>" +
+      '<p class="backup-p">Le jeu garde la progression sur ce téléphone, mais elle peut s\'effacer après une longue pause. Sauvegarde-la pour ne rien perdre.' +
+      he("הַמִּשְׂחָק שׁוֹמֵר עַל הַטֵּלֵפוֹן, אֲבָל זֶה עָלוּל לְהִמָּחֵק אַחֲרֵי הַפְסָקָה אֲרֻכָּה. שִׁמְרוּ כְּדֵי לֹא לְאַבֵּד.") + "</p>" +
+      '<button class="btn btn-good" id="bk-download" ' + (nProfiles ? "" : "disabled") + '>📥 Télécharger le fichier' + he("לְהוֹרִיד קֹבֶץ") + "</button>" +
+      '<button class="btn btn-ghost" id="bk-copy" ' + (nProfiles ? "" : "disabled") + '>📋 Copier le code' + he("לְהַעְתִּיק קוֹד") + "</button>" +
+      '<textarea class="backup-code" id="bk-code" readonly>' + esc(code) + "</textarea>" +
+      "</div>" +
+      '<div class="backup-box">' +
+      '<div class="backup-h">Restaurer une sauvegarde' + he("לְשַׁחְזֵר גִּבּוּי") + "</div>" +
+      '<p class="backup-p">Colle ton code ci-dessous, ou choisis ton fichier de sauvegarde.' +
+      he("הַדְבִּיקוּ אֶת הַקּוֹד, אוֹ בַּחֲרוּ קֹבֶץ.") + "</p>" +
+      '<textarea class="backup-code" id="bk-in" placeholder="Colle ton code ici..."></textarea>' +
+      '<button class="btn btn-good" id="bk-restore">♻️ Restaurer le code' + he("לְשַׁחְזֵר") + "</button>" +
+      '<label class="btn btn-ghost" for="bk-file" style="display:block">📂 Choisir un fichier' + he("לִבְחֹר קֹבֶץ") + "</label>" +
+      '<input type="file" id="bk-file" accept=".json,application/json" style="display:none">' +
+      "</div>" +
+      "</div>";
+    document.getElementById("back").addEventListener("click", screenSplash);
+
+    const dl = document.getElementById("bk-download");
+    if (dl) dl.addEventListener("click", () => {
+      try {
+        const blob = new Blob([JSON.stringify({ v: 1, profiles: store.profiles })], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url; a.download = "levy-progression.json";
+        document.body.appendChild(a); a.click(); a.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 2000);
+        toast("happy", "Fichier téléchargé ! 💾", "הַקֹּבֶץ יָרַד!");
+      } catch (e) { toast("oops", "Impossible de télécharger ici", "לֹא הִצְלַחְנוּ"); }
+    });
+    const cp = document.getElementById("bk-copy");
+    if (cp) cp.addEventListener("click", () => {
+      const ta = document.getElementById("bk-code");
+      ta.select();
+      const ok = (() => { try { return navigator.clipboard ? (navigator.clipboard.writeText(code), true) : document.execCommand("copy"); } catch (e) { try { return document.execCommand("copy"); } catch (e2) { return false; } } })();
+      toast(ok ? "happy" : "oops", ok ? "Code copié ! 📋" : "Sélectionne et copie le code", ok ? "הַקּוֹד הֹעְתַּק!" : "בַּחֲרוּ וְהַעְתִּיקוּ");
+    });
+    document.getElementById("bk-restore").addEventListener("click", () => {
+      const val = document.getElementById("bk-in").value;
+      if (!val.trim()) { toast("think", "Colle d'abord ton code", "הַדְבִּיקוּ קוֹד קֹדֶם"); return; }
+      confirmDialog({
+        expr: "think", title: "Restaurer cette sauvegarde ?",
+        titleHe: "לְשַׁחְזֵר אֶת הַגִּבּוּי?",
+        body: "Les profils sauvegardés seront ajoutés sur ce téléphone.",
+        bodyHe: "הַפְּרוֹפִילִים יִתּוֹסְפוּ לַטֵּלֵפוֹן הַזֶּה.",
+        yes: "Oui, restaurer", yesHe: "כֵּן, לְשַׁחְזֵר"
+      }, () => applyBackup(val, (ok, msg) => {
+        toast(ok ? "cheer" : "oops", msg, "");
+        if (ok) { confetti(40); setTimeout(screenSplash, 900); }
+      }));
+    });
+    document.getElementById("bk-file").addEventListener("change", e => {
+      const f = e.target.files && e.target.files[0];
+      if (!f) return;
+      const r = new FileReader();
+      r.onload = () => applyBackup(r.result, (ok, msg) => {
+        toast(ok ? "cheer" : "oops", msg, "");
+        if (ok) { confetti(40); setTimeout(screenSplash, 900); }
+      });
+      r.readAsText(f);
+    });
+  }
+
   /* ---------- Démarrage ---------- */
+  // Service Worker : cache hors-ligne (2e visite instantanée, jeu jouable sans réseau)
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("sw.js").catch(() => {});
+    });
+  }
   if (store.current && store.profiles[store.current]) screenMap();
   else screenSplash();
 })();

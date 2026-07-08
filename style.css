@@ -334,3 +334,40 @@ button { font-family: inherit; border: none; cursor: pointer; color: inherit; ba
 @media (min-width: 541px) {
   #app { border-left: 1px solid #EDE4D3; border-right: 1px solid #EDE4D3; }
 }
+
+/* ========== Nouvelles fonctionnalités (sauvegarde, badges, série, reprise) ========== */
+.splash-tools { display: flex; gap: 10px; justify-content: center; margin: 14px auto 0; flex-wrap: wrap; }
+
+.resume-btn { margin-bottom: 12px; }
+.streak-chip { background: #FFF1DE; color: var(--accent-text); font-weight: 700; }
+
+/* Bannière + grille de badges */
+.streak-banner {
+  background: linear-gradient(90deg, #FFF1DE, #FDEBEC);
+  border-radius: var(--radius); padding: 12px 16px; text-align: center;
+  font-weight: 700; color: var(--ink); box-shadow: var(--shadow); margin-bottom: 8px;
+}
+.badges-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.badge-item {
+  background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow);
+  padding: 16px 10px; text-align: center; display: flex; flex-direction: column;
+  align-items: center; gap: 8px; opacity: 0.55; filter: grayscale(0.6);
+  border: 2px solid transparent; transition: transform 0.15s ease;
+}
+.badge-item.got { opacity: 1; filter: none; border-color: var(--accent); }
+.badge-emoji { font-size: 2.6rem; line-height: 1; }
+.badge-name { font-weight: 700; font-size: 0.95rem; color: var(--ink); }
+
+/* Écran sauvegarde */
+.backup-box {
+  background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow);
+  padding: 16px; margin-bottom: 14px;
+}
+.backup-h { font-weight: 700; font-size: 1.1rem; margin-bottom: 6px; color: var(--primary-dark); }
+.backup-p { color: var(--ink-soft); font-size: 0.95rem; margin-bottom: 12px; line-height: 1.4; }
+.backup-box .btn { margin-top: 8px; }
+.backup-code {
+  width: 100%; min-height: 70px; margin-top: 10px; padding: 10px; border-radius: 12px;
+  border: 2px solid #EDE4D3; font-family: monospace; font-size: 0.8rem; resize: vertical;
+  background: #FBF6EE; color: var(--ink-soft); word-break: break-all;
+}
