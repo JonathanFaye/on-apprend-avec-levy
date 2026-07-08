@@ -10,6 +10,191 @@ window.LEVELS.push({
   taglineHe: "אֲנִי נִהְיֶה חָזָק בְּצָרְפָתִית!",
   sublevels: [
     {
+        "id": "n8-s0-grammaire",
+        "name": "La grammaire en douceur",
+        "nameHe": "הַדִּקְדּוּק בְּעֲדִינוּת",
+        "emoji": "🌱",
+        "lesson": {
+            "cards": [
+                {
+                    "title": "Tu parles déjà français ! 🗣️",
+                    "titleHe": "אַתָּה כְּבָר מְדַבֵּר צָרְפָתִית! 🗣️",
+                    "body": "Tu dis déjà 'un chat', 'une fleur' sans y penser. Chaque mot est un garçon (masculin) ou une fille (féminin). Ici, tu vas juste apprendre à le VOIR écrit.",
+                    "bodyHe": "אַתָּה כְּבָר אוֹמֵר 'un chat', 'une fleur' בְּלִי לַחְשֹׁב. כָּל מִלָּה הִיא יֶלֶד (זָכָר) אוֹ יַלְדָּה (נְקֵבָה). כָּאן אַתָּה פָּשׁוּט תִּלְמַד לִרְאוֹת אוֹתָהּ כְּתוּבָה.",
+                    "big": "un / une",
+                    "say": "un chat. une fleur."
+                },
+                {
+                    "title": "un, une, le, la 🔑",
+                    "titleHe": "un, une, le, la 🔑",
+                    "body": "Pour un garçon : un, le. Pour une fille : une, la. Un chien, le chien. Une poule, la poule. Tu le dis déjà tout seul !",
+                    "bodyHe": "לְיֶלֶד: un, le. לְיַלְדָּה: une, la. Un chien, le chien. Une poule, la poule. אַתָּה כְּבָר אוֹמֵר אֶת זֶה לְבַד!",
+                    "big": "un le / une la",
+                    "say": "un chien. le chien. une poule. la poule."
+                },
+                {
+                    "title": "Un ou plusieurs ? le petit s ✏️",
+                    "titleHe": "אֶחָד אוֹ הַרְבֵּה? הַ-s הַקָּטָן ✏️",
+                    "body": "Quand il y en a plusieurs, on ajoute souvent un petit 's' à la fin. Un chat, des chats. On ne l'entend pas, mais on l'écrit !",
+                    "bodyHe": "כְּשֶׁיֵּשׁ הַרְבֵּה, לְרֹב מוֹסִיפִים 's' קָטָן בַּסּוֹף. Un chat, des chats. לֹא שׁוֹמְעִים אוֹתוֹ, אֲבָל כּוֹתְבִים אוֹתוֹ!",
+                    "big": "un chat, des chats",
+                    "say": "un chat. des chats."
+                }
+            ]
+        },
+        "exercises": [
+            {
+                "type": "pick",
+                "prompt": "Quel petit mot va avec fleur ?",
+                "promptHe": "אֵיזוֹ מִלָּה קְטַנָּה הוֹלֶכֶת עִם fleur?",
+                "question": "🌸 fleur",
+                "choices": [
+                    "une",
+                    "un"
+                ],
+                "answer": 0,
+                "say": "une fleur",
+                "explain": "On dit UNE fleur : fleur est un mot féminin, une fille.",
+                "explainHe": "אוֹמְרִים UNE fleur: fleur הִיא מִלָּה נְקֵבָה, יַלְדָּה."
+            },
+            {
+                "type": "pick",
+                "prompt": "Quel petit mot va avec chien ?",
+                "promptHe": "אֵיזוֹ מִלָּה קְטַנָּה הוֹלֶכֶת עִם chien?",
+                "question": "🐶 chien",
+                "choices": [
+                    "un",
+                    "une"
+                ],
+                "answer": 0,
+                "say": "un chien",
+                "explain": "On dit UN chien : chien est un mot masculin, un garçon.",
+                "explainHe": "אוֹמְרִים UN chien: chien הוּא מִלָּה זָכָר, יֶלֶד."
+            },
+            {
+                "type": "listen",
+                "prompt": "Écoute : un ou une ?",
+                "promptHe": "הַקְשִׁיבוּ: un אוֹ une?",
+                "choices": [
+                    "une",
+                    "un"
+                ],
+                "answer": 0,
+                "say": "une pomme",
+                "explain": "Tu as entendu 'une pomme'. Pomme est féminin.",
+                "explainHe": "שָׁמַעְתָּ 'une pomme'. pomme הִיא נְקֵבָה."
+            },
+            {
+                "type": "fill",
+                "prompt": "Complète avec le bon petit mot !",
+                "promptHe": "הַשְׁלִימוּ עִם הַמִּלָּה הַקְּטַנָּה הַנְּכוֹנָה!",
+                "choices": [
+                    "le",
+                    "la",
+                    "une"
+                ],
+                "answer": 0,
+                "sentence": "␣ soleil brille.",
+                "say": "le soleil brille",
+                "explain": "On dit LE soleil : soleil est masculin.",
+                "explainHe": "אוֹמְרִים LE soleil: soleil הוּא זָכָר."
+            },
+            {
+                "type": "pick",
+                "prompt": "Un seul ou plusieurs ?",
+                "promptHe": "אֶחָד אוֹ הַרְבֵּה?",
+                "question": "🐱🐱🐱",
+                "choices": [
+                    "plusieurs",
+                    "un seul"
+                ],
+                "answer": 0,
+                "say": "plusieurs chats",
+                "explain": "Il y en a plusieurs ! On dit DES chats.",
+                "explainHe": "יֵשׁ הַרְבֵּה! אוֹמְרִים DES chats."
+            },
+            {
+                "type": "fill",
+                "prompt": "Plusieurs ! Ajoute la bonne lettre.",
+                "promptHe": "הַרְבֵּה! הוֹסִיפוּ אֶת הָאוֹת הַנְּכוֹנָה.",
+                "choices": [
+                    "s",
+                    "t",
+                    "e"
+                ],
+                "answer": 0,
+                "sentence": "il y a deux chien␣.",
+                "say": "deux chiens",
+                "explain": "Plusieurs chiens : on ajoute un 's' à la fin, chienS.",
+                "explainHe": "הַרְבֵּה chiens: מוֹסִיפִים 's' בַּסּוֹף, chienS."
+            },
+            {
+                "type": "match",
+                "prompt": "Relie chaque mot à son image !",
+                "promptHe": "חַבְּרוּ כָּל מִלָּה לַתְּמוּנָה שֶׁלָּהּ!",
+                "pairs": [
+                    [
+                        "une fleur",
+                        "🌸"
+                    ],
+                    [
+                        "un vélo",
+                        "🚲"
+                    ],
+                    [
+                        "une maison",
+                        "🏠"
+                    ],
+                    [
+                        "un poisson",
+                        "🐟"
+                    ]
+                ],
+                "explain": "une fleur 🌸, un vélo 🚲, une maison 🏠, un poisson 🐟 !",
+                "explainHe": "une fleur 🌸, un vélo 🚲, une maison 🏠, un poisson 🐟!"
+            },
+            {
+                "type": "build",
+                "prompt": "Assemble : plusieurs chats !",
+                "promptHe": "הַרְכִּיבוּ: הַרְבֵּה chats!",
+                "answer": [
+                    "des",
+                    "chats"
+                ],
+                "tiles": [
+                    "chats",
+                    "des",
+                    "un",
+                    "chat"
+                ],
+                "say": "des chats",
+                "explain": "Plusieurs : DES chats, avec un 's' à la fin !",
+                "explainHe": "הַרְבֵּה: DES chats, עִם 's' בַּסּוֹף!"
+            },
+            {
+                "type": "pick",
+                "prompt": "Lis bien : combien de chiens ?",
+                "promptHe": "קִרְאוּ הֵיטֵב: כַּמָּה chiens?",
+                "question": "les chiens",
+                "choices": [
+                    "plusieurs 🐶🐶",
+                    "un seul 🐶"
+                ],
+                "answer": 0,
+                "say": "les chiens",
+                "explain": "Le mot 'chiens' a un 's' : c'est plusieurs chiens !",
+                "explainHe": "לַמִּלָּה 'chiens' יֵשׁ 's': זֶה הַרְבֵּה chiens!"
+            }
+        ],
+        "joke": {
+            "q": "Que dit un mot féminin à un mot masculin ? 💬",
+            "a": "Toi et moi, on s'accorde bien ! 😄",
+            "qHe": "מָה אוֹמֶרֶת מִלָּה נְקֵבָה לְמִלָּה זָכָר? 💬",
+            "aHe": "אֲנַחְנוּ מַתְאִימִים כָּל כָּךְ טוֹב יַחַד! 😄"
+        }
+    },
+
+    {
       id: "n8-s1",
       name: "Masculin ou féminin ?",
       nameHe: "זָכָר אוֹ נְקֵבָה?",
