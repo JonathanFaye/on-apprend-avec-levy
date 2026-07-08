@@ -381,9 +381,10 @@
 
   /* ---------- Écran profils ---------- */
   // personnages : un enfant qui ne lit pas encore choisit son animal (pas besoin d'écrire)
+  // animaux cachère (à sabots fendus + ruminants, volailles cachère, poisson à écailles)
   const AVATARS = [
-    ["🦁", "Lion"], ["🦊", "Renard"], ["🐼", "Panda"], ["🐢", "Tortue"],
-    ["🐰", "Lapin"], ["🐧", "Pingouin"], ["🐱", "Chat"], ["🦄", "Licorne"]
+    ["🐑", "Mouton"], ["🐐", "Chèvre"], ["🐄", "Vache"], ["🦌", "Biche"],
+    ["🦒", "Girafe"], ["🐔", "Poule"], ["🦆", "Canard"], ["🐟", "Poisson"]
   ];
   function createProfile(name, avatar) {
     let key = name, i = 2;
@@ -1219,7 +1220,8 @@
   /* ============================================================
      Album d'autocollants : chaque étape terminée en débloque un (collection)
      ============================================================ */
-  const STICKERS = ("🌟 🐱 🐶 🐟 🐢 🐰 🦊 🐼 🦁 🐸 🦋 🐝 🐬 🦉 🌸 🌻 🌈 🌳 ☀️ 🌙 🎈 🎨 🚀 🚗 🚲 🏰 🍎 🍕 🍦 🎁 🏆 👑 🎂 🪁 ⚽ 🎪 🐧 🦄 🌍 ⭐").split(" ");
+  // autocollants : animaux cachère + éléments neutres (nature, objets, fêtes)
+  const STICKERS = ("🌟 🐑 🐐 🐄 🦌 🦒 🐔 🦆 🕊️ 🐣 🐟 🐠 🦃 🌺 🌸 🌻 🌈 🌳 ☀️ 🌙 🎈 🎨 🚀 🚗 🚲 🏰 🍎 🍕 🍦 🎁 🏆 👑 🎂 🪁 ⚽ 🎪 🌍 🍀 🎵 ⭐").split(" ");
   function stickersUnlocked() {
     const p = profile();
     const n = p && p.done ? Object.keys(p.done).length : 0;
@@ -1426,13 +1428,16 @@
     return '<svg viewBox="0 0 200 200"><ellipse cx="100" cy="80" rx="46" ry="54"/>' +
       '<path d="M94 133 L106 133 L100 145 Z"/><path d="M100 145 Q112 165 96 190"/></svg>';
   }
-  function colorCat() {
-    return '<svg viewBox="0 0 200 200"><circle cx="100" cy="105" r="52"/>' +
-      '<path d="M62 72 L52 40 L86 62 Z"/><path d="M138 72 L148 40 L114 62 Z"/>' +
-      '<circle cx="82" cy="98" r="5"/><circle cx="118" cy="98" r="5"/>' +
-      '<path d="M96 112 L104 112 L100 118 Z"/><path d="M100 118 Q92 128 84 124"/><path d="M100 118 Q108 128 116 124"/>' +
-      '<line x1="60" y1="112" x2="30" y2="106"/><line x1="60" y1="120" x2="30" y2="122"/>' +
-      '<line x1="140" y1="112" x2="170" y2="106"/><line x1="140" y1="120" x2="170" y2="122"/></svg>';
+  function colorBird() {
+    return '<svg viewBox="0 0 200 200">' +
+      '<ellipse cx="96" cy="118" rx="50" ry="40"/>' +
+      '<circle cx="140" cy="80" r="27"/>' +
+      '<path d="M165 76 L188 83 L165 92 Z"/>' +
+      '<circle cx="149" cy="75" r="4"/>' +
+      '<path d="M66 104 Q94 138 122 108"/>' +
+      '<path d="M48 122 Q22 112 24 140"/>' +
+      '<line x1="88" y1="155" x2="88" y2="176"/><line x1="108" y1="155" x2="108" y2="176"/>' +
+      '<path d="M80 176 L96 176"/><path d="M100 176 L116 176"/></svg>';
   }
   const RES_COLOR = [
     { t: "Levy", sub: "Colorie la mascotte !", svg: colorLevy },
@@ -1443,7 +1448,7 @@
     { t: "L'étoile", sub: "É comme étoile", svg: colorStar },
     { t: "L'arbre", sub: "A comme arbre", svg: colorTree },
     { t: "Le ballon", sub: "B comme ballon", svg: colorBalloon },
-    { t: "Le chat", sub: "C comme chat", svg: colorCat }
+    { t: "L'oiseau", sub: "O comme oiseau", svg: colorBird }
   ];
   // coloriages-jeux : on ne colorie QUE ce qui est demandé (lettres ou images)
   const COLOR_EX = [
