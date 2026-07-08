@@ -78,6 +78,13 @@
     return h.toString(16);
   }
   let currentAudio = null;
+  // coupe tout son en cours (mp3 + synthèse vocale) : appelé à chaque changement d'écran
+  // pour ne pas laisser une énumération continuer après avoir quitté la leçon
+  function stopAudio() {
+    try { if (currentAudio) { currentAudio.pause(); currentAudio.src = ""; currentAudio = null; } } catch (e) {}
+    try { if (window.speechSynthesis) speechSynthesis.cancel(); } catch (e) {}
+    try { document.querySelectorAll(".say-btn.loading").forEach(b => b.classList.remove("loading")); } catch (e) {}
+  }
   let audioErrorShown = false;
   function audioErrorToast() {
     if (audioErrorShown) return;
@@ -89,8 +96,7 @@
   function speak(text, rate, btnOverride) {
     const btn = btnOverride || document.getElementById("sayb");
     if (!store.soundOn || !text) { if (btn) btn.classList.remove("loading"); return; }
-    try { if (currentAudio) { currentAudio.pause(); currentAudio = null; } } catch (e) {}
-    try { if (window.speechSynthesis) speechSynthesis.cancel(); } catch (e) {}
+    stopAudio();
     if (btn) btn.classList.add("loading");
     const clear = () => { if (btn) btn.classList.remove("loading"); };
     const map = window.AUDIO_MAP || {};
@@ -329,6 +335,7 @@
 
   /* ---------- Écran profils ---------- */
   function screenSplash() {
+    stopAudio();
     const names = Object.keys(store.profiles);
     let rows = names.map(n => {
       const p = store.profiles[n];
@@ -399,6 +406,7 @@
 
   /* ---------- Carte des niveaux ---------- */
   function screenMap() {
+    stopAudio();
     if (!profile()) return screenSplash();
     const cards = LEVELS.map((lv, i) => {
       const unlocked = isLevelUnlocked(i);
@@ -471,6 +479,7 @@
 
   /* ---------- Sous-niveaux ---------- */
   function screenSublevels(lvlIdx) {
+    stopAudio();
     const lv = LEVELS[lvlIdx];
     const subs = lv.sublevels.map((sub, j) => {
       const unlocked = isSubUnlocked(lv, j);
@@ -956,6 +965,7 @@
 
   /* ---------- Diplôme ---------- */
   function screenDiploma() {
+    stopAudio();
     confetti(120);
     const date = new Date().toLocaleDateString("fr-FR");
     $screen.innerHTML =
@@ -1045,6 +1055,7 @@
     });
   }
   function screenBadges() {
+    stopAudio();
     const defs = badgeDefs();
     const got = defs.filter(b => b.got).length;
     const grid = defs.map(b =>
@@ -1088,6 +1099,7 @@
     done(true, n + " profil(s) restauré(s)");
   }
   function screenBackup() {
+    stopAudio();
     const code = encodeBackup();
     const nProfiles = Object.keys(store.profiles).length;
     $screen.innerHTML =
