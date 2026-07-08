@@ -5,10 +5,11 @@
   --bg: #FDF6EC;
   --card: #FFFFFF;
   --ink: #2B2540;
-  --ink-soft: #6B6483;
+  --ink-soft: #5A5270; /* fonce depuis #6B6483 pour rester >4.5:1 avec le texte hebreu en 0.92em */
   --primary: #4A90D9;
   --primary-dark: #2C5E93;
   --accent: #F5A623;
+  --accent-text: #C77F0A; /* meme teinte que l'accent mais assez sombre pour 4.5:1 sur fond clair */
   --good: #34A853;
   --good-bg: #E3F6E8;
   --bad: #E5484D;
@@ -56,6 +57,11 @@ body {
 
 /* ---------- Boutons génériques ---------- */
 button { font-family: inherit; border: none; cursor: pointer; color: inherit; background: none; }
+.btn:focus-visible, .choice:focus-visible, .tile:focus-visible, .match-item:focus-visible,
+.level-card:focus-visible, .sub-card:focus-visible, .chip:focus-visible, .say-btn:focus-visible,
+.back:focus-visible, .profile-row .del:focus-visible {
+  outline: 3px solid var(--primary); outline-offset: 2px;
+}
 .btn {
   display: block; width: 100%; padding: 15px 20px; border-radius: var(--radius);
   font-size: 1.15rem; font-weight: 600; text-align: center;
@@ -97,7 +103,10 @@ button { font-family: inherit; border: none; cursor: pointer; color: inherit; ba
 }
 .profile-row .avatar { font-size: 1.6rem; }
 .profile-row .stars { margin-left: auto; color: var(--accent); font-size: 0.95rem; }
-.profile-row .del { color: #C9C2D4; font-size: 1.1rem; padding: 4px 6px; }
+.profile-row .del {
+  color: #C9C2D4; font-size: 1.1rem; padding: 4px 6px;
+  min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center;
+}
 .newplayer-form { display: flex; gap: 8px; margin-top: 6px; }
 .newplayer-form input {
   flex: 1; padding: 13px 16px; border-radius: var(--radius); border: 2px solid #E5DDCF;
@@ -122,7 +131,7 @@ button { font-family: inherit; border: none; cursor: pointer; color: inherit; ba
 .level-card .lvl-name { display: block; font-size: 1.15rem; font-weight: 700; }
 .level-card .lvl-name .he-inline { font-weight: 400; color: var(--ink-soft); font-size: 0.82em; margin-left: 6px; direction: rtl; unicode-bidi: isolate; }
 .level-card .lvl-tag { display: block; font-size: 0.85rem; color: var(--ink-soft); margin-top: 2px; }
-.level-card .lvl-progress { font-size: 0.9rem; font-weight: 700; color: var(--accent); white-space: nowrap; }
+.level-card .lvl-progress { font-size: 0.9rem; font-weight: 700; color: var(--accent-text); white-space: nowrap; }
 .level-card.locked { filter: grayscale(1); opacity: 0.55; }
 .level-card.locked .lvl-lock { position: absolute; right: 14px; font-size: 1.3rem; }
 
@@ -141,7 +150,7 @@ button { font-family: inherit; border: none; cursor: pointer; color: inherit; ba
 .sub-card .sub-info { flex: 1; }
 .sub-card .sub-name { display: block; font-weight: 700; font-size: 1.05rem; }
 .sub-card .sub-name .he-inline { font-weight: 400; color: var(--ink-soft); font-size: 0.82em; margin-left: 6px; direction: rtl; unicode-bidi: isolate; }
-.sub-card .sub-stars { display: block; font-size: 0.88rem; color: var(--accent); }
+.sub-card .sub-stars { display: block; font-size: 0.88rem; color: var(--accent-text); }
 .sub-card.locked { filter: grayscale(1); opacity: 0.55; }
 
 /* ---------- Leçon ---------- */
@@ -182,6 +191,8 @@ button { font-family: inherit; border: none; cursor: pointer; color: inherit; ba
 }
 .say-btn:active { transform: translateY(3px); box-shadow: 0 1px 0 #C77F0A; }
 .say-btn.big { font-size: 1.4rem; padding: 18px 30px; }
+.say-btn.loading { opacity: 0.75; animation: pulse 0.7s ease infinite; }
+@keyframes pulse { 0%,100% { opacity: 0.75; } 50% { opacity: 1; } }
 
 .choices { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: auto; padding-top: 14px; }
 .choices.single-col { grid-template-columns: 1fr; }
@@ -220,7 +231,7 @@ button { font-family: inherit; border: none; cursor: pointer; color: inherit; ba
 .fill-sentence { text-align: center; font-size: 1.7rem; font-weight: 700; margin: 18px 0; line-height: 1.5; }
 .fill-blank {
   display: inline-block; min-width: 46px; border-bottom: 4px solid var(--accent);
-  color: var(--accent); padding: 0 6px;
+  color: var(--accent-text); padding: 0 6px;
 }
 
 /* type (dictée) */

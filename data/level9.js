@@ -100,7 +100,7 @@ window.LEVELS.push({
         {
           type: "listen",
           prompt: "Écoute bien et choisis ce que tu entends !",
-          promptHe: "הַקְשִׁיבוּ טוֹב וּבַחֲרוּ מָה שְׁמַעְתֶּם!",
+          promptHe: "הַקְשִׁיבוּ טוֹב וּבַחֲרוּ מַה שֶּׁשְּׁמַעְתֶּם!",
           say: "nous nageons",
           choices: ["nous nageons", "vous nagez", "ils nagent"],
           answer: 0,
@@ -445,7 +445,7 @@ window.LEVELS.push({
             title: "Le grand défi ! 💪",
             titleHe: "הָאֶתְגָּר הַגָּדוֹל!",
             body: "Tu es presque champion ! Verbes, homophones, accords : montre tout ce que tu sais. Levy croit en toi !",
-            bodyHe: "אַתֶּם כִּמְעַט אַלּוּפִים! פְּעָלִים, מִלִּים דּוֹמוֹת, הַתְאָמוֹת: תַּרְאוּ כָּל מָה שֶׁאַתֶּם יוֹדְעִים. Levy מַאֲמִין בָּכֶם!",
+            bodyHe: "אַתֶּם כִּמְעַט אַלּוּפִים! פְּעָלִים, מִלִּים דּוֹמוֹת, הַתְאָמוֹת: תַּרְאוּ כָּל מַה שֶּׁאַתֶּם יוֹדְעִים. Levy מַאֲמִין בָּכֶם!",
             big: "🏆"
           }
         ]
@@ -530,7 +530,7 @@ window.LEVELS.push({
         {
           type: "listen",
           prompt: "Écoute bien et choisis ce que tu entends !",
-          promptHe: "הַקְשִׁיבוּ טוֹב וּבַחֲרוּ מָה שְׁמַעְתֶּם!",
+          promptHe: "הַקְשִׁיבוּ טוֹב וּבַחֲרוּ מַה שֶּׁשְּׁמַעְתֶּם!",
           say: "vous chantez",
           choices: ["vous chantez", "tu chantes", "ils chantent"],
           answer: 0,
@@ -579,7 +579,7 @@ window.LEVELS.push({
       joke: {
         q: "Charade ! Mon premier sort de la bouche quand on fait de la musique 🎶. Mon deuxième est un oiseau noir et blanc qui adore ce qui brille 🐦. Mon troisième est un petit mot qui veut dire 'quelqu'un'. Mon tout... c'est TOI à la fin de ce niveau !",
         a: "Un CHAMPION ! CHANT + PIE + ON. Bravo, champion ! 🏆🎉",
-        qHe: "חִידַת הֲבָרוֹת! הָרִאשׁוֹן יוֹצֵא מֵהַפֶּה כְּשֶׁשָּׁרִים (CHANT - שִׁירָה) 🎶. הַשֵּׁנִי הוּא צִפּוֹר שְׁחֹרָה-לְבָנָה שֶׁאוֹהֶבֶת דְּבָרִים נוֹצְצִים (PIE - עַקְעַק) 🐦. הַשְּׁלִישִׁי הוּא מִלָּה קְטַנָּה שֶׁאוֹמֶרֶת 'מִישֶׁהוּ' (ON). הַכֹּל בְּיַחַד... זֶה אַתֶּם בְּסוֹף הַשָּׁלָב הַזֶּה!",
+        qHe: "חִידַת הֲבָרוֹת! הָרִאשׁוֹן יוֹצֵא מֵהַפֶּה כְּשֶׁשָּׁרִים (CHANT - שִׁירָה) 🎶. הַשֵּׁנִי הוּא צִפּוֹר שְׁחֹרָה-לְבָנָה שֶׁאוֹהֶבֶת דְּבָרִים נוֹצְצִים (PIE - עַקְעָק) 🐦. הַשְּׁלִישִׁי הוּא מִלָּה קְטַנָּה שֶׁאוֹמֶרֶת 'מִישֶׁהוּ' (ON). הַכֹּל בְּיַחַד... זֶה אַתֶּם בְּסוֹף הַשָּׁלָב הַזֶּה!",
         aHe: "CHAMPION (אַלּוּף)! CHANT + PIE + ON נִשְׁמָע בְּיַחַד כְּמוֹ 'אַלּוּף' בְּצָרְפָתִית. כָּל הַכָּבוֹד, אַלּוּפִים! 🏆🎉"
       }
     }
