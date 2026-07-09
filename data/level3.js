@@ -10,6 +10,202 @@ window.LEVELS.push({
   taglineHe: "אֲנִי קוֹרֵא אֶת הַמִּלִּים הָרִאשׁוֹנוֹת שֶׁלִּי!",
   sublevels: [
     {
+      id: "n3-s0-fusion",
+      name: "Je colle 3 sons",
+      nameHe: "אֲנִי מַרְכִּיב שְׁלוֹשָׁה צְלִילִים",
+      emoji: "🔗",
+      lesson: {
+        cards: [
+          {
+            title: "Je colle 3 sons ! 🔗",
+            titleHe: "אֲנִי מַרְכִּיב שְׁלוֹשָׁה צְלִילִים! 🔗",
+            body: "Tu sais deja coller 2 sons : M + A = MA. Maintenant, on colle 3 sons pour lire un VRAI mot ! Regarde : M + U + R = MUR.",
+            bodyHe: "אַתָּה כְּבָר יוֹדֵעַ לְהַרְכִּיב שְׁנֵי צְלִילִים: M + A = MA. עַכְשָׁו מַרְכִּיבִים שְׁלוֹשָׁה צְלִילִים כְּדֵי לִקְרֹא מִלָּה אֲמִתִּית! תִּסְתַּכֵּל: M + U + R = MUR.",
+            big: "M + U + R → MUR",
+            say: "mur"
+          },
+          {
+            title: "Doucement, puis vite 🐢🐇",
+            titleHe: "לְאַט, וְאָז מַהֵר 🐢🐇",
+            body: "D'abord chaque son tout doucement : s... o... l. Puis on colle vite : SOL ! Et voila, tu lis un mot tout seul.",
+            bodyHe: "קֹדֶם כָּל צְלִיל לְאַט לְאַט: s... o... l. אַחַר כָּךְ מַרְכִּיבִים מַהֵר: SOL! וְהִנֵּה, אַתָּה קוֹרֵא מִלָּה לְבַד.",
+            big: "S + O + L → SOL",
+            say: "sol"
+          }
+        ]
+      },
+      exercises: [
+        {
+          type: "blend",
+          c: "M",
+          v: "U",
+          c2: "R",
+          syll: "MUR",
+          say: "mur",
+          prompt: "Colle les 3 sons et lis le mot !",
+          promptHe: "הַרְכִּיבוּ אֶת שְׁלוֹשֶׁת הַצְּלִילִים וְקִרְאוּ אֶת הַמִּלָּה!",
+          choices: [
+            "MUR",
+            "MOR",
+            "MAR"
+          ],
+          answer: 0,
+          explain: "M + U + R = MUR ! C'est le mur d'une maison. 🧱",
+          explainHe: "M + U + R = MUR! זֶה הַקִּיר שֶׁל הַבַּיִת. 🧱"
+        },
+        {
+          type: "blend",
+          c: "S",
+          v: "O",
+          c2: "L",
+          syll: "SOL",
+          say: "sol",
+          prompt: "Colle les 3 sons !",
+          promptHe: "הַרְכִּיבוּ אֶת שְׁלוֹשֶׁת הַצְּלִילִים!",
+          choices: [
+            "SOL",
+            "SUL",
+            "SAL"
+          ],
+          answer: 0,
+          explain: "S + O + L = SOL ! Le sol, c'est par terre.",
+          explainHe: "S + O + L = SOL! הָרִצְפָּה הִיא לְמַטָּה, עַל הָאֲדָמָה."
+        },
+        {
+          type: "blend",
+          c: "M",
+          v: "A",
+          c2: "L",
+          syll: "MAL",
+          say: "mal",
+          prompt: "Colle les 3 sons et lis le mot !",
+          promptHe: "הַרְכִּיבוּ אֶת שְׁלוֹשֶׁת הַצְּלִילִים וְקִרְאוּ אֶת הַמִּלָּה!",
+          choices: [
+            "MAL",
+            "MOL",
+            "MIL"
+          ],
+          answer: 0,
+          explain: "M + A + L = MAL ! Aie, j'ai mal ! 🤕",
+          explainHe: "M + A + L = MAL! אַי, כּוֹאֵב לִי! 🤕"
+        },
+        {
+          type: "blend",
+          c: "T",
+          v: "I",
+          c2: "R",
+          syll: "TIR",
+          say: "tir",
+          prompt: "Colle les 3 sons !",
+          promptHe: "הַרְכִּיבוּ אֶת שְׁלוֹשֶׁת הַצְּלִילִים!",
+          choices: [
+            "TIR",
+            "TAR",
+            "TOR"
+          ],
+          answer: 0,
+          explain: "T + I + R = TIR ! Comme un tir au but. ⚽",
+          explainHe: "T + I + R = TIR! כְּמוֹ בְּעִיטָה לַשַּׁעַר. ⚽"
+        },
+        {
+          type: "blend",
+          c: "P",
+          v: "U",
+          c2: "R",
+          syll: "PUR",
+          say: "pur",
+          prompt: "Colle les 3 sons et lis le mot !",
+          promptHe: "הַרְכִּיבוּ אֶת שְׁלוֹשֶׁת הַצְּלִילִים וְקִרְאוּ אֶת הַמִּלָּה!",
+          choices: [
+            "PUR",
+            "POR",
+            "PAR"
+          ],
+          answer: 0,
+          explain: "P + U + R = PUR ! De l'eau pure, toute propre. 💧",
+          explainHe: "P + U + R = PUR! מַיִם טְהוֹרִים, נְקִיִּים לְגַמְרֵי. 💧"
+        },
+        {
+          type: "blend",
+          c: "S",
+          v: "U",
+          c2: "R",
+          syll: "SUR",
+          say: "sur",
+          prompt: "Colle les 3 sons !",
+          promptHe: "הַרְכִּיבוּ אֶת שְׁלוֹשֶׁת הַצְּלִילִים!",
+          choices: [
+            "SUR",
+            "SOR",
+            "SAR"
+          ],
+          answer: 0,
+          explain: "S + U + R = SUR ! Le livre est SUR la table.",
+          explainHe: "S + U + R = SUR! הַסֵּפֶר נִמְצָא עַל הַשֻּׁלְחָן."
+        },
+        {
+          type: "blend",
+          c: "P",
+          v: "A",
+          c2: "R",
+          syll: "PAR",
+          say: "par",
+          prompt: "Colle les 3 sons et lis le mot !",
+          promptHe: "הַרְכִּיבוּ אֶת שְׁלוֹשֶׁת הַצְּלִילִים וְקִרְאוּ אֶת הַמִּלָּה!",
+          choices: [
+            "PAR",
+            "POR",
+            "PIR"
+          ],
+          answer: 0,
+          explain: "P + A + R = PAR ! On passe PAR la porte.",
+          explainHe: "P + A + R = PAR! עוֹבְרִים דֶּרֶךְ הַדֶּלֶת."
+        },
+        {
+          type: "blend",
+          c: "S",
+          v: "O",
+          c2: "L",
+          syll: "SOL",
+          say: "sol",
+          prompt: "Ecoute et lis le bon mot !",
+          promptHe: "הַקְשִׁיבוּ וְקִרְאוּ אֶת הַמִּלָּה הַנְּכוֹנָה!",
+          choices: [
+            "SOL",
+            "MUR",
+            "MAL"
+          ],
+          answer: 0,
+          explain: "Tu as entendu SOL : S + O + L. Bravo, tu lis un vrai mot ! 👏",
+          explainHe: "שָׁמַעְתָּ SOL: S + O + L. כָּל הַכָּבוֹד, אַתָּה קוֹרֵא מִלָּה אֲמִתִּית! 👏"
+        },
+        {
+          type: "blend",
+          c: "M",
+          v: "A",
+          c2: "L",
+          syll: "MAL",
+          say: "mal",
+          prompt: "Ecoute et lis le bon mot !",
+          promptHe: "הַקְשִׁיבוּ וְקִרְאוּ אֶת הַמִּלָּה הַנְּכוֹנָה!",
+          choices: [
+            "MAL",
+            "PUR",
+            "TIR"
+          ],
+          answer: 0,
+          explain: "Tu as entendu MAL : M + A + L. 🤕",
+          explainHe: "שָׁמַעְתָּ MAL: M + A + L. 🤕"
+        }
+      ],
+      joke: {
+        q: "Que dit un mur a un autre mur ? 🧱",
+        qHe: "מָה אוֹמֵר קִיר לְקִיר אַחֵר? 🧱",
+        a: "On se retrouve au coin ! 😂",
+        aHe: "נִפָּגֵשׁ בַּפִּנָּה! 😂"
+      }
+    },
+    {
       id: "n3-s1",
       name: "V et N",
       nameHe: "V וְ-N",

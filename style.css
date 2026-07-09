@@ -627,12 +627,14 @@ button { font-family: inherit; border: none; cursor: pointer; color: inherit; ba
 
 /* ---- exercice de fusion (méthode syllabique) : consonne + voyelle = syllabe ---- */
 .blend-visual { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 14px 0 6px; font-weight: 700; flex-wrap: wrap; }
-.blend-c, .blend-v { font-size: 2.6rem; color: var(--primary-dark); }
+.blend-c, .blend-v, .blend-c2 { font-size: 2.6rem; color: var(--primary-dark); }
 .blend-c { animation: blendSlideR 0.9s ease both; }
 .blend-v { animation: blendSlideL 0.9s ease both; }
+.blend-c2 { animation: blendSlideUp 0.9s ease both; }
 .blend-op, .blend-eq { font-size: 1.7rem; color: var(--ink-soft); }
 .blend-syll { font-size: 3rem; color: var(--accent-text); animation: blendPop 1s ease both; }
 @keyframes blendSlideR { 0% { transform: translateX(-16px); opacity: .3; } 100% { transform: none; opacity: 1; } }
+@keyframes blendSlideUp { 0% { transform: translateY(14px); opacity: .3; } 100% { transform: none; opacity: 1; } }
 @keyframes blendSlideL { 0% { transform: translateX(16px); opacity: .3; } 100% { transform: none; opacity: 1; } }
 @keyframes blendPop { 0%,45% { transform: scale(.6); opacity: 0; } 70% { transform: scale(1.2); } 100% { transform: scale(1); opacity: 1; } }
 

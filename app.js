@@ -906,10 +906,11 @@
           '<span class="blend-c">' + esc((ex.c || "").toUpperCase()) + "</span>" +
           '<span class="blend-op">+</span>' +
           '<span class="blend-v">' + esc((ex.v || "").toUpperCase()) + "</span>" +
+          (ex.c2 ? '<span class="blend-op">+</span><span class="blend-c2">' + esc((ex.c2 || "").toUpperCase()) + "</span>" : "") +
           '<span class="blend-eq">=</span>' +
           '<span class="blend-syll">' + esc((ex.syll || "").toUpperCase()) + "</span>" +
           "</div>" +
-          '<button class="say-btn big" id="sayb">🔊 Écoute la syllabe</button>' +
+          '<button class="say-btn big" id="sayb">🔊 ' + (ex.c2 ? "Écoute le mot" : "Écoute la syllabe") + "</button>" +
           choicesHTML(ex.choices, false);
         break;
       }
