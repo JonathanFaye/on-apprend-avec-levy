@@ -101,17 +101,16 @@ window.LEVELS.push({
             },
             {
                 "type": "pick",
-                "prompt": "Un seul ou plusieurs ?",
-                "promptHe": "אֶחָד אוֹ הַרְבֵּה?",
-                "question": "🐱🐱🐱",
+                "prompt": "Lis bien : quel mot dit plusieurs ?",
+                "promptHe": "קִרְאוּ הֵיטֵב: אֵיזוֹ מִלָּה אוֹמֶרֶת הַרְבֵּה?",
                 "choices": [
-                    "plusieurs",
-                    "un seul"
+                    "les chats",
+                    "le chat"
                 ],
                 "answer": 0,
-                "say": "plusieurs chats",
-                "explain": "Il y en a plusieurs ! On dit DES chats.",
-                "explainHe": "יֵשׁ הַרְבֵּה! אוֹמְרִים DES chats."
+                "say": "les chats",
+                "explain": "'les chats' a le mot 'les' et un s : c'est plusieurs. 'le chat', c'est un seul.",
+                "explainHe": "לְ-'les chats' יֵשׁ הַמִּלָּה 'les' וְ-s: זֶה הַרְבֵּה. 'le chat' זֶה אֶחָד בִּלְבַד."
             },
             {
                 "type": "fill",
@@ -129,29 +128,18 @@ window.LEVELS.push({
                 "explainHe": "הַרְבֵּה chiens: מוֹסִיפִים 's' בַּסּוֹף, chienS."
             },
             {
-                "type": "match",
-                "prompt": "Relie chaque mot à son image !",
-                "promptHe": "חַבְּרוּ כָּל מִלָּה לַתְּמוּנָה שֶׁלָּהּ!",
-                "pairs": [
-                    [
-                        "une fleur",
-                        "🌸"
-                    ],
-                    [
-                        "un vélo",
-                        "🚲"
-                    ],
-                    [
-                        "une maison",
-                        "🏠"
-                    ],
-                    [
-                        "un poisson",
-                        "🐟"
-                    ]
+                "type": "pick",
+                "prompt": "Lis bien : un seul ou plusieurs ?",
+                "promptHe": "קִרְאוּ הֵיטֵב: אֶחָד אוֹ הַרְבֵּה?",
+                "question": "des poissons",
+                "choices": [
+                    "plusieurs",
+                    "un seul"
                 ],
-                "explain": "une fleur 🌸, un vélo 🚲, une maison 🏠, un poisson 🐟 !",
-                "explainHe": "une fleur 🌸, un vélo 🚲, une maison 🏠, un poisson 🐟!"
+                "answer": 0,
+                "say": "des poissons",
+                "explain": "'des poissons' : le mot 'des' et le s disent qu'il y en a plusieurs. Un seul, ce serait 'un poisson'.",
+                "explainHe": "'des poissons': הַמִּלָּה 'des' וְהַ-s אוֹמְרוֹת שֶׁיֵּשׁ הַרְבֵּה. אֶחָד בִּלְבַד זֶה 'un poisson'."
             },
             {
                 "type": "build",
@@ -294,13 +282,13 @@ window.LEVELS.push({
         },
         {
           type: "pick",
-          prompt: "Quel mot est féminin ?",
-          promptHe: "אֵיזוֹ מִלָּה הִיא בִּנְקֵבָה?",
-          choices: ["la lune", "le soleil", "le livre"],
+          prompt: "Lis bien : où est écrit le féminin ?",
+          promptHe: "קִרְאוּ הֵיטֵב: אֵיפֹה כָּתוּב הַנְּקֵבָה?",
+          choices: ["une amie", "un ami"],
           answer: 0,
-          say: "la lune",
-          explain: "La lune : lune est féminin. Soleil et livre sont masculins.",
-          explainHe: "la lune (יָרֵחַ) הִיא נְקֵבָה בְּצָרְפָתִית. soleil וְ-livre הֵם זָכָר."
+          say: "une amie",
+          explain: "'une amie' est féminin : le petit mot 'une' et un e à la fin (amiE). 'un ami' est masculin.",
+          explainHe: "'une amie' הִיא נְקֵבָה: הַמִּלָּה 'une' וְ-e בַּסּוֹף (amiE). 'un ami' הוּא זָכָר."
         },
         {
           type: "listen",
@@ -398,13 +386,13 @@ window.LEVELS.push({
         },
         {
           type: "pick",
-          prompt: "Quel mot est au pluriel ?",
-          promptHe: "אֵיזוֹ מִלָּה הִיא בָּרַבִּים?",
-          choices: ["des livres", "un livre", "le livre"],
+          prompt: "Lis bien : quel mot dit UN SEUL ?",
+          promptHe: "קִרְאוּ הֵיטֵב: אֵיזוֹ מִלָּה אוֹמֶרֶת אֶחָד בִּלְבַד?",
+          choices: ["le chat", "les chats"],
           answer: 0,
-          say: "des livres",
-          explain: "Des livres : il y en a plusieurs, avec un s à la fin.",
-          explainHe: "des livres: יֵשׁ כַּמָּה סְפָרִים, עִם s בַּסּוֹף."
+          say: "le chat",
+          explain: "'le chat' = un seul chat. 'les chats' a le mot 'les' et un s : c'est plusieurs.",
+          explainHe: "'le chat' = חָתוּל אֶחָד. לְ-'les chats' יֵשׁ 'les' וְ-s: זֶה הַרְבֵּה."
         },
         {
           type: "fill",
@@ -461,13 +449,13 @@ window.LEVELS.push({
         },
         {
           type: "pick",
-          prompt: "Quel mot est au singulier ?",
-          promptHe: "אֵיזוֹ מִלָּה הִיא בְּיָחִיד?",
-          choices: ["la pomme", "les pommes", "des pommes"],
+          prompt: "On entend pareil ! Lis : quel mot dit plusieurs ?",
+          promptHe: "שׁוֹמְעִים אוֹתוֹ דָּבָר! קִרְאוּ: אֵיזוֹ מִלָּה אוֹמֶרֶת הַרְבֵּה?",
+          choices: ["les chiens", "le chien"],
           answer: 0,
-          say: "la pomme",
-          explain: "La pomme : une seule pomme, sans s.",
-          explainHe: "la pomme: תַּפּוּחַ אֶחָד בִּלְבַד, בְּלִי s."
+          say: "les chiens",
+          explain: "'le chien' et 'les chiens' s'entendent pareil ! Mais 'les' et le s montrent qu'il y en a plusieurs. Il faut LIRE pour savoir.",
+          explainHe: "'le chien' וְ-'les chiens' נִשְׁמָעִים אוֹתוֹ דָּבָר! אֲבָל 'les' וְהַ-s מַרְאִים שֶׁיֵּשׁ הַרְבֵּה. צָרִיךְ לִקְרֹא כְּדֵי לָדַעַת."
         }
       ],
       joke: {
@@ -686,13 +674,13 @@ window.LEVELS.push({
         },
         {
           type: "pick",
-          prompt: "Quel mot est masculin ?",
-          promptHe: "אֵיזוֹ מִלָּה הִיא בְּזָכָר?",
-          choices: ["le vélo", "la lune", "une pomme"],
+          prompt: "Lis bien : quelle phrase est juste ?",
+          promptHe: "קִרְאוּ הֵיטֵב: אֵיזֶה מִשְׁפָּט נָכוֹן?",
+          choices: ["le vélo est bleu", "la vélo est bleu"],
           answer: 0,
-          say: "le vélo",
-          explain: "Le vélo : vélo est masculin. Lune et pomme sont féminins.",
-          explainHe: "le vélo הוּא זָכָר בְּצָרְפָתִית. lune וְ-pomme הֵן נְקֵבָה."
+          say: "le vélo est bleu",
+          explain: "'vélo' est masculin : on dit LE vélo. 'la vélo' n'existe pas.",
+          explainHe: "'vélo' הוּא זָכָר: אוֹמְרִים LE vélo. 'la vélo' לֹא קַיָּם."
         },
         {
           type: "match",

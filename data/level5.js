@@ -63,13 +63,13 @@ window.LEVELS.push({
         },
         {
           type: "listen",
-          prompt: "Écoute et choisis ce que tu entends !",
+          prompt: "Ecoute et choisis ce que tu entends !",
           promptHe: "הַקְשִׁיבוּ וּבַחֲרוּ מָה שְׁמַעְתֶּם!",
           say: "roi",
-          choices: ["RAT", "ROUE", "ROI"],
+          choices: ["MOI", "ROUE", "ROI"],
           answer: 2,
-          explain: "ROI s'écrit R-O-I. On entend 'oi' à la fin ! 👑",
-          explainHe: "ROI נִכְתַּב R-O-I. שׁוֹמְעִים 'וָא' בַּסּוֹף! 👑"
+          explain: "ROI commence par R et finit par OI 👑. MOI commence par M, et ROUE s'ecrit avec OU.",
+          explainHe: "ROI מַתְחִיל בְּ-R וְנִגְמָר בְּ-OI 👑. MOI מַתְחִיל בְּ-M, וְ-ROUE נִכְתָּב עִם OU."
         },
         {
           type: "build",
@@ -97,11 +97,11 @@ window.LEVELS.push({
           prompt: "Quel mot veut dire 🐟 ?",
           promptHe: "אֵיזוֹ מִלָּה אוֹמֶרֶת 🐟?",
           question: "🐟",
-          choices: ["POISSON", "POUSSIN", "MAISON"],
-          answer: 0,
+          choices: ["POUSSIN", "POISSON"],
+          answer: 1,
           say: "poisson",
-          explain: "POISSON commence par POI : on entend 'oi' ! 🐟",
-          explainHe: "POISSON זֶה דָּג! הַמִּלָּה מַתְחִילָה בְּ-POI, שׁוֹמְעִים 'וָא'. 🐟"
+          explain: "POISSON s'ecrit avec OI, on entend 'oi' 🐟. POUSSIN s'ecrit avec OU : c'est le bebe de la poule 🐤.",
+          explainHe: "POISSON נִכְתָּב עִם OI, שׁוֹמְעִים 'וָא' 🐟. POUSSIN נִכְתָּב עִם OU: זֶה הָאֶפְרוֹחַ שֶׁל הַתַּרְנְגֹלֶת 🐤."
         },
         {
           type: "listen",
@@ -206,14 +206,13 @@ window.LEVELS.push({
       exercises: [
         {
           type: "pick",
-          prompt: "Quelles lettres font le son 'o' dans CHAUD ?",
-          promptHe: "אֵילוּ אוֹתִיּוֹת עוֹשׂוֹת אֶת הַצְּלִיל 'אוֹ' בַּמִּלָּה CHAUD?",
-          question: "CHAUD",
-          choices: ["OU", "AN", "AU"],
-          answer: 2,
+          prompt: "Quel mot dit qu'il fait CHAUD ☀️ ?",
+          promptHe: "אֵיזוֹ מִלָּה אוֹמֶרֶת שֶׁחַם ☀️?",
+          choices: ["CHAT", "CHAUD"],
+          answer: 1,
           say: "chaud",
-          explain: "Dans CHAUD, le son 'o' s'écrit AU. ☀️",
-          explainHe: "בַּמִּלָּה CHAUD (חַם) הַצְּלִיל 'אוֹ' נִכְתַּב AU. ☀️"
+          explain: "CHAUD s'ecrit avec AU, le son 'o' ☀️. CHAT, c'est l'animal qui fait miaou 🐱.",
+          explainHe: "CHAUD נִכְתָּב עִם AU, הַצְּלִיל 'אוֹ' ☀️. CHAT זֶה הֶחָתוּל שֶׁעוֹשֶׂה מְיָאוּ 🐱."
         },
         {
           type: "listen",
@@ -371,14 +370,14 @@ window.LEVELS.push({
         },
         {
           type: "pick",
-          prompt: "Quelle lettre est muette dans GRAND ?",
-          promptHe: "אֵיזוֹ אוֹת שְׁקֵטָה בַּמִּלָּה GRAND?",
-          question: "GRAND",
-          choices: ["G", "D", "R"],
+          prompt: "Quel mot veut dire 🐰 ?",
+          promptHe: "אֵיזוֹ מִלָּה אוֹמֶרֶת 🐰?",
+          question: "🐰",
+          choices: ["SAPIN", "LAPIN"],
           answer: 1,
-          say: "grand",
-          explain: "On dit 'gran' : le D de GRAND est muet ! 💪",
-          explainHe: "אוֹמְרִים 'גְרָאן': אֶת הַ-D שֶׁל GRAND (גָּדוֹל) לֹא שׁוֹמְעִים! 💪"
+          say: "lapin",
+          explain: "LAPIN commence par L, c'est l'animal 🐰. SAPIN commence par S, c'est l'arbre 🌲. Ils finissent pareil : -APIN !",
+          explainHe: "LAPIN מַתְחִיל בְּ-L, זֶה הָאַרְנָב 🐰. SAPIN מַתְחִיל בְּ-S, זֶה הָעֵץ 🌲. הֵם נִגְמָרִים אוֹתוֹ דָּבָר: -APIN!"
         },
         {
           type: "fill",
@@ -479,13 +478,14 @@ window.LEVELS.push({
       exercises: [
         {
           type: "pick",
-          prompt: "Quel mot a le son 'oi' ?",
-          promptHe: "בְּאֵיזוֹ מִלָּה יֵשׁ אֶת הַצְּלִיל 'oi'?",
-          choices: ["MAISON", "POISSON", "BALLON"],
+          prompt: "Quel mot veut dire 🏰 ?",
+          promptHe: "אֵיזוֹ מִלָּה אוֹמֶרֶת 🏰?",
+          question: "🏰",
+          choices: ["CHAPEAU", "CHÂTEAU", "GÂTEAU"],
           answer: 1,
-          say: "poisson. maison. ballon.",
-          explain: "POISSON a le son 'oi' : POI ! MAISON a 'ai', BALLON a 'on'. 🐟",
-          explainHe: "בְּ-POISSON שׁוֹמְעִים 'וָא': POI! בְּ-MAISON יֵשׁ 'אֶה', בְּ-BALLON יֵשׁ 'אוֹן'. 🐟"
+          say: "château",
+          explain: "Ils finissent tous par EAU ! CHATEAU 🏰 a un chapeau sur le A, CHAPEAU 🎩 se met sur la tete, GATEAU 🎂 se mange.",
+          explainHe: "כֻּלָּם נִגְמָרִים בְּ-EAU! CHÂTEAU 🏰 עִם כּוֹבַע עַל הַ-Â, CHAPEAU 🎩 שָׂמִים עַל הָרֹאשׁ, GÂTEAU 🎂 אוֹכְלִים."
         },
         {
           type: "listen",

@@ -116,11 +116,11 @@ window.LEVELS.push({
           type: "pick",
           prompt: "Quelle phrase est au futur simple ?",
           promptHe: "אֵיזֶה מִשְׁפָּט הוּא בֶּעָתִיד פָּשׁוּט?",
-          choices: ["La maîtresse va chanter.", "La maîtresse chante bien.", "La maîtresse chantera demain."],
+          choices: ["La maîtresse chante une chanson.", "La maîtresse va chanter une chanson.", "La maîtresse chantera une chanson."],
           answer: 2,
-          say: "la maîtresse chantera demain",
-          explain: "chantera = futur simple : -ra à la fin du verbe.",
-          explainHe: "chantera = עָתִיד פָּשׁוּט: -ra בְּסוֹף הַפֹּעַל."
+          say: "la maîtresse chantera une chanson",
+          explain: "chantera = futur simple : -ra à la fin du verbe. « va chanter » est le futur proche, « chante » le présent.",
+          explainHe: "chantera = עָתִיד פָּשׁוּט: -ra בְּסוֹף הַפֹּעַל. «va chanter» זֶה עָתִיד קָרוֹב, «chante» זֶה הוֹוֶה."
         },
         {
           type: "read",
@@ -133,14 +133,13 @@ window.LEVELS.push({
         },
         {
           type: "pick",
-          prompt: "Vrai ou faux ?",
-          promptHe: "נָכוֹן אוֹ לֹא נָכוֹן?",
-          question: "« Il va pleuvoir » parle du futur.",
-          choices: ["Vrai", "Faux"],
-          answer: 0,
-          say: "il va pleuvoir",
-          explain: "va pleuvoir = futur proche : la pluie arrive bientôt !",
-          explainHe: "va pleuvoir = עָתִיד קָרוֹב: הַגֶּשֶׁם יַגִּיעַ בְּקָרוֹב!"
+          prompt: "Lis bien : quelle phrase est au futur ?",
+          promptHe: "קִרְאוּ טוֹב: אֵיזֶה מִשְׁפָּט בֶּעָתִיד?",
+          choices: ["il joue", "il jouera"],
+          answer: 1,
+          say: "il joue. il jouera.",
+          explain: "« il joue » c'est maintenant (présent). « il jouera » avec -ra, c'est plus tard : le futur !",
+          explainHe: "«il joue» זֶה עַכְשָׁו (הוֹוֶה). «il jouera» עִם -ra, זֶה מְאֻחָר יוֹתֵר: הֶעָתִיד!"
         }
       ],
       joke: {
@@ -277,15 +276,15 @@ window.LEVELS.push({
           explainHe: "J'ai + mangé: זְמַן הֶעָבָר נִכְתַּב בִּשְׁתֵּי מִלִּים!"
         },
         {
-          type: "pick",
-          prompt: "Vrai ou faux ?",
-          promptHe: "נָכוֹן אוֹ לֹא נָכוֹן?",
-          question: "« Le chat a dormi » parle du passé.",
-          choices: ["Vrai", "Faux"],
-          answer: 0,
-          say: "le chat a dormi",
-          explain: "a dormi = passé composé : le chat a déjà dormi.",
-          explainHe: "a dormi = זְמַן עָבָר: הֶחָתוּל כְּבָר יָשַׁן."
+          type: "fill",
+          prompt: "Choisis le bon mot !",
+          promptHe: "בַּחֲרוּ אֶת הַמִּלָּה הַנְּכוֹנָה!",
+          sentence: "Les amis ␣ mangé le gâteau.",
+          choices: ["on", "ont"],
+          answer: 1,
+          say: "les amis ont mangé le gâteau",
+          explain: "« ont » = le verbe avoir (ils ont). « on » veut dire quelqu'un. Ici : les amis ont mangé.",
+          explainHe: "«ont» = הַפֹּעַל avoir (הֵם ont). «on» אוֹמֵר מִישֶׁהוּ. כָּאן: les amis ont mangé."
         }
       ],
       joke: {

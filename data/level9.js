@@ -45,14 +45,14 @@ window.LEVELS.push({
       exercises: [
         {
           type: "pick",
-          prompt: "Choisis la bonne forme du verbe !",
-          promptHe: "בַּחֲרוּ אֶת הַצּוּרָה הַנְּכוֹנָה שֶׁל הַפּוֹעַל!",
-          question: "Je ___ au ballon.",
-          choices: ["joue", "joues", "jouons"],
-          answer: 0,
-          say: "je joue au ballon.",
-          explain: "Avec JE, le verbe finit par -E : je joue.",
-          explainHe: "עִם JE הַפּוֹעַל נִגְמָר בְּ-E: je joue."
+          prompt: "Lis bien le sujet ! Choisis la bonne forme.",
+          promptHe: "קִרְאוּ טוֹב אֶת הַנּוֹשֵׂא! בַּחֲרוּ אֶת הַצּוּרָה הַנְּכוֹנָה.",
+          question: "Les amis ___ ensemble.",
+          choices: ["joue", "jouent"],
+          answer: 1,
+          say: "les amis jouent ensemble.",
+          explain: "Les amis, c'est plusieurs, comme ILS : le verbe prend -ENT, jouent. On n'entend pas le -ENT, il faut le LIRE !",
+          explainHe: "Les amis זֶה כַּמָּה, כְּמוֹ ILS: הַפּוֹעַל מְקַבֵּל ENT-, jouent. אֶת הַ-ENT לֹא שׁוֹמְעִים, צָרִיךְ לִקְרֹא!"
         },
         {
           type: "fill",
@@ -559,12 +559,15 @@ window.LEVELS.push({
           explainHe: "CHAT (חָתוּל) + PEAU (עוֹר) = CHAPEAU (כּוֹבַע)! 🎩"
         },
         {
-          type: "match",
-          prompt: "Relie chaque personne à son verbe !",
-          promptHe: "חַבְּרוּ כָּל גּוּף לַפּוֹעַל שֶׁלּוֹ!",
-          pairs: [["je", "mange"], ["nous", "mangeons"], ["vous", "mangez"], ["ils", "mangent"]],
-          explain: "je mange, nous mangeons, vous mangez, ils mangent.",
-          explainHe: "je mange, nous mangeons, vous mangez, ils mangent: לְכָל גּוּף הַסִּיֹּמֶת שֶׁלּוֹ."
+          type: "pick",
+          prompt: "Lis bien ! Quel mot va dans la phrase ?",
+          promptHe: "קִרְאוּ טוֹב! אֵיזוֹ מִלָּה מַתְאִימָה לַמִּשְׁפָּט?",
+          question: "Levy boit de l'eau dans un ___.",
+          choices: ["vert", "verre"],
+          answer: 1,
+          say: "levy boit de l'eau dans un verre.",
+          explain: "verre, c'est l'objet ou on boit 🥛. vert, c'est la couleur 🟢. Ça se dit pareil, il faut LIRE pour choisir !",
+          explainHe: "verre = הַכְּלִי שֶׁשּׁוֹתִים מִמֶּנּוּ 🥛. vert = הַצֶּבַע יָרֹק 🟢. נִשְׁמָע אוֹתוֹ דָּבָר, צָרִיךְ לִקְרֹא כְּדֵי לִבְחֹר!"
         },
         {
           type: "read",

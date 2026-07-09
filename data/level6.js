@@ -83,14 +83,13 @@ window.LEVELS.push({
         },
         {
           type: "pick",
-          prompt: "Quel mot veut dire 🐱 ?",
-          promptHe: "אֵיזוֹ מִלָּה אוֹמֶרֶת 🐱?",
-          question: "🐱",
-          choices: ["chaud", "chat", "chou"],
+          prompt: "Le petit de la poule, c'est...",
+          promptHe: "הַקָּטָן שֶׁל הַתַּרְנְגֹלֶת הוּא...",
+          choices: ["poule", "poulet"],
           answer: 1,
-          say: "chat",
-          explain: "chat s'écrit c-h-a-t. En minuscules aussi, tu sais le lire !",
-          explainHe: "chat נִכְתֶּבֶת c-h-a-t. גַּם בְּאוֹתִיּוֹת קְטַנּוֹת אַתֶּם יוֹדְעִים לִקְרֹא אוֹתָהּ!"
+          say: "poulet",
+          explain: "poulet a un t à la fin, c'est le petit de la poule. poule sans t, c'est la maman !",
+          explainHe: "poulet עִם t בַּסּוֹף, זֶה הַקָּטָן שֶׁל הַתַּרְנְגֹלֶת. poule בְּלִי t, זוֹ הָאִמָּא!"
         },
         {
           type: "pick",
@@ -219,13 +218,13 @@ window.LEVELS.push({
         },
         {
           type: "pick",
-          prompt: "Quel mot a le son 'gne' ?",
-          promptHe: "בְּאֵיזוֹ מִלָּה יֵשׁ אֶת הַצְּלִיל 'נְיֶה' (gn)?",
-          choices: ["lune", "lame", "ligne"],
-          answer: 2,
-          say: "ligne",
-          explain: "Dans ligne, on entend 'gne' à la fin : li-gne !",
-          explainHe: "בַּמִּלָּה ligne שׁוֹמְעִים 'נְיֶה' בַּסּוֹף: li-gne!"
+          prompt: "Lis bien : laquelle est la montagne ?",
+          promptHe: "קִרְאוּ טוֹב: אֵיזוֹ מִלָּה אוֹמֶרֶת הַר?",
+          choices: ["campagne", "montagne"],
+          answer: 1,
+          say: "montagne",
+          explain: "montagne commence par mont, comme le mont tout en haut. campagne commence par camp. Les deux ont le son gne à la fin !",
+          explainHe: "montagne מַתְחִילָה בְּ-mont, כְּמוֹ הַהַר הַגָּבוֹהַּ. campagne מַתְחִילָה בְּ-camp. לִשְׁתֵּיהֶן יֵשׁ אֶת הַצְּלִיל gne בַּסּוֹף!"
         },
         {
           type: "build",
@@ -379,14 +378,14 @@ window.LEVELS.push({
         },
         {
           type: "pick",
-          prompt: "Il ou elle ? Choisis pour la maîtresse !",
-          promptHe: "il אוֹ elle? בַּחֲרוּ בִּשְׁבִיל הַמּוֹרָה!",
-          question: "la maîtresse 👩‍🏫",
-          choices: ["il", "elle"],
+          prompt: "Où est le ballon ? On ne le voit plus !",
+          promptHe: "אֵיפֹה הַכַּדּוּר? כְּבָר לֹא רוֹאִים אוֹתוֹ!",
+          question: "Le ballon roule ___ le lit.",
+          choices: ["sur", "sous"],
           answer: 1,
-          say: "elle",
-          explain: "La maîtresse est une femme, on dit ELLE. Pour Levy, on dit IL !",
-          explainHe: "הַמּוֹרָה הִיא אִשָּׁה, אוֹמְרִים elle. עַל לֵוִי אוֹמְרִים il!"
+          say: "sous",
+          explain: "sous, c'est en dessous : le ballon est caché sous le lit. sur, c'est au-dessus. Regarde bien : sur / sous !",
+          explainHe: "sous זֶה מִתַּחַת: הַכַּדּוּר מִסְתַּתֵּר מִתַּחַת לַמִּטָּה. sur זֶה מִלְמַעְלָה. הִסְתַּכְּלוּ טוֹב: sur / sous!"
         },
         {
           type: "listen",
@@ -545,12 +544,14 @@ window.LEVELS.push({
           explainHe: "זוֹ שְׁאֵלָה: שָׂמִים סִימַן שְׁאֵלָה ?"
         },
         {
-          type: "match",
-          prompt: "Relie chaque mot à son image !",
-          promptHe: "חַבְּרוּ כָּל מִלָּה לַתְּמוּנָה שֶׁלָּהּ!",
-          pairs: [["téléphone", "📞"], ["montagne", "⛰️"], ["piscine", "🏊"], ["chat", "🐱"]],
-          explain: "téléphone 📞, montagne ⛰️, piscine 🏊 et chat 🐱 !",
-          explainHe: "téléphone 📞, montagne ⛰️, piscine 🏊 וְ-chat 🐱!"
+          type: "pick",
+          prompt: "Lis bien : lequel nage dans l'eau ?",
+          promptHe: "קִרְאוּ טוֹב: מִי שׂוֹחֶה בַּמַּיִם?",
+          choices: ["poussin", "poisson"],
+          answer: 1,
+          say: "poisson",
+          explain: "poisson a le son oi et nage dans l'eau. poussin a le son ou, c'est le bébé de la poule. Regarde le milieu : oi pour poisson, ou pour poussin !",
+          explainHe: "לְ-poisson יֵשׁ oi וְהוּא שׂוֹחֶה בַּמַּיִם 🐟. לְ-poussin יֵשׁ ou, זֶה הָאֶפְרוֹחַ שֶׁל הַתַּרְנְגֹלֶת 🐤. הִסְתַּכְּלוּ בָּאֶמְצַע: oi בִּשְׁבִיל poisson, ou בִּשְׁבִיל poussin!"
         },
         {
           type: "listen",

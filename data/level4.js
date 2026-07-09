@@ -66,14 +66,14 @@ window.LEVELS.push({
         },
         {
           type: "pick",
-          prompt: "Quel mot veut dire 🐱 ?",
-          promptHe: "אֵיזוֹ מִלָּה אוֹמֶרֶת 🐱?",
+          prompt: "Lis bien ! Lequel dit 'miaou' ?",
+          promptHe: "קִרְאוּ טוֹב! אֵיזֶה אוֹמֵר 'מְיָאוּ'?",
           question: "🐱",
-          choices: ["CHAT", "CHOU", "SAC"],
+          choices: ["CHAT", "CHOU"],
           answer: 0,
-          say: "chat",
-          explain: "🐱 c'est le CHAT : CH + A + T. Le T de la fin est muet !",
-          explainHe: "🐱 זֶה CHAT (חָתוּל): CH + A + T. אֶת הַ-T שֶׁבַּסּוֹף לֹא שׁוֹמְעִים!"
+          say: "chat. chou.",
+          explain: "Les deux commencent par CH ! Mais CHAT finit par A-T (le T est muet), et CHOU finit par OU. 🐱",
+          explainHe: "שְׁתֵּי הַמִּלִּים מַתְחִילוֹת בְּ-CH! אֲבָל CHAT נִגְמֶרֶת בְּ-A-T (אֶת הַ-T לֹא שׁוֹמְעִים), וְ-CHOU נִגְמֶרֶת בְּ-OU. 🐱"
         },
         {
           type: "build",
@@ -125,14 +125,14 @@ window.LEVELS.push({
         },
         {
           type: "pick",
-          prompt: "Dans CHOU, on entend le son 'ou'. Vrai ou faux ?",
-          promptHe: "בַּמִּלָּה CHOU שׁוֹמְעִים אֶת הַצְּלִיל 'אוּ'. נָכוֹן (VRAI) אוֹ לֹא (FAUX)?",
-          question: "CHOU 🥬",
-          choices: ["VRAI", "FAUX"],
+          prompt: "Lis bien ! Laquelle fait COT COT ?",
+          promptHe: "קִרְאוּ טוֹב! מִי עוֹשָׂה 'קוֹ־קוֹ'?",
+          question: "🐔",
+          choices: ["POULE", "BOULE"],
           answer: 0,
-          say: "chou",
-          explain: "Vrai ! CHOU = CH + OU. On entend bien 'ou' !",
-          explainHe: "נָכוֹן! CHOU = CH + OU. שׁוֹמְעִים הֵיטֵב 'אוּ'!"
+          say: "poule. boule.",
+          explain: "POULE et BOULE ont le son OU, mais POULE commence par P (l'animal) et BOULE par B ! 🐔",
+          explainHe: "POULE וְ-BOULE יֵשׁ בָּהֶן אֶת הַצְּלִיל OU, אֲבָל POULE מַתְחִילָה בְּ-P (הַחַיָּה) וְ-BOULE בְּ-B! 🐔"
         }
       ],
       joke: {
@@ -252,14 +252,13 @@ window.LEVELS.push({
         },
         {
           type: "pick",
-          prompt: "Le D à la fin de GRAND est muet. Vrai ou faux ?",
-          promptHe: "הַ-D בְּסוֹף הַמִּלָּה GRAND שְׁקֵטָה. נָכוֹן (VRAI) אוֹ לֹא (FAUX)?",
-          question: "GRAND",
-          choices: ["VRAI", "FAUX"],
+          prompt: "Trouve le mot où on entend DEUX fois 'on' !",
+          promptHe: "מִצְאוּ אֶת הַמִּלָּה שֶׁבָּהּ שׁוֹמְעִים פַּעֲמַיִם 'on'!",
+          choices: ["BONBON", "BALLON"],
           answer: 0,
-          say: "grand",
-          explain: "Vrai ! On dit 'gran' : le D de la fin ne se prononce pas.",
-          explainHe: "נָכוֹן! אוֹמְרִים 'גְרָאן': אֶת הַ-D שֶׁבַּסּוֹף לֹא מְבַטְּאִים."
+          say: "bonbon. ballon.",
+          explain: "BONBON = BON + BON : deux fois 'on' ! BALLON n'a qu'un seul 'on' (BAL-LON). 🍬",
+          explainHe: "BONBON = BON + BON: פַּעֲמַיִם 'on'! בְּ-BALLON יֵשׁ רַק 'on' אֶחָד (BAL-LON). 🍬"
         },
         {
           type: "match",
@@ -403,13 +402,14 @@ window.LEVELS.push({
         },
         {
           type: "pick",
-          prompt: "Ton ami gagne au foot. Que dis-tu ?",
-          promptHe: "חָבֵר שֶׁלָּכֶם נִצֵּחַ בְּכַדּוּרֶגֶל. מָה תַּגִּידוּ?",
-          choices: ["MAZAL TOV !", "BONBON !", "MOUTON !"],
+          prompt: "Lis bien ! Lequel est l'arbre ?",
+          promptHe: "קִרְאוּ טוֹב! אֵיזֶה הוּא הָעֵץ?",
+          question: "🌲",
+          choices: ["SAPIN", "LAPIN"],
           answer: 0,
-          say: "mazal tov",
-          explain: "MAZAL TOV ! C'est ce qu'on dit pour féliciter. 🎉",
-          explainHe: "MAZAL TOV! זֶה מָה שֶׁאוֹמְרִים כְּדֵי לְבָרֵךְ. 🎉"
+          say: "sapin. lapin.",
+          explain: "SAPIN et LAPIN finissent par IN, mais SAPIN commence par S (l'arbre) et LAPIN par L (l'animal) ! 🌲🐰",
+          explainHe: "SAPIN וְ-LAPIN נִגְמָרוֹת בְּ-IN, אֲבָל SAPIN מַתְחִילָה בְּ-S (הָעֵץ) וְ-LAPIN בְּ-L (הַחַיָּה)! 🌲🐰"
         },
         {
           type: "read",
@@ -497,14 +497,14 @@ window.LEVELS.push({
         },
         {
           type: "pick",
-          prompt: "Dans MOUTON, on entend 'ou' et 'on'. Vrai ou faux ?",
-          promptHe: "בַּמִּלָּה MOUTON שׁוֹמְעִים 'ou' וְגַם 'on'. נָכוֹן (VRAI) אוֹ לֹא (FAUX)?",
-          question: "MOUTON 🐑",
-          choices: ["VRAI", "FAUX"],
+          prompt: "Lis bien ! Lequel dit BÊÊ ?",
+          promptHe: "קִרְאוּ טוֹב! מִי אוֹמֵר 'בֶּה'?",
+          question: "🐑",
+          choices: ["MOUTON", "BOUTON"],
           answer: 0,
-          say: "mouton",
-          explain: "Vrai ! MOU + TON : d'abord 'ou', puis 'on'. Deux sons magiques !",
-          explainHe: "נָכוֹן! MOU + TON: קֹדֶם 'OU', אַחַר כָּךְ 'ON'. שְׁנֵי צְלִילִים קְסוּמִים!"
+          say: "mouton. bouton.",
+          explain: "MOUTON et BOUTON finissent par OU-TON, mais MOUTON commence par M (l'animal) et BOUTON par B ! 🐑",
+          explainHe: "MOUTON וְ-BOUTON נִגְמָרוֹת בְּ-OU-TON, אֲבָל MOUTON מַתְחִילָה בְּ-M (הַחַיָּה) וְ-BOUTON בְּ-B! 🐑"
         },
         {
           type: "listen",
@@ -528,12 +528,15 @@ window.LEVELS.push({
           explainHe: "BON (טוֹב) + BON = BONBON (סֻכָּרִיָּה)! פַּעֲמַיִם הַצְּלִיל 'ON'. 🍬"
         },
         {
-          type: "match",
-          prompt: "Relie chaque mot à son image !",
-          promptHe: "חַבְּרוּ כָּל מִלָּה לַתְּמוּנָה שֶׁלָּהּ!",
-          pairs: [["CHALOM", "👋"], ["BONBON", "🍬"], ["SAPIN", "🌲"], ["LAPIN", "🐰"]],
-          explain: "CHALOM 👋, BONBON 🍬, SAPIN 🌲, LAPIN 🐰 : tu as tout relié !",
-          explainHe: "CHALOM שָׁלוֹם 👋, BONBON סֻכָּרִיָּה 🍬, SAPIN אַשּׁוּחַ 🌲, LAPIN אַרְנָב 🐰: חִבַּרְתֶּם הַכֹּל!"
+          type: "pick",
+          prompt: "Lis bien ! Lequel mange une carotte ?",
+          promptHe: "קִרְאוּ טוֹב! מִי אוֹכֵל גֶּזֶר?",
+          question: "🐰",
+          choices: ["LAPIN", "SAPIN"],
+          answer: 0,
+          say: "lapin. sapin.",
+          explain: "LAPIN et SAPIN finissent par IN, mais LAPIN commence par L (l'animal) et SAPIN par S (l'arbre) ! 🐰🌲",
+          explainHe: "LAPIN וְ-SAPIN נִגְמָרוֹת בְּ-IN, אֲבָל LAPIN מַתְחִילָה בְּ-L (הַחַיָּה) וְ-SAPIN מַתְחִילָה בְּ-S (הָעֵץ)! 🐰🌲"
         },
         {
           type: "fill",

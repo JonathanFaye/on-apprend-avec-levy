@@ -120,12 +120,14 @@ window.LEVELS.push({
           explainHe: "הַמִּשְׁפָּט מַתְחִיל בְּ-Levy עִם אוֹת גְּדוֹלָה וְנִגְמָר בִּנְקֻדָּה."
         },
         {
-          type: "match",
-          prompt: "Relie chaque mot à son image !",
-          promptHe: "חַבְּרוּ כָּל מִלָּה לַתְּמוּנָה שֶׁלָּהּ!",
-          pairs: [["piscine", "🏊"], ["glace", "🍦"], ["eau", "💧"]],
-          explain: "piscine = 🏊, glace = 🍦, eau = 💧.",
-          explainHe: "piscine = בְּרֵכָה, glace = גְּלִידָה, eau = מַיִם."
+          type: "pick",
+          prompt: "Lis bien : lequel nage dans l'eau ?",
+          promptHe: "קִרְאוּ טוֹב: מִי שׂוֹחֶה בַּמַּיִם?",
+          choices: ["poisson", "poussin"],
+          answer: 0,
+          say: "poisson",
+          explain: "poisson s'ecrit avec OI et nage dans l'eau. poussin s'ecrit avec OU, c'est le bebe de la poule !",
+          explainHe: "poisson נִכְתָּב עִם OI וְשׂוֹחֶה בַּמַּיִם. poussin נִכְתָּב עִם OU, זֶה הָאֶפְרוֹחַ שֶׁל הַתַּרְנְגֹלֶת!"
         },
         {
           type: "listen",
@@ -259,12 +261,14 @@ window.LEVELS.push({
           explainHe: "Levy מַדְלִיק אֶת נֵרוֹת הַשַּׁבָּת."
         },
         {
-          type: "match",
-          prompt: "Relie chaque mot à son image !",
-          promptHe: "חַבְּרוּ כָּל מִלָּה לַתְּמוּנָה שֶׁלָּהּ!",
-          pairs: [["bougie", "🕯️"], ["pain", "🍞"], ["famille", "👨‍👩‍👧‍👦"]],
-          explain: "bougie = 🕯️, pain = 🍞, famille = 👨‍👩‍👧‍👦.",
-          explainHe: "bougie = נֵר, pain = לֶחֶם, famille = מִשְׁפָּחָה."
+          type: "pick",
+          prompt: "Lis bien : lequel est un animal ?",
+          promptHe: "קִרְאוּ טוֹב: מִי מֵהֶם חַיָּה?",
+          choices: ["mouton", "bouton"],
+          answer: 0,
+          say: "mouton",
+          explain: "mouton commence par M, c'est l'animal qui fait beee. bouton commence par B, c'est le bouton de la chemise !",
+          explainHe: "mouton מַתְחִיל בְּ-M, זוֹ הַחַיָּה שֶׁעוֹשָׂה מֶה. bouton מַתְחִיל בְּ-B, זֶה הַכַּפְתּוֹר שֶׁל הַחֻלְצָה!"
         },
         {
           type: "listen",
@@ -532,12 +536,14 @@ window.LEVELS.push({
           explainHe: "הַמִּשְׁפָּט הוּא: Le Pokémon saute de joie."
         },
         {
-          type: "match",
-          prompt: "Relie chaque mot à son image !",
-          promptHe: "חַבְּרוּ כָּל מִלָּה לַתְּמוּנָה שֶׁלָּהּ!",
-          pairs: [["jardin", "🌳"], ["gâteau", "🍰"], ["soir", "🌙"], ["champion", "🏆"]],
-          explain: "jardin = 🌳, gâteau = 🍰, soir = 🌙, champion = 🏆.",
-          explainHe: "jardin = גִּנָּה, gâteau = עוּגָה, soir = עֶרֶב, champion = אַלּוּף."
+          type: "pick",
+          prompt: "Lis bien : lequel navigue sur un bateau ?",
+          promptHe: "קִרְאוּ טוֹב: מִי מֵהֶם שָׁט בַּיָּם?",
+          choices: ["pirate", "pilote"],
+          answer: 0,
+          say: "pirate",
+          explain: "pirate a un R : il navigue sur la mer. pilote a un L : lui, il conduit un avion !",
+          explainHe: "pirate יֵשׁ בּוֹ R: הוּא שָׁט בַּיָּם. pilote יֵשׁ בּוֹ L: הוּא נוֹהֵג בְּמָטוֹס!"
         },
         {
           type: "type",
