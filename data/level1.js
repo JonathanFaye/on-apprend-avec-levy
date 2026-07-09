@@ -509,13 +509,13 @@ window.LEVELS.push({
         },
         {
           type: "pick",
-          prompt: "Quelle lettre vient juste après O ?",
-          promptHe: "אֵיזוֹ אוֹת בָּאָה מִיָּד אַחֲרֵי O?",
+          prompt: "Quelle lettre fait le son p ?",
+          promptHe: "אֵיזוֹ אוֹת עוֹשָׂה אֶת הַצְּלִיל p?",
           choices: ["P", "Q", "N"],
           answer: 0,
-          say: "pé",
-          explain: "N, O, P... Après O vient P !",
-          explainHe: "N, O, P... אַחֲרֵי O בָּאָה P!"
+          say: "p, comme dans papa",
+          explain: "C'est P ! Elle fait le son p, comme au début de PAPA.",
+          explainHe: "זוֹ P! הִיא עוֹשָׂה אֶת הַצְּלִיל p, כְּמוֹ בְּרֹאשׁ הַמִּלָּה PAPA."
         },
         {
           type: "match",

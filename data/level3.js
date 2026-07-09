@@ -162,26 +162,26 @@ window.LEVELS.push({
           {
             title: "La lettre F",
             titleHe: "הָאוֹת F",
-            body: "La lettre F fait le son 'fff'. Lis : FA FE FI FO FU.",
-            bodyHe: "הָאוֹת F עוֹשָׂה אֶת הַצְּלִיל 'פְפְפְ', כְּמוֹ פ בַּמִּלָּה פָלָאפֶל. קִרְאוּ: FA FE FI FO FU.",
-            big: "FA FE FI FO FU",
-            say: "fa. fe. fi. fo. fu."
+            body: "La lettre F fait le son 'fff' comme dans FLEUR. On tient le son : ffff ! Puis lis les syllabes : FA FE FI FO FU.",
+            bodyHe: "הָאוֹת F עוֹשָׂה אֶת הַצְּלִיל 'פְפְפְ' כְּמוֹ בַּמִּלָּה FLEUR. מַחְזִיקִים אֶת הַצְּלִיל: פְפְפְ! אַחַר כָּךְ קִרְאוּ אֶת הַהֲבָרוֹת: FA FE FI FO FU.",
+            big: "F → fff",
+            say: "fff, comme dans fleur. fa. fe. fi. fo. fu."
           },
           {
             title: "La lettre D",
             titleHe: "הָאוֹת D",
-            body: "La lettre D fait le son 'ddd' comme dans DOMINO. Lis : DA DE DI DO DU.",
-            bodyHe: "הָאוֹת D עוֹשָׂה אֶת הַצְּלִיל 'דֵּדד', כְּמוֹ ד בַּמִּלָּה DOMINO. קִרְאוּ: DA DE DI DO DU.",
-            big: "DA DE DI DO DU",
-            say: "da. de. di. do. du."
+            body: "La lettre D fait le son 'd' comme dans DOMINO. Puis lis les syllabes : DA DE DI DO DU.",
+            bodyHe: "הָאוֹת D עוֹשָׂה אֶת הַצְּלִיל 'ד' כְּמוֹ בַּמִּלָּה DOMINO. אַחַר כָּךְ קִרְאוּ אֶת הַהֲבָרוֹת: DA DE DI DO DU.",
+            big: "D → d",
+            say: "d, comme dans domino. da. de. di. do. du."
           },
           {
             title: "La lettre B",
             titleHe: "הָאוֹת B",
-            body: "La lettre B fait le son 'bbb' comme dans BANANE. Attention : B et D se ressemblent ! Lis : BA BE BI BO BU.",
-            bodyHe: "הָאוֹת B עוֹשָׂה אֶת הַצְּלִיל 'בְּבֵּבּ', כְּמוֹ בַּמִּלָּה BANANE. שִׂימוּ לֵב: B וְ-D דּוֹמוֹת! קִרְאוּ: BA BE BI BO BU.",
-            big: "BA BE BI BO BU",
-            say: "ba. be. bi. bo. bu."
+            body: "La lettre B fait le son 'b' comme dans BANANE. Attention : B et D se ressemblent ! Puis lis : BA BE BI BO BU.",
+            bodyHe: "הָאוֹת B עוֹשָׂה אֶת הַצְּלִיל 'בּ' כְּמוֹ בַּמִּלָּה BANANE. שִׂימוּ לֵב: B וְ-D דּוֹמוֹת! אַחַר כָּךְ קִרְאוּ: BA BE BI BO BU.",
+            big: "B → b",
+            say: "b, comme dans banane. ba. be. bi. bo. bu."
           },
           {
             title: "Les petits mots magiques ✨",
@@ -196,23 +196,23 @@ window.LEVELS.push({
       exercises: [
         {
           type: "listen",
-          prompt: "Écoute et choisis ce que tu entends !",
-          promptHe: "הַקְשִׁיבוּ וּבַחֲרוּ מָה שְׁמַעְתֶּם!",
-          say: "fa",
-          choices: ["VA", "FA", "BA"],
-          answer: 1,
-          explain: "On entend 'fff' : FA. V fait 'vvv', c'est différent !",
-          explainHe: "שׁוֹמְעִים 'פ': FA. V עוֹשֶׂה 'ווּוּ', זֶה שׁוֹנֶה!"
+          prompt: "Écoute et choisis la lettre que tu entends !",
+          promptHe: "הַקְשִׁיבוּ וּבַחֲרוּ אֶת הָאוֹת שֶׁשְּׁמַעְתֶּם!",
+          say: "fff, comme dans fleur",
+          choices: ["F", "V", "B"],
+          answer: 0,
+          explain: "C'était F ! Elle fait le son fff, comme dans FLEUR. V fait vvv, c'est différent !",
+          explainHe: "זוֹ הָיְתָה F! הִיא עוֹשָׂה אֶת הַצְּלִיל פְפְפְ, כְּמוֹ בַּמִּלָּה FLEUR. V עוֹשָׂה וְוְוְ, זֶה שׁוֹנֶה!"
         },
         {
-          type: "listen",
-          prompt: "Écoute bien et choisis la syllabe !",
-          promptHe: "הַקְשִׁיבוּ טוֹב וּבַחֲרוּ אֶת הַהֲבָרָה!",
-          say: "ba",
-          choices: ["BA", "DA", "PA"],
-          answer: 0,
-          explain: "B fait 'bbb' : BA. Attention, B et D se ressemblent !",
-          explainHe: "B עוֹשֶׂה 'בְּ': BA. שִׂימוּ לֵב, B וְ-D דּוֹמוֹת!"
+          type: "pick",
+          prompt: "Quelle lettre fait le son b ?",
+          promptHe: "אֵיזוֹ אוֹת עוֹשָׂה אֶת הַצְּלִיל 'בּ'?",
+          say: "b, comme dans banane",
+          choices: ["D", "B", "P"],
+          answer: 1,
+          explain: "Voici B ! Elle fait le son b, comme dans BANANE. Attention : B et D se ressemblent !",
+          explainHe: "הִנֵּה B! הִיא עוֹשָׂה אֶת הַצְּלִיל בּ, כְּמוֹ בַּמִּלָּה BANANE. שִׂימוּ לֵב: B וְ-D דּוֹמוֹת!"
         },
         {
           type: "pick",
