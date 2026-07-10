@@ -1707,20 +1707,20 @@
   }
   const RES_COLOR = [
     { t: "Levy", sub: "Colorie la mascotte !", svg: colorLevy },
-    { t: "Le soleil", sub: "S comme soleil", svg: colorSun },
-    { t: "La maison", sub: "M comme maison", svg: colorHouse },
-    { t: "Le poisson", sub: "P comme poisson", svg: colorFish },
-    { t: "La fleur", sub: "F comme fleur", svg: colorFlower },
-    { t: "L'étoile", sub: "É comme étoile", svg: colorStar },
-    { t: "L'arbre", sub: "A comme arbre", svg: colorTree },
-    { t: "Le ballon", sub: "B comme ballon", svg: colorBalloon },
-    { t: "L'oiseau", sub: "O comme oiseau", svg: colorBird }
+    { t: "Le mouton", sub: "Un doux mouton", img: "coloriages/mouton.png" },
+    { t: "La girafe", sub: "Une girafe rigolote", img: "coloriages/girafe.png" },
+    { t: "Le poisson", sub: "P comme poisson", img: "coloriages/poisson.png" },
+    { t: "La colombe", sub: "Un joli oiseau", img: "coloriages/colombe.png" },
+    { t: "Le château", sub: "Un château fort", img: "coloriages/chateau.png" },
+    { t: "La fusée", sub: "En route vers l'espace !", img: "coloriages/fusee.png" },
+    { t: "La voiture", sub: "Vroum vroum !", img: "coloriages/voiture.png" },
+    { t: "Les fleurs", sub: "Un joli bouquet", img: "coloriages/fleur.png" },
+    { t: "Le gâteau", sub: "Bon anniversaire !", img: "coloriages/gateau.png" }
   ];
-  // coloriages-jeux : on ne colorie QUE ce qui est demandé (lettres ou images)
+  // coloriages-jeux : on ne colorie QUE ce qui est demandé (lettres à repérer)
   const COLOR_EX = [
     { t: "Colorie les M", instr: "Colorie seulement les lettres M.", type: "let", pool: "MPMTVMLSMPMVMTMPMNMRMFM".split("") },
-    { t: "Colorie les voyelles", instr: "Colorie les voyelles : a e i o u y.", type: "let", pool: "AEBIMOUPYELIROATUSY".split("") },
-    { t: "Le son [p]", instr: "Colorie ce qui commence par le son « p ».", type: "img", pool: ["🍕", "🐱", "🐟", "🍎", "🌙", "🎈", "🦋", "🚲"] }
+    { t: "Colorie les voyelles", instr: "Colorie les voyelles : a e i o u y.", type: "let", pool: "AEBIMOUPYELIROATUSY".split("") }
   ];
 
   function resHeader(title, backFn) {
@@ -1841,7 +1841,7 @@
       '<div class="screen">' + resHeader("🎨 Coloriages", screenResources) +
       '<div class="res-group">🖍️ Dessins à colorier</div>' +
       '<div class="color-grid">' +
-      RES_COLOR.map((c, i) => '<button class="color-thumb" data-c="' + i + '"><div class="color-svg">' + c.svg() + "</div><span>" + esc(c.t) + "</span></button>").join("") +
+      RES_COLOR.map((c, i) => '<button class="color-thumb" data-c="' + i + '"><div class="color-svg">' + (c.img ? '<img src="' + c.img + '" alt="' + esc(c.t) + '" loading="lazy">' : c.svg()) + "</div><span>" + esc(c.t) + "</span></button>").join("") +
       "</div>" +
       '<div class="res-group">🎯 Coloriages-jeux</div>' +
       '<p class="res-intro" style="margin:0 0 10px">On ne colorie que ce qui est demandé !</p>' +
@@ -1851,8 +1851,9 @@
     document.getElementById("res-back").addEventListener("click", screenResources);
     $screen.querySelectorAll(".color-thumb").forEach(b => b.addEventListener("click", () => {
       const c = RES_COLOR[+b.dataset.c];
+      const inner = c.img ? '<img class="color-print-img" src="' + c.img + '" alt="' + esc(c.t) + '">' : c.svg();
       showPrintable(c.t, '<div class="sheet color-sheet"><h1 class="sheet-title">' + esc(c.t) + '</h1>' +
-        '<div class="color-sub">' + esc(c.sub) + '</div><div class="color-big">' + c.svg() + "</div>" +
+        '<div class="color-sub">' + esc(c.sub) + '</div><div class="color-big">' + inner + "</div>" +
         '<div class="sheet-foot">On apprend avec Levy 🇫🇷</div></div>', screenColoring);
     }));
     $screen.querySelectorAll(".res-item[data-x]").forEach(b => b.addEventListener("click", () => {
