@@ -22,6 +22,11 @@ window.mascotSVG = function (expr) {
       '<circle cx="62" cy="46" r="3.6" fill="#3B2A1A"/>' +
       '<path d="M30 38 Q38 34 44 38" stroke="#3B2A1A" stroke-width="2" fill="none" stroke-linecap="round"/>' +
       '<path d="M56 38 Q62 34 70 38" stroke="#3B2A1A" stroke-width="2" fill="none" stroke-linecap="round"/>';
+  } else if (expr === "love") {
+    // yeux qui sourient (arcs ^^)
+    eyes =
+      '<path d="M32 48 Q38 41 44 48" stroke="#3B2A1A" stroke-width="2.8" fill="none" stroke-linecap="round"/>' +
+      '<path d="M56 48 Q62 41 68 48" stroke="#3B2A1A" stroke-width="2.8" fill="none" stroke-linecap="round"/>';
   } else {
     eyes =
       '<circle cx="38" cy="46" r="3.4" fill="#3B2A1A"/>' +
@@ -32,7 +37,7 @@ window.mascotSVG = function (expr) {
 
   // --- bouche ---
   let mouth = "";
-  if (expr === "cheer" || expr === "wave" || expr === "clap") {
+  if (expr === "cheer" || expr === "wave" || expr === "clap" || expr === "love") {
     mouth = '<path d="M40 60 Q50 72 60 60 Z" fill="#8C3B2E"/><path d="M43 62 Q50 68 57 62 Z" fill="#E8837A"/>';
   } else if (expr === "oops") {
     mouth = '<ellipse cx="50" cy="63" rx="5" ry="6" fill="#8C3B2E"/>';
@@ -85,6 +90,14 @@ window.mascotSVG = function (expr) {
       '<circle cx="14" cy="74" r="6.5" fill="#F2C49B"/>' +
       '<path d="M72 96 Q84 88 84 40 Q80 32 70 30" stroke="#4A90D9" stroke-width="11" fill="none" stroke-linecap="round"/>' +
       '<circle cx="68" cy="29" r="6.5" fill="#F2C49B"/>';
+  } else if (expr === "love") {
+    // mains ramenees devant qui tiennent un coeur (le coeur bat en CSS)
+    arms =
+      '<path d="M28 96 Q34 92 45 96" stroke="#4A90D9" stroke-width="11" fill="none" stroke-linecap="round"/>' +
+      '<circle cx="46" cy="96" r="6.5" fill="#F2C49B"/>' +
+      '<path d="M72 96 Q66 92 55 96" stroke="#4A90D9" stroke-width="11" fill="none" stroke-linecap="round"/>' +
+      '<circle cx="54" cy="96" r="6.5" fill="#F2C49B"/>' +
+      '<path class="lv-heart" d="M50 88 C46 82 38 84 38 91 C38 97 50 103 50 103 C50 103 62 97 62 91 C62 84 54 82 50 88 Z" fill="#E5484D"/>';
   } else {
     arms =
       '<path d="M28 98 Q18 104 12 112" stroke="#4A90D9" stroke-width="11" fill="none" stroke-linecap="round"/>' +

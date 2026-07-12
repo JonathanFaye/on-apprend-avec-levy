@@ -10,6 +10,7 @@
   --primary-dark: #2C5E93;
   --accent: #F5A623;
   --accent-text: #C77F0A; /* meme teinte que l'accent mais assez sombre pour 4.5:1 sur fond clair */
+  --on-accent: #2B2540; /* texte SUR un fond orange (boutons) : foncé => lisible en clair ET en sombre */
   --good: #34A853;
   --good-bg: #E3F6E8;
   --bad: #E5484D;
@@ -64,12 +65,13 @@ button { font-family: inherit; border: none; cursor: pointer; color: inherit; ba
 }
 .btn {
   display: block; width: 100%; padding: 15px 20px; border-radius: var(--radius);
-  font-size: 1.15rem; font-weight: 600; text-align: center;
+  font-size: 1.15rem; font-weight: 700; text-align: center;
   background: var(--primary); color: #fff; box-shadow: 0 4px 0 var(--primary-dark);
   transition: transform 0.08s ease, box-shadow 0.08s ease;
 }
 .btn:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--primary-dark); }
-.btn.btn-accent { background: var(--accent); box-shadow: 0 4px 0 #C77F0A; }
+.btn.btn-accent { background: var(--accent); box-shadow: 0 4px 0 #C77F0A; color: var(--on-accent); }
+.btn.btn-accent .he { color: rgba(43, 37, 64, 0.7); }
 .btn.btn-accent:active { box-shadow: 0 1px 0 #C77F0A; }
 .btn.btn-good { background: var(--good); box-shadow: 0 4px 0 #1E7A38; }
 .btn.btn-good:active { box-shadow: 0 1px 0 #1E7A38; }
@@ -81,10 +83,11 @@ button { font-family: inherit; border: none; cursor: pointer; color: inherit; ba
 
 /* ---------- Header commun ---------- */
 .topbar { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
-.topbar .back { font-size: 1.5rem; padding: 6px 12px; background: #fff; border-radius: 14px; box-shadow: var(--shadow); }
+.topbar .back { font-size: 1.5rem; min-width: 44px; min-height: 44px; display: inline-flex; align-items: center; justify-content: center; padding: 4px 10px; background: #fff; border-radius: 14px; box-shadow: var(--shadow); }
 .topbar .title { flex: 1; font-weight: 600; font-size: 1.05rem; }
 .topbar .chip {
-  padding: 7px 11px; background: #fff; border-radius: 14px; box-shadow: var(--shadow);
+  min-height: 44px; display: inline-flex; align-items: center; justify-content: center;
+  padding: 6px 11px; background: #fff; border-radius: 14px; box-shadow: var(--shadow);
   font-size: 0.95rem; font-weight: 600;
 }
 .topbar .chip.active { background: var(--primary); color: #fff; }
@@ -207,7 +210,7 @@ button { font-family: inherit; border: none; cursor: pointer; color: inherit; ba
 .say-btn {
   display: flex; align-items: center; justify-content: center; gap: 8px;
   margin: 10px auto; padding: 12px 22px; border-radius: 50px;
-  background: var(--accent); color: #fff; font-size: 1.05rem; font-weight: 700;
+  background: var(--accent); color: var(--on-accent); font-size: 1.05rem; font-weight: 700;
   box-shadow: 0 4px 0 #C77F0A;
 }
 .say-btn:active { transform: translateY(3px); box-shadow: 0 1px 0 #C77F0A; }
@@ -307,13 +310,15 @@ button { font-family: inherit; border: none; cursor: pointer; color: inherit; ba
 @keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-8px); } }
 .mascot-wave { animation: wiggle 1.2s ease infinite; transform-origin: 50% 90%; }
 @keyframes wiggle { 0%,100% { transform: rotate(-2deg); } 50% { transform: rotate(2deg); } }
-/* danse de Levy (Mazal Tov, résultats, diplôme) */
-.mascot-dance { animation: dance 0.9s ease infinite; transform-origin: 50% 85%; }
-@keyframes dance {
-  0%, 100% { transform: rotate(-7deg) translateY(0); }
-  25% { transform: rotate(0deg) translateY(-9px) scale(1.04); }
-  50% { transform: rotate(7deg) translateY(0); }
-  75% { transform: rotate(0deg) translateY(-9px) scale(1.04); }
+/* danse de victoire de Levy (Mazal Tov, résultats, diplôme) : plus rebondie et vivante */
+.mascot-dance { animation: victoryDance 0.85s cubic-bezier(.34,.6,.4,1.2) infinite; transform-origin: 50% 92%; }
+@keyframes victoryDance {
+  0%   { transform: translateY(0) rotate(-7deg) scale(1,1); }
+  20%  { transform: translateY(-11px) rotate(-7deg) scale(1.05,.95); }
+  40%  { transform: translateY(0) rotate(7deg) scale(1,1); }
+  60%  { transform: translateY(-11px) rotate(7deg) scale(1.05,.95); }
+  80%  { transform: translateY(-2px) rotate(-4deg) scale(1,1); }
+  100% { transform: translateY(0) rotate(-7deg) scale(1,1); }
 }
 
 /* ---------- Résultats ---------- */
@@ -442,6 +447,16 @@ button { font-family: inherit; border: none; cursor: pointer; color: inherit; ba
 .mascot-clap .lv-hand-r { animation: clapR 0.3s ease-in-out infinite; }
 @keyframes clapL { 0%,100% { transform: translateX(-6px) rotate(-4deg); } 50% { transform: translateX(2px); } }
 @keyframes clapR { 0%,100% { transform: translateX(6px) rotate(4deg); } 50% { transform: translateX(-2px); } }
+
+/* --- Levy tout content qui tient un cœur (love) : le corps se dandine, le cœur bat --- */
+.mascot-love { animation: clapBob 0.5s ease-in-out infinite; transform-origin: 50% 92%; }
+.mascot-love .lv-heart { transform-origin: 50px 93px; animation: heartBeat 0.7s ease-in-out infinite; }
+@keyframes heartBeat {
+  0%,100% { transform: scale(1); }
+  25% { transform: scale(1.28); }
+  45% { transform: scale(1.06); }
+  65% { transform: scale(1.2); }
+}
 
 /* --- dandinement rigolo (surprises) --- */
 .mascot-fun { animation: funWiggle 0.7s ease-in-out infinite; transform-origin: 50% 92%; }
@@ -690,3 +705,14 @@ button { font-family: inherit; border: none; cursor: pointer; color: inherit; ba
   padding: 10px; margin-bottom: 12px; box-shadow: var(--shadow);
 }
 @keyframes pop-in { from { transform: scale(0.7); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+/* Accessibilité : si l'enfant/le parent a demandé "moins d'animations" sur son appareil,
+   on calme les mouvements de la mascotte et les effets (sans casser le jeu). */
+@media (prefers-reduced-motion: reduce) {
+  .mascot-jump, .mascot-clap, .mascot-clap .lv-hand-l, .mascot-clap .lv-hand-r,
+  .mascot-fun, .mascot-dance, .mascot-love, .mascot-love .lv-heart,
+  .mascot-cheer, .mascot-wave, .chest-btn, .say-btn.hint, .choice.reveal {
+    animation-duration: 0.001s !important;
+    animation-iteration-count: 1 !important;
+  }
+}

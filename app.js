@@ -300,7 +300,9 @@
     $overlay.classList.remove("hidden");
     document.getElementById("gate-cancel").addEventListener("click", () => $overlay.classList.add("hidden"));
     document.getElementById("gate-ok").addEventListener("click", check);
-    document.getElementById("gate-input").addEventListener("keydown", e => { if (e.key === "Enter") check(); });
+    const gInp = document.getElementById("gate-input");
+    gInp.addEventListener("keydown", e => { if (e.key === "Enter") check(); });
+    setTimeout(() => gInp.focus(), 50);
     function check() {
       const v = parseInt(document.getElementById("gate-input").value, 10);
       if (v === a + b) {
@@ -334,7 +336,9 @@
     $overlay.classList.remove("hidden");
     document.getElementById("pgate-cancel").addEventListener("click", () => $overlay.classList.add("hidden"));
     document.getElementById("pgate-ok").addEventListener("click", check);
-    document.getElementById("pgate-input").addEventListener("keydown", e => { if (e.key === "Enter") check(); });
+    const pInp = document.getElementById("pgate-input");
+    pInp.addEventListener("keydown", e => { if (e.key === "Enter") check(); });
+    setTimeout(() => pInp.focus(), 50);
     function check() {
       const inp = document.getElementById("pgate-input");
       if (parseInt(inp.value, 10) === a + b) { $overlay.classList.add("hidden"); screenResources(); }
@@ -668,7 +672,7 @@
         if (ci < cards.length) renderCard();
         else startExercises(lvlIdx, subIdx);
       });
-      if (c.say) setTimeout(() => speak(c.say, null, null, true), 500);
+      if (c.say) setTimeout(() => speak(c.say), 500);
     }
   }
 
@@ -1184,7 +1188,10 @@
     // déclenche APRÈS et appelle stopAudio() qui effacerait la barre "Suivant" (écran gelé)
     if (session._sayTimer) { clearTimeout(session._sayTimer); session._sayTimer = null; }
     dingGood();
-    if (!session.failedThis) session.stars++;
+    // 1 étoile = 1 exercice de BASE réussi du premier coup. On ne recompte pas les
+    // exercices insérés (_sense) ni les items reposés sous une autre forme (_variant),
+    // sinon le total dépasse le nombre d'exercices et fausse la note en étoiles.
+    if (!session.failedThis && !ex._variant && !ex._sense) session.stars++;
     // POINT 3 : révision espacée -- on reprogramme l'item selon sa réussite
     if (ex._review) scheduleReview(ex._review.key, !session.failedThis);
     // POINT 2 : après un mot assemblé, on ancre le SENS ("et ça, c'est quoi ?")
@@ -1196,7 +1203,7 @@
     const p = rand(PRAISE);
     // animation adaptée à la phrase : Levy applaudit sur les félicitations (Mazal Tov,
     // Félicitations, champion, bravo...), et saute de joie sur les autres
-    const expr = /mazal|félicit|champion|bravo|pro|talent/i.test(p[0]) ? "clap" : rand(["cheer", "happy"]);
+    const expr = /mazal|félicit|champion|bravo|pro|talent/i.test(p[0]) ? "clap" : rand(["cheer", "happy", "wave", "love"]);
     speak(p[0], 1.0);
     lockChoices();
     if (session.placement) {
@@ -1269,7 +1276,7 @@
   // clap = applaudissements (mains animées via la classe mascot-clap du SVG lui-même).
   function comicBubbleHTML(expr, txt, txtHe) {
     const anim = { cheer: "mascot-jump", happy: "mascot-jump", wave: "mascot-fun",
-                   think: "", teach: "mascot-dance", clap: "", oops: "" }[expr] || "mascot-jump";
+                   think: "", teach: "mascot-dance", clap: "mascot-clap", love: "mascot-love", oops: "" }[expr] || "mascot-jump";
     return '<div class="comic-mascot ' + anim + '">' + mascotSVG(expr) + "</div>" +
       '<div class="comic-bubble"><span class="comic-txt">' + esc(txt) + "</span>" +
       (store.heOn && txtHe ? '<span class="he" dir="rtl">' + esc(txtHe) + "</span>" : "") + "</div>";
@@ -1409,7 +1416,7 @@
   /* ============================================================
      Séries (jours consécutifs) + badges
      ============================================================ */
-  function dayStr(d) { return d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate(); }
+  function dayStr(d) { return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); }
   function touchStreak() {
     const p = profile(); if (!p) return;
     const today = dayStr(new Date());
@@ -1530,7 +1537,16 @@
     } catch (e) { done(false, "Code illisible"); return; }
     if (!obj || typeof obj.profiles !== "object") { done(false, "Sauvegarde invalide"); return; }
     let n = 0;
-    Object.keys(obj.profiles).forEach(name => { store.profiles[name] = obj.profiles[name]; n++; });
+    Object.keys(obj.profiles).forEach(name => {
+      const incoming = obj.profiles[name], cur = store.profiles[name];
+      // ne JAMAIS faire régresser : si le profil existe déjà, on garde le meilleur
+      // score par étape (restaurer une vieille sauvegarde ne doit pas effacer les progrès récents)
+      if (cur && cur.done && incoming && incoming.done) {
+        incoming.done = Object.assign({}, incoming.done);
+        Object.keys(cur.done).forEach(k => { incoming.done[k] = Math.max(cur.done[k] || 0, incoming.done[k] || 0); });
+      }
+      store.profiles[name] = incoming; n++;
+    });
     save();
     done(true, n + " profil(s) restauré(s)");
   }

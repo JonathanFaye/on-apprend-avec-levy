@@ -2,9 +2,11 @@
    Rend le jeu jouable hors-ligne : le "coeur" (page, code, données) est mis en
    cache à l'installation ; l'audio est mis en cache au fur et à mesure qu'il est
    joué (runtime cache). Deuxième visite quasi instantanée. */
-const VERSION = "levy-v26";
+const VERSION = "levy-v27";
 const CORE = VERSION + "-core";
-const AUDIO = VERSION + "-audio";
+// Cache audio NON versionné : les ~1375 mp3 ne doivent PAS être re-téléchargés à chaque
+// nouvelle version (sinon un enfant qui met à jour puis passe hors-ligne perd tout le son).
+const AUDIO = "levy-audio";
 
 const CORE_ASSETS = [
   "./",
@@ -22,15 +24,20 @@ const CORE_ASSETS = [
 ];
 
 self.addEventListener("install", e => {
+  // addAll est atomique : un seul asset en 404 ferait échouer TOUT l'install (plus d'offline).
+  // On met en cache asset par asset, en tolérant les échecs isolés.
   e.waitUntil(
-    caches.open(CORE).then(c => c.addAll(CORE_ASSETS)).then(() => self.skipWaiting())
+    caches.open(CORE)
+      .then(c => Promise.allSettled(CORE_ASSETS.map(a => c.add(a))))
+      .then(() => self.skipWaiting())
   );
 });
 
 self.addEventListener("activate", e => {
+  // on purge les vieux caches CORE mais on GARDE le cache audio non versionné
   e.waitUntil(
     caches.keys().then(keys => Promise.all(
-      keys.filter(k => k.indexOf(VERSION) !== 0).map(k => caches.delete(k))
+      keys.filter(k => k !== AUDIO && k.indexOf(VERSION) !== 0).map(k => caches.delete(k))
     )).then(() => self.clients.claim())
   );
 });
