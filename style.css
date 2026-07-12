@@ -595,6 +595,10 @@ button { font-family: inherit; border: none; cursor: pointer; color: inherit; ba
 .conjug-pro { min-width: 110px; font-weight: 600; }
 .conjug-stem { font-weight: 700; }
 .conjug-blank { display: inline-block; width: 90px; border-bottom: 2px dotted #999; height: 26px; }
+.conjug-title { font-weight: 700; font-size: 1.15rem; color: var(--primary-dark); margin: 16px 0 8px; }
+.conjug-title:first-child { margin-top: 4px; }
+.dictee-key { margin-top: 18px; padding-top: 8px; border-top: 1px dashed #CCC; font-size: 0.8rem; color: #888; }
+@media print { .dictee-key { color: #aaa; font-size: 0.72rem; } }
 /* ---- coloriages-jeux : grille de cases à colorier ---- */
 .cx-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 8px; }
 .cx-cell {

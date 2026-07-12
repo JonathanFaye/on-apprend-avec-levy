@@ -1592,24 +1592,135 @@
   const RES_COPY = ["papa", "maman", "moto", "chat", "vélo", "lune", "école", "ami", "bravo", "merci"];
 
   const RES_RULES = [
+    // ----- CP : apprendre à lire (déchiffrage) -----
     {
-      t: "Les voyelles et les consonnes", e: "🔤",
+      c: "CP", t: "Les voyelles et les consonnes", e: "🔤",
       html:
         "<p>En français, il y a <b>6 voyelles</b> : <b>a, e, i, o, u, y</b>. Toutes les autres lettres sont des <b>consonnes</b>.</p>" +
         "<p><b>L'astuce :</b> une syllabe a presque toujours une voyelle. Pour lire, on accroche une consonne à une voyelle : <b>m + a = ma</b>, <b>p + i = pi</b>.</p>" +
         "<p>Entraînez votre enfant à « chanter » la syllabe : <i>mmmm-a &#8594; ma</i>.</p>"
     },
     {
-      t: "Les sons à deux lettres", e: "✨",
+      c: "CP", t: "Dire le SON, pas le nom de la lettre", e: "🔊",
+      html:
+        "<p>Pour apprendre à lire, l'enfant doit entendre le <b>son</b> de la lettre, pas son nom.</p>" +
+        "<ul><li>La lettre <b>S</b> ne dit pas « èsse », elle fait <b>ssss</b> (comme un serpent).</li>" +
+        "<li>La lettre <b>M</b> ne dit pas « èmme », elle fait <b>mmmm</b> (comme quand on aime).</li>" +
+        "<li>La lettre <b>F</b> fait <b>ffff</b>, le <b>L</b> fait <b>llll</b>…</li></ul>" +
+        "<p><b>Pourquoi ?</b> Si on dit « èm-a », l'enfant n'entend pas « ma ». Si on dit « mmm-a », le mot <i>sort tout seul</i> : <b>ma</b> !</p>"
+    },
+    {
+      c: "CP", t: "Fusionner les sons pour lire un mot", e: "🔗",
+      html:
+        "<p>Lire, c'est <b>coller les sons</b> les uns aux autres, sans s'arrêter :</p>" +
+        "<p style='text-align:center;font-size:1.2em'><b>m + a = ma</b> &nbsp;•&nbsp; <b>m + a + l = mal</b></p>" +
+        "<p><b>L'astuce :</b> on glisse le doigt sous les lettres et on <b>étire</b> le mot sans couper : <i>mmmaaal &#8594; mal</i>. On accélère petit à petit.</p>" +
+        "<p>C'est l'étape la plus importante du CP. On s'entraîne d'abord sur des mots où <b>toutes les lettres se prononcent</b> : mur, sol, pull, lila.</p>"
+    },
+    {
+      c: "CP", t: "Les sons à deux lettres", e: "✨",
       html:
         "<p>Certaines lettres se mettent ensemble pour faire <b>un seul son</b> :</p>" +
         "<ul><li><b>ch</b> comme dans <i>chat</i></li><li><b>ou</b> comme dans <i>poule</i></li>" +
-        "<li><b>on</b> comme dans <i>bonbon</i></li><li><b>an</b> comme dans <i>grand</i></li>" +
-        "<li><b>au / eau</b> comme dans <i>bateau</i></li><li><b>oi</b> comme dans <i>roi</i></li></ul>" +
+        "<li><b>on</b> comme dans <i>bonbon</i></li><li><b>an / en</b> comme dans <i>grand, dent</i></li>" +
+        "<li><b>au / eau</b> comme dans <i>bateau</i></li><li><b>oi</b> comme dans <i>roi</i></li>" +
+        "<li><b>in</b> comme dans <i>lapin</i></li><li><b>ou</b> comme dans <i>hibou</i></li></ul>" +
         "<p><b>L'astuce :</b> quand on voit deux lettres qui font un son, on ne les lit pas séparément. On montre le groupe avec le doigt et on dit le son en entier.</p>"
     },
     {
-      t: "Aider mon enfant à lire à la maison", e: "🏠",
+      c: "CP", t: "Les sons plus difficiles", e: "🧩",
+      html:
+        "<p>Un peu plus tard dans l'année, on rencontre :</p>" +
+        "<ul><li><b>gn</b> comme dans <i>montagne</i></li><li><b>ille</b> comme dans <i>fille</i></li>" +
+        "<li><b>oin</b> comme dans <i>point</i></li><li><b>eu</b> comme dans <i>feu</i></li>" +
+        "<li><b>ph</b> qui fait <b>f</b>, comme dans <i>photo</i></li>" +
+        "<li><b>g</b> qui fait <b>j</b> devant e et i : <i>girafe</i></li>" +
+        "<li><b>c</b> qui fait <b>s</b> devant e et i : <i>cerise</i></li></ul>" +
+        "<p>Pas de panique : on les découvre un par un, en lisant.</p>"
+    },
+    // ----- CE1 : consolider, premières règles -----
+    {
+      c: "CE1", t: "m devant m, b, p", e: "📌",
+      html:
+        "<p>Devant les lettres <b>m</b>, <b>b</b> et <b>p</b>, on écrit <b>m</b> au lieu de <b>n</b>.</p>" +
+        "<ul><li>e<b>m</b>porter (et non « enporter »)</li><li>to<b>m</b>ber</li><li>u<b>m</b>e lampe : <i>la<b>m</b>pe</i></li><li>un bo<b>m</b>bon : <i>bo<b>m</b>bon</i></li></ul>" +
+        "<p><b>L'astuce :</b> « devant <b>m, b, p</b>, le n met son bonnet et devient m ».</p>"
+    },
+    {
+      c: "CE1", t: "Le pluriel des noms", e: "➕",
+      html:
+        "<p>Quand il y a <b>plusieurs</b> choses, on ajoute souvent un <b>-s</b> à la fin :</p>" +
+        "<ul><li>un chat &#8594; des chat<b>s</b></li><li>une fleur &#8594; des fleur<b>s</b></li></ul>" +
+        "<p>Le petit mot devant change aussi : <b>un/une</b> devient <b>des</b>, <b>le/la</b> devient <b>les</b>.</p>" +
+        "<p><b>Attention :</b> le <b>-s</b> ne s'entend pas, mais il s'écrit !</p>"
+    },
+    {
+      c: "CE1", t: "Masculin ou féminin ?", e: "♀♂",
+      html:
+        "<p>Un nom est <b>masculin</b> (un, le) ou <b>féminin</b> (une, la).</p>" +
+        "<ul><li><b>un</b> garçon, <b>le</b> vélo &#8594; masculin</li><li><b>une</b> fille, <b>la</b> lune &#8594; féminin</li></ul>" +
+        "<p>Pour le féminin, on ajoute souvent un <b>-e</b> : un ami &#8594; une ami<b>e</b>, un marchand &#8594; une marchand<b>e</b>.</p>"
+    },
+    {
+      c: "CE1", t: "Le présent des verbes en -er", e: "📝",
+      html:
+        "<p>Au <b>présent</b>, on parle de <b>maintenant</b>. Exemple avec <b>jouer</b> :</p>" +
+        "<ul><li>je jou<b>e</b></li><li>tu jou<b>es</b></li><li>il/elle jou<b>e</b></li>" +
+        "<li>nous jou<b>ons</b></li><li>vous jou<b>ez</b></li><li>ils/elles jou<b>ent</b></li></ul>" +
+        "<p><b>L'astuce :</b> pour les verbes en -er, les terminaisons sont presque toujours <b>-e, -es, -e, -ons, -ez, -ent</b>.</p>"
+    },
+    {
+      c: "CE1", t: "La majuscule et le point", e: "🔠",
+      html:
+        "<p>Une phrase <b>commence</b> par une <b>majuscule</b> et <b>finit</b> par un <b>point</b>.</p>" +
+        "<ul><li><b>L</b>e chat dort<b>.</b></li><li>On met une majuscule aussi aux <b>prénoms</b> et aux <b>noms de villes</b>.</li></ul>" +
+        "<p>Il existe d'autres points : le point d'interrogation <b>?</b> (pour une question) et le point d'exclamation <b>!</b> (pour la surprise).</p>"
+    },
+    // ----- CE2 : accords et conjugaison -----
+    {
+      c: "CE2", t: "Les accords dans le groupe du nom", e: "🧷",
+      html:
+        "<p>Dans un groupe de mots, tout <b>s'accorde</b> avec le nom (nombre et genre) :</p>" +
+        "<ul><li><b>le petit chat</b> &#8594; <b>les petit<u>s</u> chat<u>s</u></b></li>" +
+        "<li><b>une jolie fleur</b> &#8594; <b>des joli<u>es</u> fleur<u>s</u></b></li></ul>" +
+        "<p><b>L'astuce :</b> on trouve le nom, on regarde s'il est au pluriel, et on met le <b>-s</b> partout dans le groupe (le petit mot ET l'adjectif).</p>"
+    },
+    {
+      c: "CE2", t: "a ou à ? et ou est ?", e: "🔀",
+      html:
+        "<p>Ces petits mots se prononcent pareil mais s'écrivent différemment :</p>" +
+        "<ul><li><b>a</b> = le verbe avoir. Astuce : on peut dire <b>avait</b>. <i>Il <b>a</b> faim &#8594; il <b>avait</b> faim.</i></li>" +
+        "<li><b>à</b> = petit mot (lieu, direction). <i>Je vais <b>à</b> l'école.</i></li>" +
+        "<li><b>est</b> = le verbe être. Astuce : on peut dire <b>était</b>. <i>Il <b>est</b> content &#8594; il <b>était</b> content.</i></li>" +
+        "<li><b>et</b> = veut dire « plus ». <i>Le chat <b>et</b> le chien.</i></li></ul>"
+    },
+    {
+      c: "CE2", t: "on ou ont ? son ou sont ?", e: "✍️",
+      html:
+        "<ul><li><b>ont</b> = verbe avoir (ils <b>ont</b>). Astuce : on peut dire <b>avaient</b>.</li>" +
+        "<li><b>on</b> = comme « il » (<b>on</b> joue). Astuce : on peut remplacer par <b>il</b>.</li>" +
+        "<li><b>sont</b> = verbe être (ils <b>sont</b>). Astuce : on peut dire <b>étaient</b>.</li>" +
+        "<li><b>son</b> = à lui (<b>son</b> vélo). Astuce : on peut dire <b>mon</b>.</li></ul>"
+    },
+    {
+      c: "CE2", t: "Être et avoir au présent", e: "🧠",
+      html:
+        "<p>Deux verbes très importants à connaître par cœur :</p>" +
+        "<p><b>être :</b> je suis, tu es, il est, nous sommes, vous êtes, ils sont.</p>" +
+        "<p><b>avoir :</b> j'ai, tu as, il a, nous avons, vous avez, ils ont.</p>"
+    },
+    {
+      c: "CE2", t: "Passé, présent, futur", e: "⏳",
+      html:
+        "<p>Le verbe change selon le <b>moment</b> :</p>" +
+        "<ul><li><b>Hier</b>, je jou<b>ais</b> &#8594; le <b>passé</b>.</li>" +
+        "<li><b>Aujourd'hui</b>, je jou<b>e</b> &#8594; le <b>présent</b>.</li>" +
+        "<li><b>Demain</b>, je jou<b>erai</b> &#8594; le <b>futur</b>.</li></ul>" +
+        "<p><b>L'astuce :</b> on repère les petits mots <i>hier / maintenant / demain</i> pour savoir quel temps utiliser.</p>"
+    },
+    // ----- Conseils généraux -----
+    {
+      c: "Conseils", t: "Aider mon enfant à lire à la maison", e: "🏠",
       html:
         "<p>Quelques idées simples, 10 minutes par jour suffisent :</p>" +
         "<ul><li>Lire à voix haute <b>avec</b> lui, en suivant les mots du doigt.</li>" +
@@ -1619,12 +1730,13 @@
         "<li>Relire plusieurs fois le même mot : la répétition, c'est la clé.</li></ul>"
     },
     {
-      t: "Le présent des verbes (CE1)", e: "📝",
+      c: "Conseils", t: "Quand mon enfant se trompe", e: "💛",
       html:
-        "<p>Au <b>présent</b>, on parle de <b>maintenant</b>. Exemple avec <b>jouer</b> :</p>" +
-        "<ul><li>je jou<b>e</b></li><li>tu jou<b>es</b></li><li>il/elle jou<b>e</b></li>" +
-        "<li>nous jou<b>ons</b></li><li>vous jou<b>ez</b></li><li>ils/elles jou<b>ent</b></li></ul>" +
-        "<p><b>L'astuce :</b> pour les verbes en -er, les terminaisons sont presque toujours <b>-e, -es, -e, -ons, -ez, -ent</b>.</p>"
+        "<p>Se tromper, c'est <b>normal</b> et même utile pour apprendre.</p>" +
+        "<ul><li>On ne dit pas « non, c'est faux ». On <b>redonne le son</b> et on relit ensemble.</li>" +
+        "<li>On laisse le temps : lire demande beaucoup d'efforts au début.</li>" +
+        "<li>On s'arrête <b>avant</b> la fatigue, sur une réussite.</li></ul>" +
+        "<p>Ce jeu est fait maison, pour aider. Il ne remplace pas la maîtresse : montrez-lui les fiches, elle saura vous guider.</p>"
     }
   ];
 
@@ -1705,8 +1817,29 @@
       '<line x1="88" y1="155" x2="88" y2="176"/><line x1="108" y1="155" x2="108" y2="176"/>' +
       '<path d="M80 176 L96 176"/><path d="M100 176 L116 176"/></svg>';
   }
+  // Lettres rigolotes : chaque lettre devient un petit personnage (visage + bras + jambes),
+  // en SVG (la lettre reste toujours lisible, contrairement à une image générée). Contour à colorier.
+  function funnyLetter(L) {
+    return '<svg viewBox="0 0 200 250">' +
+      // bras
+      '<path d="M52 150 Q22 138 18 116" fill="none"/><circle cx="16" cy="112" r="8"/>' +
+      '<path d="M148 150 Q178 138 182 116" fill="none"/><circle cx="184" cy="112" r="8"/>' +
+      // jambes + chaussures
+      '<line x1="84" y1="198" x2="84" y2="226"/><line x1="116" y1="198" x2="116" y2="226"/>' +
+      '<ellipse cx="78" cy="232" rx="16" ry="9"/><ellipse cx="122" cy="232" rx="16" ry="9"/>' +
+      // la grande lettre (contour à colorier)
+      '<text x="100" y="184" font-family="Arial Black, Arial, sans-serif" font-weight="900" font-size="205" text-anchor="middle" fill="none">' + esc(L) + "</text>" +
+      // visage
+      '<circle cx="83" cy="94" r="12" fill="none"/><circle cx="117" cy="94" r="12" fill="none"/>' +
+      '<circle cx="83" cy="96" r="3.5" fill="#111"/><circle cx="117" cy="96" r="3.5" fill="#111"/>' +
+      '<path d="M79 121 Q100 141 121 121" fill="none"/>' +
+      '<circle cx="63" cy="116" r="6" fill="none"/><circle cx="137" cy="116" r="6" fill="none"/>' +
+      "</svg>";
+  }
+  const FUNNY_LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+
   const RES_COLOR = [
-    { t: "Levy", sub: "Colorie la mascotte !", svg: colorLevy },
+    { t: "Levy", sub: "Colorie la mascotte !", img: "coloriages/levy.png" },
     { t: "Le mouton", sub: "Un doux mouton", img: "coloriages/mouton.png" },
     { t: "La girafe", sub: "Une girafe rigolote", img: "coloriages/girafe.png" },
     { t: "Le poisson", sub: "P comme poisson", img: "coloriages/poisson.png" },
@@ -1752,17 +1885,35 @@
   const RES_ORDRE = [["Le", "chat", "dort"], ["Papa", "lit", "un", "livre"], ["La", "lune", "brille"], ["Je", "vais", "à", "l'école"]];
   const RES_PLURIEL = [["un chat", "des chats"], ["une fleur", "des fleurs"], ["un ami", "des amis"], ["une école", "des écoles"], ["un ballon", "des ballons"]];
   const RES_CONJUG = { verbe: "jouer", pronoms: ["je", "tu", "il / elle", "nous", "vous", "ils / elles"] };
+  // nouvelles fiches
+  const RES_MASCFEM = [["un ami", "une amie"], ["le marchand", "la marchande"], ["un voisin", "une voisine"], ["le petit", "la petite"], ["un ours", "une ourse"], ["un cousin", "une cousine"]];
+  const RES_ACCORD = [["un petit chat", "des petits chats"], ["une jolie fleur", "des jolies fleurs"], ["le grand arbre", "les grands arbres"], ["un ami gentil", "des amis gentils"], ["la belle histoire", "les belles histoires"]];
+  const RES_HOMO = [
+    ["Léa ___ un vélo tout neuf.", "a"], ["Je vais ___ l'école.", "à"],
+    ["Papa ___ content.", "est"], ["Le chat ___ le chien jouent.", "et"],
+    ["Ils ___ fini leurs devoirs.", "ont"], ["___ joue dans le jardin.", "On"],
+    ["Les enfants ___ sages.", "sont"], ["Il range ___ cartable.", "son"]
+  ];
+  const RES_DICTEE = ["Le chat dort.", "Papa lit un livre.", "La lune brille dans le ciel.", "Je vais à l'école.", "Les amis jouent dans le jardin.", "Maman a un joli chapeau."];
 
+  const G_CP = "🟢 CP — Lettres, sons & premiers mots";
+  const G_CE1 = "🔵 CE1 — Mots, phrases & premières règles";
+  const G_CE2 = "🟣 CE2 — Accords & conjugaison";
   const SHEETS = [
-    { id: "trace", t: "Je trace les lettres", e: "✏️", g: "Débuter : lettres & syllabes" },
-    { id: "relie", t: "Je relie la lettre à l'image", e: "🔗", g: "Débuter : lettres & syllabes" },
-    { id: "syll", t: "J'écris les syllabes", e: "🔡", g: "Débuter : lettres & syllabes" },
-    { id: "copie", t: "Je recopie les mots", e: "📖", g: "Lire les mots" },
-    { id: "complete", t: "Je complète le mot", e: "🧩", g: "Lire les mots" },
-    { id: "son", t: "J'entoure le bon son", e: "👂", g: "Lire les mots" },
-    { id: "ordre", t: "Je remets la phrase en ordre", e: "🔀", g: "Lire les phrases" },
-    { id: "pluriel", t: "Un ou plusieurs ? (le pluriel)", e: "➕", g: "Grammaire (CE1-CE2)" },
-    { id: "conjug", t: "Je conjugue au présent", e: "📝", g: "Grammaire (CE1-CE2)" }
+    { id: "trace", t: "Je trace les lettres", e: "✏️", g: G_CP },
+    { id: "relie", t: "Je relie la lettre à l'image", e: "🔗", g: G_CP },
+    { id: "syll", t: "J'écris les syllabes", e: "🔡", g: G_CP },
+    { id: "complete", t: "Je complète le mot", e: "🧩", g: G_CP },
+    { id: "copie", t: "Je recopie les mots", e: "📖", g: G_CP },
+    { id: "son", t: "J'entoure le bon son", e: "👂", g: G_CE1 },
+    { id: "ordre", t: "Je remets la phrase en ordre", e: "🔀", g: G_CE1 },
+    { id: "pluriel", t: "Un ou plusieurs ? (le pluriel)", e: "➕", g: G_CE1 },
+    { id: "mascfem", t: "Masculin ou féminin ?", e: "♀♂", g: G_CE1 },
+    { id: "conjug", t: "Je conjugue au présent (-er)", e: "📝", g: G_CE1 },
+    { id: "accord", t: "J'accorde le groupe du nom", e: "🧷", g: G_CE2 },
+    { id: "homo", t: "a ou à ? et ou est ?", e: "🔀", g: G_CE2 },
+    { id: "etreavoir", t: "Je conjugue être et avoir", e: "🧠", g: G_CE2 },
+    { id: "dictee", t: "Je m'entraîne à la dictée", e: "✍️", g: G_CE2 }
   ];
   function screenSheets() {
     stopAudio();
@@ -1811,6 +1962,25 @@
     } else if (id === "pluriel") {
       title = "Un ou plusieurs ? (le pluriel)"; sub = "Écris le pluriel. Astuce : au pluriel, on ajoute souvent un -s.";
       body = RES_PLURIEL.map(p => '<div class="pluriel-row"><span class="pluriel-sing">' + esc(p[0]) + '</span><span class="pluriel-arrow">→</span><span class="copie-line"></span></div>').join("");
+    } else if (id === "mascfem") {
+      title = "Masculin ou féminin ?"; sub = "Écris le mot au féminin. Astuce : on ajoute souvent un -e.";
+      body = RES_MASCFEM.map(p => '<div class="pluriel-row"><span class="pluriel-sing">' + esc(p[0]) + '</span><span class="pluriel-arrow">→</span><span class="copie-line"></span></div>').join("");
+    } else if (id === "accord") {
+      title = "J'accorde le groupe du nom"; sub = "Écris le groupe au pluriel. Le petit mot ET l'adjectif prennent un -s.";
+      body = RES_ACCORD.map(p => '<div class="pluriel-row"><span class="pluriel-sing">' + esc(p[0]) + '</span><span class="pluriel-arrow">→</span><span class="copie-line"></span></div>').join("");
+    } else if (id === "homo") {
+      title = "a ou à ? et ou est ?"; sub = "Recopie chaque phrase en écrivant le bon petit mot dans le trou.";
+      body = RES_HOMO.map(p => '<div class="ordre-block"><div class="ordre-words"><span class="son-word">' + esc(p[0]) + '</span></div><span class="copie-line"></span></div>').join("");
+    } else if (id === "dictee") {
+      title = "Je m'entraîne à la dictée"; sub = "Un adulte lit la phrase à voix haute, l'enfant l'écrit sur la ligne.";
+      body = RES_DICTEE.map((s, i) => '<div class="copie-row"><span class="copie-word">' + (i + 1) + '.</span><span class="copie-line"></span></div>').join("") +
+        '<div class="dictee-key">Phrases à dicter : ' + RES_DICTEE.map(s => esc(s)).join(" ") + "</div>";
+    } else if (id === "etreavoir") {
+      title = "Je conjugue être et avoir"; sub = "Écris la bonne forme du verbe à côté de chaque pronom.";
+      const pros = ["je", "tu", "il / elle", "nous", "vous", "ils / elles"];
+      const grid = verbe => '<div class="conjug-title">' + esc(verbe) + '</div><div class="conjug-grid">' +
+        pros.map(p => '<div class="conjug-row"><span class="conjug-pro">' + esc(p) + '</span><span class="conjug-blank"></span></div>').join("") + "</div>";
+      body = grid("Verbe être") + grid("Verbe avoir");
     } else {
       title = "Je conjugue au présent"; sub = "Conjugue le verbe « " + RES_CONJUG.verbe + " ». Écris la bonne terminaison : -e, -es, -e, -ons, -ez, -ent.";
       body = '<div class="conjug-grid">' + RES_CONJUG.pronoms.map(p => '<div class="conjug-row"><span class="conjug-pro">' + esc(p) + '</span><span class="conjug-stem">jou</span><span class="conjug-blank"></span></div>').join("") + "</div>";
@@ -1820,13 +1990,25 @@
       '<div class="sheet-foot">On apprend avec Levy 🇫🇷</div></div>', screenSheets);
   }
 
+  const CLASS_ORDER = [
+    { c: "CP", label: "🟢 CP — Apprendre à lire" },
+    { c: "CE1", label: "🔵 CE1 — Premières règles" },
+    { c: "CE2", label: "🟣 CE2 — Accords & conjugaison" },
+    { c: "Conseils", label: "💡 Conseils aux parents" }
+  ];
   function screenRules() {
     stopAudio();
     $screen.innerHTML =
       '<div class="screen">' + resHeader("📖 Règles & astuces", screenResources) +
-      '<div class="res-list">' +
-      RES_RULES.map((r, i) => '<button class="res-item" data-r="' + i + '"><span class="ri-emoji">' + r.e + "</span><span>" + esc(r.t) + "</span><span class=\"ri-go\">›</span></button>").join("") +
-      "</div></div>";
+      '<p class="res-intro">Des explications simples, classées par niveau de classe.</p>' +
+      CLASS_ORDER.map(gr => {
+        const items = RES_RULES.map((r, i) => ({ r: r, i: i })).filter(x => x.r.c === gr.c);
+        if (!items.length) return "";
+        return '<div class="res-group">' + gr.label + "</div><div class=\"res-list\">" +
+          items.map(x => '<button class="res-item" data-r="' + x.i + '"><span class="ri-emoji">' + x.r.e + "</span><span>" + esc(x.r.t) + "</span><span class=\"ri-go\">›</span></button>").join("") +
+          "</div>";
+      }).join("") +
+      "</div>";
     document.getElementById("res-back").addEventListener("click", screenResources);
     $screen.querySelectorAll(".res-item").forEach(b => b.addEventListener("click", () => {
       const r = RES_RULES[+b.dataset.r];
@@ -1843,17 +2025,28 @@
       '<div class="color-grid">' +
       RES_COLOR.map((c, i) => '<button class="color-thumb" data-c="' + i + '"><div class="color-svg">' + (c.img ? '<img src="' + c.img + '" alt="' + esc(c.t) + '" loading="lazy">' : c.svg()) + "</div><span>" + esc(c.t) + "</span></button>").join("") +
       "</div>" +
+      '<div class="res-group">🔤 Lettres rigolotes</div>' +
+      '<p class="res-intro" style="margin:0 0 10px">Chaque lettre est un petit personnage à colorier !</p>' +
+      '<div class="color-grid">' +
+      FUNNY_LETTERS.map(L => '<button class="color-thumb" data-fl="' + esc(L) + '"><div class="color-svg">' + funnyLetter(L) + "</div><span>" + esc(L) + "</span></button>").join("") +
+      "</div>" +
       '<div class="res-group">🎯 Coloriages-jeux</div>' +
       '<p class="res-intro" style="margin:0 0 10px">On ne colorie que ce qui est demandé !</p>' +
       '<div class="res-list">' +
       COLOR_EX.map((c, i) => '<button class="res-item" data-x="' + i + '"><span class="ri-emoji">🖍️</span><span>' + esc(c.t) + "</span><span class=\"ri-go\">🖨️</span></button>").join("") +
       "</div></div>";
     document.getElementById("res-back").addEventListener("click", screenResources);
-    $screen.querySelectorAll(".color-thumb").forEach(b => b.addEventListener("click", () => {
+    $screen.querySelectorAll(".color-thumb[data-c]").forEach(b => b.addEventListener("click", () => {
       const c = RES_COLOR[+b.dataset.c];
       const inner = c.img ? '<img class="color-print-img" src="' + c.img + '" alt="' + esc(c.t) + '">' : c.svg();
       showPrintable(c.t, '<div class="sheet color-sheet"><h1 class="sheet-title">' + esc(c.t) + '</h1>' +
         '<div class="color-sub">' + esc(c.sub) + '</div><div class="color-big">' + inner + "</div>" +
+        '<div class="sheet-foot">On apprend avec Levy 🇫🇷</div></div>', screenColoring);
+    }));
+    $screen.querySelectorAll(".color-thumb[data-fl]").forEach(b => b.addEventListener("click", () => {
+      const L = b.dataset.fl;
+      showPrintable("La lettre " + L, '<div class="sheet color-sheet"><h1 class="sheet-title">La lettre ' + esc(L) + '</h1>' +
+        '<div class="color-sub">Colorie la lettre ' + esc(L) + ' rigolote !</div><div class="color-big">' + funnyLetter(L) + "</div>" +
         '<div class="sheet-foot">On apprend avec Levy 🇫🇷</div></div>', screenColoring);
     }));
     $screen.querySelectorAll(".res-item[data-x]").forEach(b => b.addEventListener("click", () => {
