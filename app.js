@@ -1951,10 +1951,20 @@
       .replace(/[^a-z0-9 ]/g, " ").replace(/\s+/g, " ").trim();
   }
   function sendContact(message, email, done) {
+    // Envoi via FormSubmit.co (gratuit, sans serveur, marche sur n'importe quel hébergeur).
+    // Le message arrive par mail à CONTACT_EMAIL. 1er envoi = mail d'activation à cliquer une fois.
     try {
-      const body = new URLSearchParams({ "form-name": "contact-levy", message: message, email: email || "", page: (location.href || "") });
-      fetch("/", { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: body.toString() })
-        .then(r => done(r.ok)).catch(() => done(false));
+      fetch("https://formsubmit.co/ajax/" + CONTACT_EMAIL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify({
+          _subject: "Message depuis « On apprend avec Levy »",
+          message: message,
+          email: email || "(non fourni)",
+          _template: "table"
+        })
+      }).then(r => r.json()).then(d => done(!!(d && (d.success === "true" || d.success === true))))
+        .catch(() => done(false));
     } catch (e) { done(false); }
   }
   function screenHelp(back) {
