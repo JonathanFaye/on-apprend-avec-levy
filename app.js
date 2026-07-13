@@ -488,6 +488,7 @@
       '<div class="splash-tools">' +
       '<button class="chip" id="he-toggle" style="border:none;box-shadow:var(--shadow);padding:9px 16px;border-radius:14px;background:' + (store.heOn ? "var(--primary);color:#fff" : "#fff") + '">עִבְרִית ' + (store.heOn ? "✓" : "") + "</button>" +
       '<button class="chip" id="backup-btn" style="border:none;box-shadow:var(--shadow);padding:9px 16px;border-radius:14px;background:#fff">💾 Sauvegarde</button>' +
+      '<button class="chip" id="help-splash" style="border:none;box-shadow:var(--shadow);padding:9px 16px;border-radius:14px;background:#fff">❓ Aide</button>' +
       "</div>" +
       "</div>";
 
@@ -521,6 +522,7 @@
       store.heOn = !store.heOn; save(); screenSplash();
     });
     document.getElementById("backup-btn").addEventListener("click", screenBackup);
+    document.getElementById("help-splash").addEventListener("click", () => screenHelp(screenSplash));
 
     function addPlayer() {
       const name = document.getElementById("newname").value.trim();
@@ -592,6 +594,7 @@
       (gameFinished() ? '<button class="btn btn-accent" id="dipbtn" style="margin-bottom:12px">🎓 Mon diplôme !</button>' : "") +
       (LEVELS.length === 0 ? '<p style="text-align:center;margin-top:40px">Contenu en cours de chargement...</p>' : cards) +
       '<button class="parents-btn" id="parents">👨‍👩‍👧 Coin des parents' + he("פִּנַּת הַהוֹרִים") + "</button>" +
+      '<button class="parents-btn help-map-btn" id="help-map">❓ Aide &amp; Contact</button>' +
       "</div>";
 
     document.getElementById("switch").addEventListener("click", () => { screenSplash(); });
@@ -600,6 +603,7 @@
     document.getElementById("badges").addEventListener("click", screenBadges);
     document.getElementById("album").addEventListener("click", screenStickers);
     document.getElementById("parents").addEventListener("click", parentsGate);
+    document.getElementById("help-map").addEventListener("click", () => screenHelp(screenMap));
     const chBtn = document.getElementById("challenge");
     if (chBtn) chBtn.addEventListener("click", startChallenge);
     const rb = document.getElementById("resume");
@@ -1913,6 +1917,93 @@
     return '<div class="topbar noprint">' +
       '<button class="back" id="res-back" aria-label="Retour">←</button>' +
       '<span class="title">' + esc(title) + "</span></div>";
+  }
+
+  /* ---------- Aide & Contact : assistant FAQ (100% local) + message à l'auteur ---------- */
+  // Petit assistant qui répond seul aux questions courantes (mots-clés, hors-ligne). S'il ne
+  // trouve pas -> il renvoie vers le formulaire de contact (Netlify Forms). Écran destiné surtout
+  // aux parents : tout en français, pas d'hébreu.
+  const CONTACT_EMAIL = "contact@reliatech.fr";
+  const FAQ = [
+    { q: "C'est gratuit ?", kw: ["gratuit", "prix", "payer", "paye", "coute", "cout", "argent", "achat", "abonnement"],
+      a: "Oui ! Le jeu est 100% gratuit, sans publicité et sans achat. 🎉" },
+    { q: "Comment on joue ?", kw: ["comment on joue", "jouer", "commence", "debuter", "demarrer", "comment ca marche", "regles"],
+      a: "On choisit un personnage, puis on suit la carte des niveaux de haut en bas. À chaque exercice, touche 🔊 pour écouter. On avance à son rythme, une petite étape à la fois !" },
+    { q: "C'est trop facile ou trop dur ?", kw: ["facile", "dur", "difficile", "niveau", "sauter", "changer de niveau", "simple", "ennui"],
+      a: "Chaque enfant va à son rythme. Pour sauter un niveau trop facile, touche un niveau verrouillé 🔒 : un adulte confirme avec un petit calcul. Au tout début, le petit test magique place l'enfant au bon niveau." },
+    { q: "Il n'y a pas de son 🔇", kw: ["son", "entend", "audio", "voix", "muet", "volume", "ecouter", "silence"],
+      a: "Vérifie que le bouton son est sur 🔊 (en haut) et que le volume du téléphone est monté. Sur mobile, touche l'écran une fois pour réveiller le son. Le bouton 🔊 rejoue toujours la lecture." },
+    { q: "Comment aider mon enfant ?", kw: ["aider", "aide mon enfant", "parent", "maison", "accompagner", "fiches", "imprimer", "devoirs"],
+      a: "Va dans le 👨‍👩‍👧 Coin des parents (en bas de la carte) : des fiches à imprimer classées CP / CE1 / CE2, des règles & astuces, et des coloriages." },
+    { q: "Installer l'appli / jouer sans internet ?", kw: ["installer", "appli", "application", "hors ligne", "offline", "sans internet", "ecran d accueil", "telecharger"],
+      a: "Ouvre le menu de ton navigateur et choisis « Ajouter à l'écran d'accueil ». Le jeu s'installe comme une vraie appli et marche même sans internet. 📲" },
+    { q: "Mes progrès sont perdus ?", kw: ["progres", "perdu", "sauvegarde", "sauver", "restaurer", "changer de telephone", "etoiles", "reinitialise"],
+      a: "Les progrès sont gardés sur l'appareil. Pour les sauvegarder ou les transférer : bouton 💾 Sauvegarde (sur l'accueil) et dans le Coin des parents. Astuce : « Ajouter à l'écran d'accueil » évite que le téléphone efface la progression." },
+    { q: "C'est quoi le bouton ע (hébreu) ?", kw: ["hebreu", "bilingue", "langue", "traduction", "bouton hebreu"],
+      a: "Le bouton ע (en haut) affiche ou masque l'aide en hébreu vocalisé sous chaque texte. Pratique pour les enfants qui lisent l'hébreu." },
+    { q: "Jusqu'où va le jeu ?", kw: ["jusqu", "combien de niveaux", "ce2", "fin", "contenu", "age"],
+      a: "Il y a 10 niveaux, de l'alphabet jusqu'à la lecture et la grammaire du CE2. De quoi progresser toute l'année ! Le jeu convient dès qu'on découvre les lettres." },
+    { q: "Qui a fait ce jeu ?", kw: ["qui a fait", "qui la fait", "auteur", "cree", "createur", "origine", "contact"],
+      a: "Ce jeu est fait maison par un parent, pour aider les enfants à lire le français. Il ne remplace pas la maîtresse. Une question ou une idée ? Écris-nous juste en dessous 👇" }
+  ];
+  function helpNorm(s) {
+    return String(s || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "")
+      .replace(/[^a-z0-9 ]/g, " ").replace(/\s+/g, " ").trim();
+  }
+  function sendContact(message, email, done) {
+    try {
+      const body = new URLSearchParams({ "form-name": "contact-levy", message: message, email: email || "", page: (location.href || "") });
+      fetch("/", { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: body.toString() })
+        .then(r => done(r.ok)).catch(() => done(false));
+    } catch (e) { done(false); }
+  }
+  function screenHelp(back) {
+    stopAudio();
+    back = back || screenMap;
+    $screen.innerHTML =
+      '<div class="screen">' + resHeader("❓ Aide & Contact", back) +
+      '<div class="help-intro">' + comicBubbleHTML("wave", "Coucou, c'est Levy ! 👋 Touche une question, ou écris-la. Si tu ne trouves pas, laisse-nous un message !", "") + "</div>" +
+      '<div class="res-group">💬 Questions fréquentes</div>' +
+      '<div class="help-chips">' +
+      FAQ.map((f, i) => '<button class="help-chip" data-q="' + i + '">' + esc(f.q) + "</button>").join("") +
+      "</div>" +
+      '<div class="help-search"><input id="help-input" placeholder="Écris ta question ici..." autocomplete="off"><button class="say-btn" id="help-ask">Demander</button></div>' +
+      '<div id="help-answer" class="help-answer"></div>' +
+      '<div class="res-group">✉️ Nous écrire</div>' +
+      '<p class="res-intro">Une question, une idée, un souci ? Écris-nous, on te répondra.</p>' +
+      '<form id="help-form" class="help-form">' +
+      '<textarea id="hf-msg" rows="4" placeholder="Ton message..." required></textarea>' +
+      '<input id="hf-email" type="email" placeholder="Ton email (si tu veux une réponse)" autocomplete="off">' +
+      '<button class="btn btn-good" type="submit">Envoyer 📨</button>' +
+      "</form>" +
+      '<div id="help-status" class="help-status"></div>' +
+      "</div>";
+    document.getElementById("res-back").addEventListener("click", back);
+    const ansBox = document.getElementById("help-answer");
+    const showAnswer = html => { ansBox.innerHTML = '<div class="help-bubble">' + html + "</div>"; };
+    $screen.querySelectorAll(".help-chip").forEach(b => b.addEventListener("click", () => showAnswer(FAQ[+b.dataset.q].a)));
+    const ask = () => {
+      const n = helpNorm(document.getElementById("help-input").value);
+      if (!n) return;
+      let best = null, score = 0;
+      FAQ.forEach(f => { let s = 0; f.kw.forEach(k => { if (n.indexOf(k) >= 0) s++; }); if (s > score) { score = s; best = f; } });
+      showAnswer(best && score > 0 ? best.a
+        : "Bonne question ! Je suis un petit assistant et je n'ai pas encore la réponse à tout. 😊 Écris ton message juste en dessous 👇, un vrai humain te répondra.");
+    };
+    document.getElementById("help-ask").addEventListener("click", ask);
+    document.getElementById("help-input").addEventListener("keydown", e => { if (e.key === "Enter") ask(); });
+    document.getElementById("help-form").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const msg = document.getElementById("hf-msg").value.trim();
+      const email = document.getElementById("hf-email").value.trim();
+      if (!msg) return;
+      const status = document.getElementById("help-status");
+      status.textContent = "Envoi en cours...";
+      sendContact(msg, email, function (ok) {
+        if (ok) { document.getElementById("help-form").reset(); status.innerHTML = '<span class="help-ok">Merci ! Ton message est bien parti. 💛</span>'; }
+        else { status.innerHTML = "Oups, l'envoi n'a pas marché. Écris-nous directement à <a href=\"mailto:" + CONTACT_EMAIL + "\">" + CONTACT_EMAIL + "</a>."; }
+      });
+    });
   }
 
   function screenResources() {

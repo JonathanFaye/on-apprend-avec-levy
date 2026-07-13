@@ -23,6 +23,14 @@
   <div id="mascot-overlay" class="mascot-overlay hidden"></div>
   <div id="confetti-layer"></div>
 </div>
+<!-- Formulaire caché : permet à Netlify de détecter "contact-levy" au déploiement.
+     Le vrai envoi se fait en JS (fetch POST) depuis l'écran Aide & Contact. -->
+<form name="contact-levy" netlify netlify-honeypot="bot-field" hidden>
+  <input type="text" name="bot-field">
+  <textarea name="message"></textarea>
+  <input type="email" name="email">
+  <input type="text" name="page">
+</form>
 <script src="mascot.js"></script>
 <script src="data/audio-map.js"></script>
 <script src="data/level1.js"></script>

@@ -2,7 +2,7 @@
    Rend le jeu jouable hors-ligne : le "coeur" (page, code, données) est mis en
    cache à l'installation ; l'audio est mis en cache au fur et à mesure qu'il est
    joué (runtime cache). Deuxième visite quasi instantanée. */
-const VERSION = "levy-v28";
+const VERSION = "levy-v29";
 const CORE = VERSION + "-core";
 // Cache audio NON versionné : les ~1375 mp3 ne doivent PAS être re-téléchargés à chaque
 // nouvelle version (sinon un enfant qui met à jour puis passe hors-ligne perd tout le son).

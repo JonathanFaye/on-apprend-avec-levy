@@ -716,3 +716,32 @@ button { font-family: inherit; border: none; cursor: pointer; color: inherit; ba
     animation-iteration-count: 1 !important;
   }
 }
+
+/* ---------- Aide & Contact ---------- */
+.help-intro { margin: 6px 0 10px; }
+.help-map-btn { margin-top: 8px; }
+.help-chips { display: flex; flex-direction: column; gap: 8px; margin-bottom: 6px; }
+.help-chip {
+  text-align: left; background: #fff; border: 2px solid #EEE7DA; border-radius: 14px;
+  padding: 12px 14px; font-size: 1rem; font-weight: 600; color: var(--ink);
+  box-shadow: var(--shadow); min-height: 44px;
+}
+.help-chip:active { transform: translateY(1px); }
+.help-search { display: flex; gap: 8px; margin: 10px 0 4px; }
+.help-search input {
+  flex: 1; padding: 12px 14px; border: 2px solid #EEE7DA; border-radius: 14px;
+  font-family: inherit; font-size: 1rem; background: #fff;
+}
+.help-search .say-btn { margin: 0; white-space: nowrap; }
+.help-answer:not(:empty) { margin: 10px 0 4px; }
+.help-bubble {
+  background: var(--good-bg); border-radius: 16px; padding: 14px 16px;
+  font-size: 1.05rem; line-height: 1.45;
+}
+.help-form { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
+.help-form textarea, .help-form input {
+  width: 100%; padding: 12px 14px; border: 2px solid #EEE7DA; border-radius: 14px;
+  font-family: inherit; font-size: 1rem; background: #fff; resize: vertical;
+}
+.help-status { margin: 10px 0 4px; text-align: center; line-height: 1.4; }
+.help-ok { color: var(--good); font-weight: 700; }
