@@ -1923,7 +1923,8 @@
   // Petit assistant qui répond seul aux questions courantes (mots-clés, hors-ligne). S'il ne
   // trouve pas -> il renvoie vers le formulaire de contact (Netlify Forms). Écran destiné surtout
   // aux parents : tout en français, pas d'hébreu.
-  const CONTACT_EMAIL = "contact@reliatech.fr";
+  // Identifiant anonyme FormSubmit (route vers la boîte du proprio SANS exposer l'email dans la page).
+  const CONTACT_FORM = "87660339274d182c2f705e973ad943e4";
   const FAQ = [
     { q: "C'est gratuit ?", kw: ["gratuit", "prix", "payer", "paye", "coute", "cout", "argent", "achat", "abonnement"],
       a: "Oui ! Le jeu est 100% gratuit, sans publicité et sans achat. 🎉" },
@@ -1952,9 +1953,9 @@
   }
   function sendContact(message, email, done) {
     // Envoi via FormSubmit.co (gratuit, sans serveur, marche sur n'importe quel hébergeur).
-    // Le message arrive par mail à CONTACT_EMAIL. 1er envoi = mail d'activation à cliquer une fois.
+    // Le message arrive par mail au propriétaire via l'identifiant anonyme CONTACT_FORM (email non exposé).
     try {
-      fetch("https://formsubmit.co/ajax/" + CONTACT_EMAIL, {
+      fetch("https://formsubmit.co/ajax/" + CONTACT_FORM, {
         method: "POST",
         headers: { "Content-Type": "application/json", "Accept": "application/json" },
         body: JSON.stringify({
@@ -2011,7 +2012,7 @@
       status.textContent = "Envoi en cours...";
       sendContact(msg, email, function (ok) {
         if (ok) { document.getElementById("help-form").reset(); status.innerHTML = '<span class="help-ok">Merci ! Ton message est bien parti. 💛</span>'; }
-        else { status.innerHTML = "Oups, l'envoi n'a pas marché. Écris-nous directement à <a href=\"mailto:" + CONTACT_EMAIL + "\">" + CONTACT_EMAIL + "</a>."; }
+        else { status.innerHTML = '<span class="help-err">Oups, l\'envoi n\'a pas marché. Vérifie ta connexion et réessaie dans un instant.</span>'; }
       });
     });
   }

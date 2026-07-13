@@ -745,3 +745,5 @@ button { font-family: inherit; border: none; cursor: pointer; color: inherit; ba
 }
 .help-status { margin: 10px 0 4px; text-align: center; line-height: 1.4; }
 .help-ok { color: var(--good); font-weight: 700; }
+
+.help-err { color: var(--bad); font-weight: 600; }
