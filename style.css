@@ -718,7 +718,12 @@ button { font-family: inherit; border: none; cursor: pointer; color: inherit; ba
 }
 
 /* ---------- Aide & Contact ---------- */
-.help-intro { margin: 6px 0 10px; }
+/* Intro de Levy dans Aide & Contact : bulle qui s'adapte à l'écran (multi-lignes, pas de débordement) */
+.help-intro { margin: 6px 0 14px; display: flex; align-items: flex-start; gap: 8px; }
+.help-intro .comic-mascot { width: 54px; flex-shrink: 0; }
+.help-intro .comic-bubble { flex: 1; min-width: 0; margin-bottom: 0; }
+.help-intro .comic-bubble .comic-txt { white-space: normal; font-size: 1.02rem; line-height: 1.35; }
+.help-intro .comic-bubble::before, .help-intro .comic-bubble::after { top: 16px; bottom: auto; }
 .help-map-btn { margin-top: 8px; }
 .help-chips { display: flex; flex-direction: column; gap: 8px; margin-bottom: 6px; }
 .help-chip {
