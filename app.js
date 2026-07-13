@@ -206,11 +206,29 @@
     ["Wow !", "וַאוּ!"], ["Tu es un pro !", "אַתָּה מִקְצוֹעָן!"],
     ["Félicitations !", "כָּל הַכָּבוֹד!"], ["Magnifique !", "יָפֶה מְאוֹד!"],
     ["Bien joué !", "עֲבוֹדָה טוֹבָה!"], ["Superbe !", "נֶהְדָּר!"],
-    ["Tu es un champion !", "אַתָּה אַלּוּף!"], ["Extraordinaire !", "לֹא יֵאָמֵן!"]
+    ["Tu es un champion !", "אַתָּה אַלּוּף!"], ["Extraordinaire !", "לֹא יֵאָמֵן!"],
+    ["Ouahou, t'as vu ça ?!", "וָאוּ, רָאִיתָ אֶת זֶה?!"],
+    ["Là, t'es un vrai chef ! 😎", "אַתָּה מַמָּשׁ אַלּוּף!"],
+    ["Ça, c'est de la lecture ! 📖", "זֹאת קְרִיאָה אֲמִתִּית!"],
+    ["Je le savais que tu y arriverais !", "יָדַעְתִּי שֶׁתַּצְלִיחַ!"],
+    ["Han, trop fort mon ami !", "אֵיזֶה כִּשָּׁרוֹן, חָבֵר שֶׁלִּי!"],
+    ["Tu lis comme un grand ! 🌟", "אַתָּה קוֹרֵא כְּמוֹ גָּדוֹל!"],
+    ["On dirait un magicien des mots ! 🪄", "אַתָּה כְּמוֹ קוֹסֵם שֶׁל מִלִּים!"],
+    ["Oh là là, bravo bravo !", "אוֹהוֹ, כָּל הַכָּבוֹד, כָּל הַכָּבוֹד!"],
+    ["Tu as tout bon, j'adore ! ❤️", "הַכֹּל נָכוֹן, אֲנִי אוֹהֵב אֶת זֶה!"],
+    ["Quelle équipe on fait ! 🙌", "אֵיזוֹ קְבוּצָה אֲנַחְנוּ!"]
   ];
   const OOPS = [
     ["Presque !", "כִּמְעַט!"], ["Pas grave, on apprend !", "לֹא נוֹרָא, כָּכָה לוֹמְדִים!"],
-    ["Hop, je t'explique !", "בּוֹא נָבִין יַחַד!"], ["Courage, tu y es presque !", "עוֹד קְצָת, אַתָּה כִּמְעַט שָׁם!"]
+    ["Hop, je t'explique !", "בּוֹא נָבִין יַחַד!"], ["Courage, tu y es presque !", "עוֹד קְצָת, אַתָּה כִּמְעַט שָׁם!"],
+    ["Oups, on réessaie ensemble ! 😊", "אוֹפְּס, נְנַסֶּה שׁוּב בְּיַחַד!"],
+    ["Pas de souci, tout le monde se trompe !", "אֵין בְּעָיָה, כֻּלָּם טוֹעִים!"],
+    ["Moi aussi je me trompe parfois ! 🤫", "גַּם אֲנִי טוֹעֶה לִפְעָמִים!"],
+    ["C'est en se trompant qu'on devient fort ! 💪", "דַּוְקָא מִן הַטָּעֻיּוֹת נַעֲשִׂים חֲזָקִים!"],
+    ["Regarde encore une fois, tu vas trouver !", "תִּסְתַּכֵּל עוֹד פַּעַם, אַתָּה תִּמְצָא!"],
+    ["Allez, encore un petit essai !", "קָדִימָה, עוֹד נִסָּיוֹן קָטָן!"],
+    ["Petit raté, ça arrive ! On continue. 😉", "טָעוּת קְטַנָּה, זֶה קוֹרֶה! מַמְשִׁיכִים."],
+    ["Doucement, on relit tranquillement.", "לְאַט לְאַט, קוֹרְאִים שׁוּב בִּרְגִיעוּת."]
   ];
   // petites remarques rigolotes de Levy, affichees de temps en temps avant un exercice
   // (surprise/variete, casse la previsibilite des blagues de fin de niveau)
@@ -219,7 +237,21 @@
     ["Prêt ? Vas-y !", "מוּכָנִים? קָדִימָה!"],
     ["Je crois en toi !", "אֲנִי מַאֲמִין בָּכֶם!"],
     ["Celui-là, il est pour toi !", "זֶה בִּשְׁבִילְכֶם!"],
-    ["Allez, champion !", "קָדִימָה, אַלּוּף!"]
+    ["Allez, champion !", "קָדִימָה, אַלּוּף!"],
+    ["Ouvre grand les yeux, c'est parti ! 👀", "פְּקַח אֶת הָעֵינַיִם, מַתְחִילִים!"],
+    ["Montre-moi ce que tu sais faire !", "תַּרְאֶה לִי מָה אַתָּה יוֹדֵעַ!"],
+    ["Roulement de tambour... à toi ! 🥁", "רַעַשׁ שֶׁל תֻּפִּים... וְעַכְשָׁו תּוֹרְךָ!"],
+    ["Facile pour toi, ça ! 😎", "זֶה קַל בִּשְׁבִילְךָ!"],
+    ["Chuuut, on se concentre... et hop !", "שְׁשׁ, מִתְרַכְּזִים... וְהוֹפְּ!"],
+    ["On y va à ton rythme, tranquille.", "נֵלֵךְ בַּקֶּצֶב שֶׁלְּךָ, בִּרְגִיעוּת."],
+    ["Prêt à lire comme un champion ? 🏆", "מוּכָן לִקְרֹא כְּמוֹ אַלּוּף?"]
+  ];
+  // encouragements à mi-parcours (tirés au hasard, casse la répétition)
+  const MIDWAY = [
+    ["Tu es à mi-chemin, champion ! 💪", "אַתֶּם בַּחֲצִי הַדֶּרֶךְ, אַלּוּפִים!"],
+    ["La moitié déjà ! Continue comme ça ! 🚀", "כְּבָר בַּחֲצִי! תַּמְשִׁיךְ כָּכָה!"],
+    ["Encore la moitié et c'est gagné ! 😄", "עוֹד חֲצִי וְנִצַּחְנוּ!"],
+    ["Pile au milieu ! On finit ça ensemble ?", "בְּדִיּוּק בָּאֶמְצַע! נְסַיֵּם אֶת זֶה בְּיַחַד?"]
   ];
   function rand(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 
@@ -876,7 +908,8 @@
     // petit encouragement a mi-parcours sur les sessions longues (ex. le grand defi, 12 exercices)
     if (!session.placement && !session.halfwayShown && session.list.length >= 8 && session.i === Math.floor(session.list.length / 2)) {
       session.halfwayShown = true;
-      toast("cheer", "Tu es à mi-chemin, champion ! 💪", "אַתֶּם בַּחֲצִי הַדֶּרֶךְ, אַלּוּפִים!");
+      const mw = rand(MIDWAY);
+      toast("cheer", mw[0], mw[1]);
     } else if (!session.placement && session.i > 0 && Math.random() < 0.12) {
       // petite remarque rigolote occasionnelle, casse la previsibilite (1 exercice sur ~8)
       const q = rand(QUIPS);
@@ -1349,7 +1382,11 @@
         ["cheer", "Carte rigolote : Levy fait la roue ! 🤸", "קְלַף מַצְחִיק: לֵוִי עוֹשֶׂה גַּלְגַּל!"],
         ["clap", "Carte rare : Levy super-héros ! 🦸", "קְלַף נָדִיר: לֵוִי גִּבּוֹר-עַל!"],
         ["fun", "Levy te fait un clin d'œil 😉", "לֵוִי קוֹרֵץ לָכֶם!"],
-        ["happy", "Levy danse la samba pour toi ! 💃", "לֵוִי רוֹקֵד סַמְבָּה בִּשְׁבִילְכֶם!"]
+        ["happy", "Levy danse la samba pour toi ! 💃", "לֵוִי רוֹקֵד סַמְבָּה בִּשְׁבִילְכֶם!"],
+        ["fun", "Levy te fait un high-five ! ✋", "לֵוִי נוֹתֵן לְךָ כִּיף!"],
+        ["happy", "Levy saute de joie sur son lit ! 😄", "לֵוִי קוֹפֵץ מִשִּׂמְחָה עַל הַמִּטָּה!"],
+        ["cheer", "Carte magique : Levy fait apparaître des étoiles ! ✨", "קְלַף קֶסֶם: לֵוִי מַמְטִיר כּוֹכָבִים!"],
+        ["clap", "Carte rare : Levy en roi couronné ! 👑", "קְלָף נָדִיר: לֵוִי מֶלֶךְ עִם כֶּתֶר!"]
       ];
       const bonus = Math.random() < 0.4 ? rand(LEVY_CARDS) : null;
       const open = document.getElementById("chest-open");

@@ -282,10 +282,10 @@ window.LEVELS.push({
         }
       ],
       joke: {
-        q: "Quel est le comble pour un boulanger ? 🥖",
-        a: "C'est d'être dans le pétrin ! 😂",
-        qHe: "מָה הֲכִי מַצְחִיק שֶׁיָּכוֹל לִקְרוֹת לְאוֹפֶה? 🥖",
-        aHe: "לִהְיוֹת בְּתוֹךְ הַ-pétrin! בְּצָרְפָתִית pétrin זֶה גַּם הַכְּלִי שֶׁלָּשִׁים בּוֹ בָּצֵק וְגַם 'צָרָה גְּדוֹלָה'! 😂"
+        q: "Que fait un escargot 🐌 sur le dos d'une tortue 🐢 ?",
+        a: "Il crie : Youpi ! Ça va trop vite ! 😂",
+        qHe: "מָה עוֹשֶׂה חִלָּזוֹן עַל הַגַּב שֶׁל צָב?",
+        aHe: "הוּא צוֹעֵק: יוּפִּי, זֶה נוֹסֵעַ מַהֵר מִדַּי!"
       }
     },
     {

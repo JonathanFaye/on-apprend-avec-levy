@@ -143,10 +143,10 @@ window.LEVELS.push({
         }
       ],
       joke: {
-        q: "Pourquoi les squelettes 💀 ne se battent-ils jamais entre eux ?",
-        a: "Parce qu'ils n'ont pas les tripes ! 😂",
-        qHe: "לָמָּה שְׁלָדִים 💀 אַף פַּעַם לֹא רָבִים זֶה עִם זֶה?",
-        aHe: "כִּי אֵין לָהֶם tripes! (בְּצָרְפָתִית tripes זֶה גַּם 'מֵעַיִם' וְגַם 'אֹמֶץ' – וְלַשְּׁלָדִים אֵין מֵעַיִם!) 😂"
+        q: "Pourquoi le squelette 💀 a-t-il toujours froid 🥶 ?",
+        a: "Parce que le vent passe à travers ses os ! 🌬️😂",
+        qHe: "לָמָּה לַשֶּׁלֶד תָּמִיד קַר?",
+        aHe: "כִּי הָרוּחַ עוֹבֶרֶת בֵּין הָעֲצָמוֹת שֶׁלּוֹ!"
       }
     },
     {
