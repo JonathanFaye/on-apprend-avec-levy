@@ -2402,9 +2402,43 @@
 
   /* ---------- Démarrage ---------- */
   // Service Worker : cache hors-ligne (2e visite instantanée, jeu jouable sans réseau)
+  // + détection des mises à jour SANS casser la session : on prévient l'utilisateur avec une
+  // bannière, et on ne recharge QUE s'il touche "Mettre à jour" (jamais en plein exercice).
   if ("serviceWorker" in navigator) {
+    let updateReloading = false;
+    navigator.serviceWorker.addEventListener("controllerchange", () => {
+      if (updateReloading) location.reload();
+    });
+    function showUpdateBanner(worker) {
+      if (document.getElementById("update-banner")) return;
+      const b = document.createElement("div");
+      b.id = "update-banner";
+      b.className = "update-banner";
+      b.innerHTML =
+        '<span class="ub-txt">✨ Une nouvelle version est prête !</span>' +
+        '<button class="ub-go" id="ub-go">Mettre à jour</button>' +
+        '<button class="ub-x" id="ub-x" aria-label="Plus tard">✕</button>';
+      document.body.appendChild(b);
+      document.getElementById("ub-x").addEventListener("click", () => b.remove());
+      document.getElementById("ub-go").addEventListener("click", () => {
+        updateReloading = true;
+        b.querySelector(".ub-txt").textContent = "Mise à jour…";
+        try { worker.postMessage("skipWaiting"); } catch (e) { location.reload(); }
+      });
+    }
     window.addEventListener("load", () => {
-      navigator.serviceWorker.register("sw.js").catch(() => {});
+      navigator.serviceWorker.register("sw.js").then(reg => {
+        // une mise à jour déjà installée et en attente au moment du chargement
+        if (reg.waiting && navigator.serviceWorker.controller) showUpdateBanner(reg.waiting);
+        reg.addEventListener("updatefound", () => {
+          const nw = reg.installing;
+          if (!nw) return;
+          nw.addEventListener("statechange", () => {
+            // "installed" + un SW contrôle déjà = c'est une MISE À JOUR (pas la 1re visite)
+            if (nw.state === "installed" && navigator.serviceWorker.controller) showUpdateBanner(nw);
+          });
+        });
+      }).catch(() => {});
     });
   }
   if (store.current && store.profiles[store.current]) screenMap();

@@ -2,7 +2,7 @@
    Rend le jeu jouable hors-ligne : le "coeur" (page, code, données) est mis en
    cache à l'installation ; l'audio est mis en cache au fur et à mesure qu'il est
    joué (runtime cache). Deuxième visite quasi instantanée. */
-const VERSION = "levy-v33";
+const VERSION = "levy-v34";
 const CORE = VERSION + "-core";
 // Cache audio NON versionné : les ~1375 mp3 ne doivent PAS être re-téléchargés à chaque
 // nouvelle version (sinon un enfant qui met à jour puis passe hors-ligne perd tout le son).
@@ -28,11 +28,17 @@ const CORE_ASSETS = [
 self.addEventListener("install", e => {
   // addAll est atomique : un seul asset en 404 ferait échouer TOUT l'install (plus d'offline).
   // On met en cache asset par asset, en tolérant les échecs isolés.
+  // PAS de skipWaiting ici : lors d'une MISE À JOUR, le nouveau SW ATTEND en coulisse pour ne
+  // pas casser la session en cours. Il ne s'active que quand l'utilisateur touche "Mettre à jour"
+  // (message ci-dessous). Sur une 1re visite (aucun ancien SW), il s'active tout de suite.
   e.waitUntil(
-    caches.open(CORE)
-      .then(c => Promise.allSettled(CORE_ASSETS.map(a => c.add(a))))
-      .then(() => self.skipWaiting())
+    caches.open(CORE).then(c => Promise.allSettled(CORE_ASSETS.map(a => c.add(a))))
   );
+});
+
+// La page demande l'activation immédiate quand l'utilisateur accepte la mise à jour
+self.addEventListener("message", e => {
+  if (e.data === "skipWaiting") self.skipWaiting();
 });
 
 self.addEventListener("activate", e => {
