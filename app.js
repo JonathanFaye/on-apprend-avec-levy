@@ -1894,6 +1894,12 @@
       "</svg>";
   }
   const FUNNY_LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+  // coloriages TRÈS simples (grandes formes, contour épais) pour les tout-petits
+  const SIMPLE_COLOR = [
+    { t: "Le soleil", svg: colorSun }, { t: "La fleur", svg: colorFlower }, { t: "L'étoile", svg: colorStar },
+    { t: "Le ballon", svg: colorBalloon }, { t: "Le poisson", svg: colorFish }, { t: "La maison", svg: colorHouse },
+    { t: "L'arbre", svg: colorTree }, { t: "L'oiseau", svg: colorBird }
+  ];
 
   const RES_COLOR = [
     { t: "Levy", sub: "Colorie la mascotte !", img: "coloriages/levy.png" },
@@ -2017,20 +2023,161 @@
     });
   }
 
+  /* ---------- Jeux à imprimer (activités ludiques) ---------- */
+  const GAME_LIST = [
+    { id: "laby", t: "Le chemin des lettres", e: "🧩", d: "Colorie une lettre pour trouver la sortie" },
+    { id: "motsmeles", t: "Mots mêlés", e: "🔎", d: "Retrouve les mots cachés dans la grille" },
+    { id: "oie", t: "Le jeu de l'oie des syllabes", e: "🎲", d: "Un plateau à jouer en famille" },
+    { id: "intrus", t: "Trouve l'intrus", e: "🕵️", d: "Entoure celui qui n'a rien à faire là" }
+  ];
+  function gameLaby() {
+    const targets = ["A", "E", "M", "S", "O", "L"];
+    const target = targets[Math.floor(Math.random() * targets.length)];
+    const distract = "BCDFGHIJKNPRTUVZ".split("").filter(x => x !== target);
+    const R = 10, C = 7, path = {};
+    let r = 0, c = 0; path[r + "," + c] = 1;
+    while (r < R - 1 || c < C - 1) {
+      const down = r === R - 1 ? false : (c === C - 1 ? true : Math.random() < 0.5);
+      if (down) r++; else c++;
+      path[r + "," + c] = 1;
+    }
+    let cells = "";
+    for (let i = 0; i < R; i++) for (let j = 0; j < C; j++) {
+      const ch = path[i + "," + j] ? target : distract[Math.floor(Math.random() * distract.length)];
+      const cls = "laby-cell" + (i === 0 && j === 0 ? " laby-start" : "") + (i === R - 1 && j === C - 1 ? " laby-end" : "");
+      cells += '<span class="' + cls + '">' + ch + "</span>";
+    }
+    return { title: "Le chemin des lettres",
+      sub: "Colorie toutes les lettres " + target + " : le chemin de la sortie va apparaître ! (Départ en haut à gauche ⭐, arrivée en bas à droite 🏁.)",
+      body: '<div class="laby-grid" style="grid-template-columns:repeat(' + C + ',1fr)">' + cells + "</div>" };
+  }
+  function gameMotsMeles() {
+    const WORDS = ["CHAT", "MOTO", "LUNE", "VELO", "PAPA", "SOLEIL", "FLEUR", "POULE", "BANANE"];
+    const chosen = shuffle(WORDS).slice(0, 5);
+    const N = 11, grid = [];
+    for (let i = 0; i < N; i++) grid.push(new Array(N).fill(null));
+    const place = w => {
+      for (let t = 0; t < 90; t++) {
+        const h = Math.random() < 0.5;
+        const r = Math.floor(Math.random() * (h ? N : N - w.length + 1));
+        const c = Math.floor(Math.random() * (h ? N - w.length + 1 : N));
+        let ok = true;
+        for (let k = 0; k < w.length; k++) { const cell = grid[r + (h ? 0 : k)][c + (h ? k : 0)]; if (cell && cell !== w[k]) { ok = false; break; } }
+        if (ok) { for (let k = 0; k < w.length; k++) grid[r + (h ? 0 : k)][c + (h ? k : 0)] = w[k]; return true; }
+      }
+      return false;
+    };
+    const placed = chosen.filter(place);
+    const AL = "ABCDEFGHIJKLMNOPRSTUVZ";
+    let cells = "";
+    for (let i = 0; i < N; i++) for (let j = 0; j < N; j++) cells += '<span class="ws-cell">' + (grid[i][j] || AL[Math.floor(Math.random() * AL.length)]) + "</span>";
+    return { title: "Mots mêlés",
+      sub: "Retrouve et entoure ces mots (de gauche à droite ➡️ ou de haut en bas ⬇️) :",
+      body: '<div class="ws-words">' + placed.map(w => '<span class="ws-word">' + w + "</span>").join("") + "</div>" +
+        '<div class="ws-grid" style="grid-template-columns:repeat(' + N + ',1fr)">' + cells + "</div>" };
+  }
+  function gameOie() {
+    const syl = shuffle(RES_SYLL).slice(0, 22);
+    let cells = '<span class="oie-cell oie-start">DÉPART</span>';
+    syl.forEach((s, i) => cells += '<span class="oie-cell"><b>' + (i + 1) + "</b>" + s + "</span>");
+    cells += '<span class="oie-cell oie-end">ARRIVÉE 🏁</span>';
+    return { title: "Le jeu de l'oie des syllabes",
+      sub: "À jouer à 2 ou plus. Il faut un dé (ou une pièce : pile = 1 case, face = 2). Chacun son tour : avance, puis LIS à voix haute la syllabe de ta case. Premier à l'ARRIVÉE, gagné ! 🎉",
+      body: '<div class="oie-grid">' + cells + "</div>" };
+  }
+  function gameIntrus() {
+    const ROWS = [
+      ["🐑", "🐐", "🐄", "🚗"], ["🍎", "🍌", "🍇", "🐟"], ["🌙", "⭐", "☀️", "🎈"],
+      ["🚗", "🚌", "🚲", "🍕"], ["🐔", "🦆", "🐟", "🌸"], ["👕", "👖", "🧦", "🍎"],
+      ["🏠", "🏰", "⛺", "🐌"], ["✏️", "📕", "📐", "🍰"]
+    ];
+    const rows = shuffle(ROWS).slice(0, 6);
+    const body = rows.map(r => '<div class="intrus-row">' + shuffle(r.slice()).map(x => '<span class="intrus-item">' + x + "</span>").join("") + "</div>").join("");
+    return { title: "Trouve l'intrus",
+      sub: "Dans chaque ligne, un dessin n'a rien à voir avec les autres. Entoure-le !",
+      body: body + '<div class="dictee-key">Réponses (l\'intrus) : ' + rows.map(r => r[3]).join("  ") + "</div>" };
+  }
+  function buildGame(id) {
+    const g = { laby: gameLaby, motsmeles: gameMotsMeles, oie: gameOie, intrus: gameIntrus }[id]();
+    showPrintable(g.title, '<div class="sheet"><h1 class="sheet-title">' + esc(g.title) + '</h1>' +
+      '<div class="sheet-sub">' + esc(g.sub) + "</div>" + g.body +
+      '<div class="sheet-foot">On apprend avec Levy 🇫🇷</div></div>', screenGames);
+  }
+  function screenGames() {
+    stopAudio();
+    $screen.innerHTML =
+      '<div class="screen">' + resHeader("🎲 Jeux à imprimer", screenResources) +
+      '<p class="res-intro">Des jeux à imprimer pour apprendre en s\'amusant. On rejoue = un nouveau jeu à chaque fois !</p>' +
+      '<div class="res-list">' +
+      GAME_LIST.map(g => '<button class="res-item" data-g="' + g.id + '"><span class="ri-emoji">' + g.e + "</span><span>" + esc(g.t) + '<span class="ri-sub">' + esc(g.d) + "</span></span><span class=\"ri-go\">🖨️</span></button>").join("") +
+      "</div></div>";
+    document.getElementById("res-back").addEventListener("click", screenResources);
+    $screen.querySelectorAll(".res-item[data-g]").forEach(b => b.addEventListener("click", () => buildGame(b.dataset.g)));
+  }
+
+  /* ---------- Entrée par niveau : règle + fiche + jeu adaptés à chaque niveau du jeu ---------- */
+  const LEVEL_GUIDE = [
+    { n: 1, learn: "l'alphabet et le SON de chaque lettre", rule: 1, sheet: "trace", game: "laby" },
+    { n: 2, learn: "coller les lettres en syllabes (m + a = ma)", rule: 2, sheet: "syll", game: "oie" },
+    { n: 3, learn: "lire ses tout premiers mots (mur, sol, papa)", rule: 2, sheet: "complete", game: "motsmeles" },
+    { n: 4, learn: "les sons à 2 lettres : ch, ou, on, an, in", rule: 3, sheet: "son", game: "intrus" },
+    { n: 5, learn: "de nouveaux sons (oi, eu, au, eau) et les lettres muettes", rule: 4, sheet: "son", game: "motsmeles" },
+    { n: 6, learn: "lire des phrases entières (la majuscule, le point)", rule: 9, sheet: "ordre", game: "intrus" },
+    { n: 7, learn: "lire des histoires et s'entraîner à la dictée", rule: 15, sheet: "dictee", game: "oie" },
+    { n: 8, learn: "masculin/féminin et singulier/pluriel", rule: 7, sheet: "mascfem", game: "intrus" },
+    { n: 9, learn: "conjuguer et les petits mots pièges (a/à, on/ont)", rule: 11, sheet: "homo", game: "motsmeles" },
+    { n: 10, learn: "le passé, le présent, le futur et la dictée", rule: 14, sheet: "dictee", game: "laby" }
+  ];
+  function screenLevels() {
+    stopAudio();
+    $screen.innerHTML =
+      '<div class="screen">' + resHeader("📚 Aide par niveau", screenResources) +
+      '<p class="res-intro">Choisis le niveau où en est ton enfant : tu auras l\'explication, une fiche et un jeu qui vont exactement avec.</p>' +
+      '<div class="res-list">' +
+      LEVEL_GUIDE.map(l => '<button class="res-item lvl-guide-item" data-n="' + l.n + '"><span class="ri-emoji ri-num">' + l.n + "</span><span>Niveau " + l.n + '<span class="ri-sub">' + esc(l.learn) + "</span></span><span class=\"ri-go\">›</span></button>").join("") +
+      "</div></div>";
+    document.getElementById("res-back").addEventListener("click", screenResources);
+    $screen.querySelectorAll(".lvl-guide-item").forEach(b => b.addEventListener("click", () => screenLevelDetail(+b.dataset.n)));
+  }
+  function screenLevelDetail(n) {
+    stopAudio();
+    const l = LEVEL_GUIDE.filter(x => x.n === n)[0], rule = RES_RULES[l.rule];
+    $screen.innerHTML =
+      '<div class="screen">' + resHeader("Niveau " + n, screenLevels) +
+      '<div class="lvl-detail-intro">À ce niveau, ton enfant apprend <b>' + esc(l.learn) + "</b>.</div>" +
+      '<div class="res-group">📖 La règle à connaître</div>' +
+      '<div class="lvl-rule">' + rule.e + " <b>" + esc(rule.t) + "</b>" + rule.html + "</div>" +
+      '<div class="res-group">🎯 À faire ensemble</div>' +
+      '<button class="btn btn-good" id="lvl-sheet">📝 Imprimer une fiche</button>' +
+      '<button class="btn btn-accent" id="lvl-game" style="margin-top:10px">🎲 Imprimer un jeu</button>' +
+      "</div>";
+    document.getElementById("res-back").addEventListener("click", screenLevels);
+    document.getElementById("lvl-sheet").addEventListener("click", () => buildSheet(l.sheet));
+    document.getElementById("lvl-game").addEventListener("click", () => buildGame(l.game));
+  }
+
   function screenResources() {
     stopAudio();
     $screen.innerHTML =
       '<div class="screen">' +
       resHeader("👨‍👩‍👧 Coin des parents", screenMap) +
-      '<p class="res-intro">Des ressources pour accompagner votre enfant à la maison.</p>' +
+      '<div class="parent-guide">' +
+      '<div class="pg-title">Comment utiliser ce coin 👇</div>' +
+      '<ol class="pg-steps"><li>Choisis selon la <b>classe</b> (CP, CE1, CE2) ou le <b>niveau</b> du jeu.</li>' +
+      "<li>Imprime la fiche, le jeu ou le coloriage (bouton 🖨️).</li>" +
+      "<li>10 minutes par jour suffisent. Félicite toujours les efforts 💛</li></ol></div>" +
       '<div class="res-cards">' +
+      '<button class="res-card" id="rc-levels"><span class="rc-emoji">📚</span><span class="rc-t">Aide par niveau</span><span class="rc-d">Ce que fait l\'enfant, pas à pas</span></button>' +
       '<button class="res-card" id="rc-sheets"><span class="rc-emoji">📝</span><span class="rc-t">Fiches à imprimer</span><span class="rc-d">Tracer, relier, recopier</span></button>' +
       '<button class="res-card" id="rc-rules"><span class="rc-emoji">📖</span><span class="rc-t">Règles &amp; astuces</span><span class="rc-d">Pour aider à apprendre</span></button>' +
-      '<button class="res-card" id="rc-color"><span class="rc-emoji">🎨</span><span class="rc-t">Coloriages</span><span class="rc-d">À imprimer et colorier</span></button>' +
+      '<button class="res-card" id="rc-games"><span class="rc-emoji">🎲</span><span class="rc-t">Jeux à imprimer</span><span class="rc-d">Apprendre en s\'amusant</span></button>' +
+      '<button class="res-card" id="rc-color"><span class="rc-emoji">🎨</span><span class="rc-t">Coloriages</span><span class="rc-d">Pour tous les âges</span></button>' +
       "</div></div>";
     document.getElementById("res-back").addEventListener("click", screenMap);
+    document.getElementById("rc-levels").addEventListener("click", screenLevels);
     document.getElementById("rc-sheets").addEventListener("click", screenSheets);
     document.getElementById("rc-rules").addEventListener("click", screenRules);
+    document.getElementById("rc-games").addEventListener("click", screenGames);
     document.getElementById("rc-color").addEventListener("click", screenColoring);
   }
 
@@ -2176,6 +2323,11 @@
     stopAudio();
     $screen.innerHTML =
       '<div class="screen">' + resHeader("🎨 Coloriages", screenResources) +
+      '<div class="res-group">🧸 Pour les tout-petits</div>' +
+      '<p class="res-intro" style="margin:0 0 10px">De grandes formes simples, faciles à colorier.</p>' +
+      '<div class="color-grid">' +
+      SIMPLE_COLOR.map((c, i) => '<button class="color-thumb" data-s="' + i + '"><div class="color-svg">' + c.svg() + "</div><span>" + esc(c.t) + "</span></button>").join("") +
+      "</div>" +
       '<div class="res-group">🖍️ Dessins à colorier</div>' +
       '<div class="color-grid">' +
       RES_COLOR.map((c, i) => '<button class="color-thumb" data-c="' + i + '"><div class="color-svg">' + (c.img ? '<img src="' + c.img + '" alt="' + esc(c.t) + '" loading="lazy">' : c.svg()) + "</div><span>" + esc(c.t) + "</span></button>").join("") +
@@ -2191,6 +2343,12 @@
       COLOR_EX.map((c, i) => '<button class="res-item" data-x="' + i + '"><span class="ri-emoji">🖍️</span><span>' + esc(c.t) + "</span><span class=\"ri-go\">🖨️</span></button>").join("") +
       "</div></div>";
     document.getElementById("res-back").addEventListener("click", screenResources);
+    $screen.querySelectorAll(".color-thumb[data-s]").forEach(b => b.addEventListener("click", () => {
+      const c = SIMPLE_COLOR[+b.dataset.s];
+      showPrintable(c.t, '<div class="sheet color-sheet"><h1 class="sheet-title">' + esc(c.t) + '</h1>' +
+        '<div class="color-big">' + c.svg() + "</div>" +
+        '<div class="sheet-foot">On apprend avec Levy 🇫🇷</div></div>', screenColoring);
+    }));
     $screen.querySelectorAll(".color-thumb[data-c]").forEach(b => b.addEventListener("click", () => {
       const c = RES_COLOR[+b.dataset.c];
       const inner = c.img ? '<img class="color-print-img" src="' + c.img + '" alt="' + esc(c.t) + '">' : c.svg();
