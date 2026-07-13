@@ -493,9 +493,9 @@
       '<button class="btn btn-accent" id="addplayer">OK</button>' +
       "</div>" +
       '<div class="splash-tools">' +
-      '<button class="chip" id="he-toggle" style="border:none;box-shadow:var(--shadow);padding:9px 16px;border-radius:14px;background:' + (store.heOn ? "var(--primary);color:#fff" : "#fff") + '">עִבְרִית ' + (store.heOn ? "✓" : "") + "</button>" +
-      '<button class="chip" id="backup-btn" style="border:none;box-shadow:var(--shadow);padding:9px 16px;border-radius:14px;background:#fff">💾 Sauvegarde</button>' +
-      '<button class="chip" id="help-splash" style="border:none;box-shadow:var(--shadow);padding:9px 16px;border-radius:14px;background:#fff">❓ Aide</button>' +
+      '<button class="chip" id="he-toggle" style="border:none;box-shadow:var(--shadow);padding:9px 16px;border-radius:14px;color:var(--ink);background:' + (store.heOn ? "var(--primary);color:#fff" : "var(--card)") + '">עִבְרִית ' + (store.heOn ? "✓" : "") + "</button>" +
+      '<button class="chip" id="backup-btn" style="border:none;box-shadow:var(--shadow);padding:9px 16px;border-radius:14px;color:var(--ink);background:var(--card)">💾 Sauvegarde</button>' +
+      '<button class="chip" id="help-splash" style="border:none;box-shadow:var(--shadow);padding:9px 16px;border-radius:14px;color:var(--ink);background:var(--card)">❓ Aide</button>' +
       "</div>" +
       "</div>";
 

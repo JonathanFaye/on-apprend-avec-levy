@@ -802,3 +802,66 @@ button { font-family: inherit; border: none; cursor: pointer; color: inherit; ba
 }
 .update-banner .ub-x { color: rgba(255,255,255,.85); font-size: 1.2rem; padding: 4px 8px; min-width: 40px; min-height: 40px; }
 @keyframes barDown { from { transform: translateY(-100%); } to { transform: none; } }
+
+/* ============================================================
+   MODE SOMBRE — suit le réglage du téléphone. CSS pur : ne casse
+   aucune session (pas de reload). Les imprimables (.sheet : fiches,
+   jeux, coloriages) restent VOLONTAIREMENT sur fond blanc (= papier,
+   + impression). On adapte uniquement l'interface du jeu.
+   ============================================================ */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #17141f;
+    --card: #241f33;
+    --ink: #F1EDFA;
+    --ink-soft: #B2AAC6;
+    --primary: #4A90D9;        /* inchangé : fond de bouton (texte blanc ok) + texte sur sombre ok */
+    --primary-dark: #A9CBF0;   /* sert de couleur de TITRE -> clair sur fond sombre */
+    --accent: #F5A623;         /* inchangé : fond orange, texte foncé via --on-accent */
+    --accent-text: #F0C070;    /* texte accent lisible sur sombre */
+    --good: #47C169;
+    --good-bg: #223d2c;
+    --bad: #F0686C;
+    --bad-bg: #3f2430;
+    --shadow: 0 4px 14px rgba(0,0,0,0.5);
+  }
+  /* surfaces claires codées en dur -> surfaces sombres */
+  .btn.btn-ghost { background: #2e2842; color: var(--ink); border-color: #3a3352; box-shadow: 0 4px 0 #140f1e; }
+  .btn.btn-ghost:active { box-shadow: 0 1px 0 #140f1e; }
+  .topbar .back, .topbar .chip, .parents-btn { background: #2e2842; }
+  .avatar-pick { background: #2e2842; border-color: #3a3352; }
+  .newplayer-form input, .type-input,
+  .help-search input, .help-form textarea, .help-form input,
+  .backup-code { background: #2e2842; color: var(--ink); border-color: #3a3352; }
+  .level-card .lvl-emoji { background: color-mix(in srgb, var(--lvl, var(--primary)) 25%, #241f33); }
+  .lesson-card .body-item { background: #322c45; }
+  .lesson-card .he .body-item { background: #2c2740; }
+  .lesson-dots .dot { background: #4a4460; }
+  .progress-track { background: #322c45; }
+  .choice, .tile, .match-item { border-color: #3a3352; }
+  .match-item.selected { background: #22324a; }
+  .build-target { background: #2e2842; border-color: #4a4460; }
+  .read-text, .mascot-panel { background: var(--card); }
+  .joke-card { background: #322c45; }
+  .streak-chip { background: #322c45; }
+  .streak-banner { background: linear-gradient(90deg, #322c45, #3f2430); }
+  .backup-tip { background: #322c45; }
+  .lvl-detail-intro, .lvl-rule { background: #2e2842; border-color: #3a3352; }
+  .help-chip { background: #2e2842; color: var(--ink); border-color: #3a3352; }
+  #app { border-color: #2a2540; }
+  /* bulle de BD : reste blanche à bord foncé (identité graphique), texte foncé */
+  .comic-bubble { background: #fff; border-color: #2B2540; }
+  .comic-bubble .comic-txt { color: #2B2540; }
+  .comic-bubble .he { color: #5A5270; }
+  .comic-bubble::before { border-right-color: #2B2540; }
+  .comic-bubble::after { border-right-color: #fff; }
+  /* barre de félicitation : fond sombre au lieu du blanc/vert */
+  .correct-bar { background: linear-gradient(180deg, #241f33, #1c2a22); }
+  /* diplôme : reste un "certificat" clair -> on force ses textes en foncé */
+  .diploma h2 { color: #2C5E93; }
+  .diploma .dip-name { color: #C77F0A; }
+  .diploma .dip-title { color: #B4771A; }
+  /* IMPRIMABLES (.sheet = papier blanc) : garder les titres/traits FONCÉS malgré le thème */
+  .sheet .sheet-title, .sheet .conjug-title { color: #2C5E93; }
+  .color-big svg { stroke: #2B2540; }
+}
