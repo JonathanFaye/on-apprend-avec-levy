@@ -452,9 +452,11 @@
      ============================================================ */
 
   /* ---------- Écran profils ---------- */
-  // personnages : un enfant qui ne lit pas encore choisit son animal (pas besoin d'écrire)
-  // animaux cachère (à sabots fendus + ruminants, volailles cachère, poisson à écailles)
+  // personnages : un enfant qui ne lit pas encore choisit son avatar (pas besoin d'écrire).
+  // Un garçon / une fille (pour se représenter), puis des animaux cachère
+  // (sabots fendus + ruminants, volailles cachère, poisson à écailles).
   const AVATARS = [
+    ["👦", "Garçon"], ["👧", "Fille"],
     ["🐑", "Mouton"], ["🐐", "Chèvre"], ["🐄", "Vache"], ["🦌", "Biche"],
     ["🦒", "Girafe"], ["🐔", "Poule"], ["🦆", "Canard"], ["🐟", "Poisson"]
   ];
