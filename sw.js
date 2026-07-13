@@ -2,11 +2,13 @@
    Rend le jeu jouable hors-ligne : le "coeur" (page, code, données) est mis en
    cache à l'installation ; l'audio est mis en cache au fur et à mesure qu'il est
    joué (runtime cache). Deuxième visite quasi instantanée. */
-const VERSION = "levy-v32";
+const VERSION = "levy-v33";
 const CORE = VERSION + "-core";
 // Cache audio NON versionné : les ~1375 mp3 ne doivent PAS être re-téléchargés à chaque
 // nouvelle version (sinon un enfant qui met à jour puis passe hors-ligne perd tout le son).
 const AUDIO = "levy-audio";
+// Cache des polices Google (cross-origin) : pour que le rendu soit IDENTIQUE hors-ligne.
+const FONTS = "levy-fonts";
 
 const CORE_ASSETS = [
   "./",
@@ -37,7 +39,7 @@ self.addEventListener("activate", e => {
   // on purge les vieux caches CORE mais on GARDE le cache audio non versionné
   e.waitUntil(
     caches.keys().then(keys => Promise.all(
-      keys.filter(k => k !== AUDIO && k.indexOf(VERSION) !== 0).map(k => caches.delete(k))
+      keys.filter(k => k !== AUDIO && k !== FONTS && k.indexOf(VERSION) !== 0).map(k => caches.delete(k))
     )).then(() => self.clients.claim())
   );
 });
@@ -46,6 +48,20 @@ self.addEventListener("fetch", e => {
   const req = e.request;
   if (req.method !== "GET") return;
   const url = new URL(req.url);
+
+  // polices Google (cross-origin) : cache-first pour un rendu identique hors-ligne
+  if (url.hostname === "fonts.googleapis.com" || url.hostname === "fonts.gstatic.com") {
+    e.respondWith(
+      caches.open(FONTS).then(cache =>
+        cache.match(req).then(hit => hit || fetch(req).then(res => {
+          if (res) cache.put(req, res.clone());
+          return res;
+        }).catch(() => hit))
+      )
+    );
+    return;
+  }
+
   const isAudio = url.pathname.indexOf("/audio/") >= 0 && url.pathname.endsWith(".mp3");
 
   if (isAudio) {

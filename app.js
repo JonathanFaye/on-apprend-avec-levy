@@ -11,11 +11,18 @@
   const KEY = "levy-game-v1";
   let store = load();
   function load() {
+    const def = { profiles: {}, current: null, heOn: true, soundOn: true };
     try {
       const raw = localStorage.getItem(KEY);
-      if (raw) return JSON.parse(raw);
+      if (raw) {
+        const s = JSON.parse(raw);
+        if (s && typeof s === "object") {
+          if (!s.profiles || typeof s.profiles !== "object") s.profiles = {};
+          return Object.assign({}, def, s); // garantit heOn/soundOn/current si absents
+        }
+      }
     } catch (e) {}
-    return { profiles: {}, current: null, heOn: true, soundOn: true };
+    return def;
   }
   let saveErrorShown = false;
   function save() {
@@ -1287,6 +1294,8 @@
       "</div>";
     $overlay.classList.remove("hidden");
     var expSay = document.getElementById("explain-say");
+    var okB = document.getElementById("ok-btn");
+    if (okB) setTimeout(() => { try { okB.focus(); } catch (e) {} }, 50);
     // Levy lit son explication à voix haute
     speak(ex.explain || ex.say || "", null, expSay);
     if (expSay) expSay.addEventListener("click", function () { speak(ex.explain || ex.say || "", null, expSay); });
@@ -1321,6 +1330,8 @@
   function toast(expr, txt, txtHe) {
     const d = document.createElement("div");
     d.className = "comic-toast";
+    d.setAttribute("role", "status");
+    d.setAttribute("aria-live", "polite");
     d.innerHTML = comicBubbleHTML(expr, txt, txtHe);
     document.body.appendChild(d);
     setTimeout(() => d.classList.add("out"), 1150);
