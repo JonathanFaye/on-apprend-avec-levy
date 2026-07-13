@@ -570,8 +570,8 @@ window.LEVELS.push({
           question: "Mon premier est le contraire de dur.\nMon second, c'est 'ton', comme dans 'ton vélo'.\nMon tout dit bêêê dans le pré.",
           choices: ["un bouton", "un menton", "un mouton"],
           answer: 2,
-          say: "Mon premier est le contraire de dur. Mon second, c'est ton, comme dans ton vélo. Mon tout dit bêêê dans le pré.",
-          explain: "MOU + TON = MOUTON ! Le mouton dit bêêê ! 🐑",
+          say: "Mon premier est le contraire de dur. Mon second, c'est ton, comme dans ton vélo. Mon tout est l'animal qui bêle dans le pré.",
+          explain: "MOU + TON = MOUTON ! Le mouton bêle dans le pré ! 🐑",
           explainHe: "MOU (רַךְ, הַהֶפֶךְ מִקָּשֶׁה) + TON (שֶׁלְּךָ) = MOUTON, כֶּבֶשׂ! הַכֶּבֶשׂ עוֹשֶׂה מֶה! 🐑"
         }
       ],

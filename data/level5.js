@@ -211,7 +211,7 @@ window.LEVELS.push({
           choices: ["CHAT", "CHAUD"],
           answer: 1,
           say: "chaud",
-          explain: "CHAUD s'ecrit avec AU, le son 'o' ☀️. CHAT, c'est l'animal qui fait miaou 🐱.",
+          explain: "CHAUD s'ecrit avec AU, le son 'o' ☀️. CHAT, c'est l'animal qui miaule 🐱.",
           explainHe: "CHAUD נִכְתָּב עִם AU, הַצְּלִיל 'אוֹ' ☀️. CHAT זֶה הֶחָתוּל שֶׁעוֹשֶׂה מְיָאוּ 🐱."
         },
         {

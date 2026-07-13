@@ -2,7 +2,7 @@
    Rend le jeu jouable hors-ligne : le "coeur" (page, code, données) est mis en
    cache à l'installation ; l'audio est mis en cache au fur et à mesure qu'il est
    joué (runtime cache). Deuxième visite quasi instantanée. */
-const VERSION = "levy-v37";
+const VERSION = "levy-v38";
 const CORE = VERSION + "-core";
 // Cache audio NON versionné : les ~1375 mp3 ne doivent PAS être re-téléchargés à chaque
 // nouvelle version (sinon un enfant qui met à jour puis passe hors-ligne perd tout le son).
@@ -22,7 +22,8 @@ const CORE_ASSETS = [
   "./data/audio-map.js",
   "./data/level1.js", "./data/level2.js", "./data/level3.js", "./data/level4.js",
   "./data/level5.js", "./data/level6.js", "./data/level7.js", "./data/level8.js",
-  "./data/level9.js", "./data/level10.js"
+  "./data/level9.js", "./data/level10.js",
+  "./sfx/mouton.mp3", "./sfx/chat.mp3", "./sfx/vache.mp3", "./sfx/coq.mp3"
 ];
 
 self.addEventListener("install", e => {

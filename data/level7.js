@@ -267,7 +267,7 @@ window.LEVELS.push({
           choices: ["mouton", "bouton"],
           answer: 0,
           say: "mouton",
-          explain: "mouton commence par M, c'est l'animal qui fait beee. bouton commence par B, c'est le bouton de la chemise !",
+          explain: "mouton commence par M, c'est l'animal qui bêle. bouton commence par B, c'est le bouton de la chemise !",
           explainHe: "mouton מַתְחִיל בְּ-M, זוֹ הַחַיָּה שֶׁעוֹשָׂה מֶה. bouton מַתְחִיל בְּ-B, זֶה הַכַּפְתּוֹר שֶׁל הַחֻלְצָה!"
         },
         {

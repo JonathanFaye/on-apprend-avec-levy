@@ -114,6 +114,17 @@
     // nettoie une éventuelle barre "Suivant" restée à l'écran si on quitte l'exercice
     try { document.querySelectorAll(".correct-bar").forEach(b => b.remove()); } catch (e) {}
   }
+  // Vrais bruitages d'animaux (mouton, chat, vache, coq) — canal SÉPARÉ du TTS, volontairement
+  // NON coupé par stopAudio (pour qu'un cri d'avatar continue pendant la transition d'écran).
+  let sfxAudio = null;
+  function playSfx(name) {
+    if (!store.soundOn) return;
+    try {
+      if (sfxAudio) { try { sfxAudio.pause(); } catch (e) {} }
+      sfxAudio = new Audio("sfx/" + name + ".mp3");
+      sfxAudio.play().catch(() => {});
+    } catch (e) {}
+  }
   let audioErrorShown = false;
   function audioErrorToast() {
     if (audioErrorShown) return;
@@ -460,6 +471,8 @@
     ["🐑", "Mouton"], ["🐐", "Chèvre"], ["🐄", "Vache"], ["🦌", "Biche"],
     ["🦒", "Girafe"], ["🐔", "Poule"], ["🦆", "Canard"], ["🐟", "Poisson"]
   ];
+  // vrai cri joué quand l'enfant choisit cet avatar (les autres animaux n'ont pas de son simple)
+  const AVATAR_SFX = { "Mouton": "mouton", "Vache": "vache", "Poule": "coq" };
   function createProfile(name, avatar) {
     let key = name, i = 2;
     while (store.profiles[key]) { key = name + " " + i; i++; }
@@ -524,7 +537,11 @@
         });
       });
     });
-    $screen.querySelectorAll(".avatar-pick").forEach(b => b.addEventListener("click", () => createProfile(b.dataset.nm, b.dataset.av)));
+    $screen.querySelectorAll(".avatar-pick").forEach(b => b.addEventListener("click", () => {
+      const snd = AVATAR_SFX[b.dataset.nm];
+      if (snd) playSfx(snd); // vrai cri de l'animal choisi
+      createProfile(b.dataset.nm, b.dataset.av);
+    }));
     document.getElementById("addplayer").addEventListener("click", addPlayer);
     document.getElementById("newname").addEventListener("keydown", e => { if (e.key === "Enter") addPlayer(); });
     document.getElementById("he-toggle").addEventListener("click", () => {
@@ -1039,13 +1056,16 @@
     // pour qu'aucun écran ne soit muet pour un enfant qui ne lit pas encore.
     const sayText = ex.say || ex.syll || ex.prompt;
     const sayb = document.getElementById("sayb");
-    if (sayb) sayb.addEventListener("click", () => { sayb.classList.remove("hint"); speak(sayText); });
+    // ex.sfx = exercice "identifie l'animal par son cri" : on joue le VRAI bruitage au lieu
+    // du TTS (l'enfant entend le vrai animal). Sinon, TTS de la cible/consigne comme d'habitude.
+    const doSay = ex.sfx ? (() => playSfx(ex.sfx)) : (() => speak(sayText));
+    if (sayb) sayb.addEventListener("click", () => { sayb.classList.remove("hint"); doSay(); });
     // Levy dit automatiquement la cible/consigne sur TOUS les exercices (l'enfant qui
     // ne lit pas encore entend le modèle sans avoir à chercher un bouton). Si le mp3
     // est bloqué (auto sur mobile), le gros bouton 🔊 le rejoue au toucher.
     if (session._sayTimer) clearTimeout(session._sayTimer);
-    if (sayText) session._sayTimer = setTimeout(() => speak(sayText), 450);
-    if (sayb && sayText) sayb.classList.add("hint");
+    if (ex.sfx || sayText) session._sayTimer = setTimeout(doSay, 450);
+    if (sayb && (ex.sfx || sayText)) sayb.classList.add("hint");
 
     /* ----- branchements par type ----- */
     if (["pick", "riddle", "listen", "fill", "blend"].includes(ex.type)) {

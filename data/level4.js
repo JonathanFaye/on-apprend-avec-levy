@@ -71,6 +71,7 @@ window.LEVELS.push({
           question: "🐱",
           choices: ["CHAT", "CHOU"],
           answer: 0,
+          sfx: "chat",
           say: "chat. chou.",
           explain: "Les deux commencent par CH ! Mais CHAT finit par A-T (le T est muet), et CHOU finit par OU. 🐱",
           explainHe: "שְׁתֵּי הַמִּלִּים מַתְחִילוֹת בְּ-CH! אֲבָל CHAT נִגְמֶרֶת בְּ-A-T (אֶת הַ-T לֹא שׁוֹמְעִים), וְ-CHOU נִגְמֶרֶת בְּ-OU. 🐱"
@@ -502,6 +503,7 @@ window.LEVELS.push({
           question: "🐑",
           choices: ["MOUTON", "BOUTON"],
           answer: 0,
+          sfx: "mouton",
           say: "mouton. bouton.",
           explain: "MOUTON et BOUTON finissent par OU-TON, mais MOUTON commence par M (l'animal) et BOUTON par B ! 🐑",
           explainHe: "MOUTON וְ-BOUTON נִגְמָרוֹת בְּ-OU-TON, אֲבָל MOUTON מַתְחִילָה בְּ-M (הַחַיָּה) וְ-BOUTON בְּ-B! 🐑"
