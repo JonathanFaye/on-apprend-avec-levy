@@ -125,6 +125,40 @@
       sfxAudio.play().catch(() => {});
     } catch (e) {}
   }
+  // Joue un clip pré-généré et appelle onEnd À LA FIN (pour enchaîner). Jamais la voix
+  // navigateur (si pas de clip, on enchaîne directement). Utilisé par announce().
+  function playClip(text, onEnd) {
+    const done = () => { try { if (onEnd) onEnd(); } catch (e) {} };
+    if (!store.soundOn || !text) return done();
+    const k = audioKey(text);
+    if (!(window.AUDIO_MAP || {})[k]) return done();
+    try {
+      const a = new Audio("audio/" + k + ".mp3");
+      currentAudio = a;
+      const sb = document.getElementById("sayb");
+      if (sb) sb.classList.add("loading");
+      const off = () => { if (sb) sb.classList.remove("loading"); };
+      a.addEventListener("playing", off, { once: true });
+      a.addEventListener("ended", () => { off(); done(); }, { once: true });
+      a.addEventListener("error", () => { off(); done(); }, { once: true });
+      a.play().catch(() => { off(); done(); });
+    } catch (e) { done(); }
+  }
+  // Énonce un exercice pour un enfant qui NE LIT PAS ENCORE : d'abord la CONSIGNE (prompt),
+  // puis la CIBLE (say/syll/texte), enchaînées ; si exercice-son, le vrai cri à la fin.
+  function announce(ex) {
+    stopAudio();
+    const parts = [];
+    if (ex.prompt) parts.push(ex.prompt);
+    const target = ex.say || ex.syll || (ex.type === "read" ? ex.text : "");
+    if (target && audioKey(target) !== audioKey(ex.prompt || "")) parts.push(target);
+    let i = 0;
+    const step = () => {
+      if (i < parts.length) playClip(parts[i++], step);
+      else if (ex.sfx) playSfx(ex.sfx);
+    };
+    step();
+  }
   let audioErrorShown = false;
   function audioErrorToast() {
     if (audioErrorShown) return;
@@ -1054,18 +1088,16 @@
 
     // On dit le son/mot cible ; à défaut (match, pick sans cible) on LIT LA CONSIGNE,
     // pour qu'aucun écran ne soit muet pour un enfant qui ne lit pas encore.
-    const sayText = ex.say || ex.syll || ex.prompt;
     const sayb = document.getElementById("sayb");
-    // ex.sfx = exercice "identifie l'animal par son cri" : on joue le VRAI bruitage au lieu
-    // du TTS (l'enfant entend le vrai animal). Sinon, TTS de la cible/consigne comme d'habitude.
-    const doSay = ex.sfx ? (() => playSfx(ex.sfx)) : (() => speak(sayText));
-    if (sayb) sayb.addEventListener("click", () => { sayb.classList.remove("hint"); doSay(); });
-    // Levy dit automatiquement la cible/consigne sur TOUS les exercices (l'enfant qui
-    // ne lit pas encore entend le modèle sans avoir à chercher un bouton). Si le mp3
-    // est bloqué (auto sur mobile), le gros bouton 🔊 le rejoue au toucher.
+    const hasAudio = !!(ex.prompt || ex.say || ex.syll || ex.sfx || (ex.type === "read" && ex.text));
+    // announce() dit la CONSIGNE puis la cible (puis le vrai cri si exercice-son) → un enfant
+    // qui ne lit pas encore comprend quoi faire ET entend le modèle. Le bouton 🔊 le rejoue.
+    if (sayb) sayb.addEventListener("click", () => { sayb.classList.remove("hint"); announce(ex); });
+    // Énonciation automatique sur TOUS les exercices. Si le mp3 auto est bloqué (mobile),
+    // le gros bouton 🔊 (qui pulse) le rejoue au toucher.
     if (session._sayTimer) clearTimeout(session._sayTimer);
-    if (ex.sfx || sayText) session._sayTimer = setTimeout(doSay, 450);
-    if (sayb && (ex.sfx || sayText)) sayb.classList.add("hint");
+    if (hasAudio) session._sayTimer = setTimeout(() => announce(ex), 450);
+    if (sayb && hasAudio) sayb.classList.add("hint");
 
     /* ----- branchements par type ----- */
     if (["pick", "riddle", "listen", "fill", "blend"].includes(ex.type)) {
@@ -1272,14 +1304,8 @@
     const expr = /mazal|félicit|champion|bravo|pro|talent/i.test(p[0]) ? "clap" : rand(["cheer", "happy", "wave", "love"]);
     speak(p[0], 1.0);
     lockChoices();
-    if (session.placement) {
-      // test de placement : enchaînement rapide (pas de bouton)
-      toast(expr, p[0], p[1]);
-      setTimeout(() => { session.i++; renderExercise(session); }, 1050);
-      return;
-    }
-    // barre de félicitation : Levy reste affiché, l'enfant clique "Suivant" quand il
-    // veut (le temps de relire l'exercice et de profiter du petit moment avec Levy)
+    // barre de félicitation PARTOUT (y compris le test de placement) : Levy reste affiché,
+    // il a le temps de finir sa phrase, et l'enfant clique "Suivant" QUAND IL VEUT.
     const bar = document.createElement("div");
     bar.className = "correct-bar";
     bar.innerHTML =
